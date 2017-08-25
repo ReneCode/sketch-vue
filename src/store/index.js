@@ -34,7 +34,7 @@ const store = new Vuex.Store({
   },
 
   actions: {
-    clearError({commit}) {
+    clearError({ commit }) {
       commit('clearError');
     }
   },
