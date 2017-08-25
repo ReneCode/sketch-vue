@@ -1,5 +1,10 @@
 # sketch-vue
 
+
+[![Build Status](https://travis-ci.org/ReneCode/sketch-vue.svg?branch=master)](https://travis-ci.org/ReneCode/sketch-vue)
+
+[Web-App](https://sketch-vue.firebaseapp.com/)
+
 > A Vue.js project
 
 ## Build Setup

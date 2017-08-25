@@ -1,45 +1,48 @@
 import Vue from 'vue';
 import Vuex from 'vuex'
 
-import mutations from './mutations';
-import actions from './actions';
+import project from './modules/project-store';
+import user from './modules/user-store';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    loadedProjects: [
-      { id: "1", name: "hallo", description: "new project" },
-      { id: "2", name: "a-test", description: "for all engineers" }
-    ],
-
-    user: null
+    error: null,
+    loading: false
   },
 
   getters: {
-    lastProjects(state) {
-      return state.loadedProjects.sort((p1, p2) => {
-        return p1.name > p2.name
-      })
-      .slice(0, 10);
+    error(state) {
+      return state.error;
     },
-
-    // that getter is a function that takes the id !!
-    project(state) {
-      return (id) => {
-        return state.loadedProjects.find(p => p.id === id);
-      }
-    },
-
-    user(state) {
-      return state.user;
+    loading(state) {
+      return state.loading;
     }
-
   },
 
-  mutations: mutations,
+  mutations: {
+    setLoading(state, payload) {
+      state.loading = payload;
+    },
+    setError(state, payload) {
+      state.error = payload;
+    },
+    clearError(state) {
+      state.error = null;
+    }
+  },
 
-  actions: actions
+  actions: {
+    clearError({commit}) {
+      commit('clearError');
+    }
+  },
+
+  modules: {
+    project,
+    user
+  }
 });
 
 export default store;
