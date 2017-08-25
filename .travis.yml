@@ -8,6 +8,6 @@ script:
   - npm run lint
   - npm run build
 
-after-success:
+after_success:
   - echo "deploy"
-  - npm run firebase -- deploy -token $FIREBASE_TOKEN
+  - npm run firebase -- deploy --token $FIREBASE_TOKEN
