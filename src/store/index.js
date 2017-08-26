@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import project from './modules/project-store';
 import page from './modules/page-store';
+import graphic from './modules/graphic-store';
 import user from './modules/user-store';
 
 Vue.use(Vuex);
@@ -43,6 +44,7 @@ const store = new Vuex.Store({
   modules: {
     project,
     page,
+    graphic,
     user
   }
 });
