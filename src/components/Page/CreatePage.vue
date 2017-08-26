@@ -5,7 +5,7 @@
         <v-card>
           <v-card-text>
             <v-container>
-              <form @submit.prevent="onCreateProject">
+              <form @submit.prevent="onCreatePage">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field name="name" label="Name" id="name" v-model="name" type="text" required>
@@ -16,7 +16,7 @@
                 </v-layout>
                 <v-layout>
                   <v-flex x12>
-                    <v-btn type="submit" :disabled="!validName">Create project</v-btn>
+                    <v-btn type="submit" :disabled="!validName">Create page</v-btn>
                   </v-flex>
                 </v-layout>
               </form>
@@ -30,6 +30,8 @@
 
 <script>
 export default {
+  props: ['projectId'],
+
   data() {
     return {
       name: '',
@@ -44,14 +46,15 @@ export default {
   },
 
   methods: {
-    onCreateProject() {
-      const project = {
+    onCreatePage() {
+      const page = {
+        projectId: this.projectId,
         name: this.name,
         description: this.description
       }
-      this.$store.dispatch('createProject', project)
-        .then(projectId => {
-          this.$router.push('/projects/' + projectId)
+      this.$store.dispatch('createPage', page)
+        .then(pageId => {
+          this.$router.push('/projects/' + this.projectId + '/pages/' + pageId)
         })
     }
 

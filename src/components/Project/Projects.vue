@@ -6,16 +6,20 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap>
-      <v-flex sm4 xs6 v-for="project in projects" :key="project.name">
+      <v-flex sm4 xs6 v-for="project in projects" :key="project.name" class="mb-3">
         <v-card class="card">
           <v-card-title primary-title>
             <h4>{{project.name}}</h4>
           </v-card-title>
           <v-card-text>{{project.description}}</v-card-text>
           </v-card-actions>
-          <v-btn class="hover-show" @click="openProject(project.id)">
+          <v-btn class="hover-show" @click="editProject(project.id)">
             <v-icon left>arrow_forward</v-icon>
-            Show Project
+            Edit Project
+          </v-btn>
+          <v-btn class="hover-show" @click="showPages(project.id)">
+            <v-icon left>view_module</v-icon>
+            Show Pages
           </v-btn>
           </v-card-actions>
 
@@ -38,9 +42,14 @@ export default {
       this.$router.push('/projects/new');
     },
 
-    openProject(id) {
+    editProject(id) {
       this.$router.push('/projects/' + id);
+    },
+
+    showPages(id) {
+      this.$router.push('/projects/' + id + '/pages');
     }
+
   }
 }
 </script>

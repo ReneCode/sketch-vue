@@ -28,5 +28,7 @@ new Vue({
       projectId: "sketch-vue",
       storageBucket: ""
     });
+
+    this.$store.dispatch('loadProjects');
   }
 })
