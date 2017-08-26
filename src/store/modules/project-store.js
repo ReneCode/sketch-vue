@@ -7,9 +7,16 @@ export default {
 
   getters: {
     lastProjects(state) {
-      return state.loadedProjects.sort((p1, p2) => {
-        return p1.name > p2.name
-      })
+      return state.loadedProjects
+        .sort((p1, p2) => {
+          if (p1.name > p2.name) {
+            return 1;
+          }
+          if (p1.name < p2.name) {
+            return -1;
+          }
+          return 0;
+        })
         .slice(0, 10);
     },
 
