@@ -1,12 +1,12 @@
 
 export default class IaRect {
-  constructor(transform) {
+  constructor(transform, tmpItems) {
     this.transform = transform;
-    this.startPoint = null;
+    this.tmpItems = tmpItems;
   }
 
-  start(tempSvgItems) {
-    this.tempItems = tempSvgItems;
+  start(tmpItems) {
+    this.startPoint = null;
   }
 
   onMouseDown(event) {
@@ -20,17 +20,20 @@ export default class IaRect {
     const item = {
       svg: this.rect
     }
-    this.tempItems.push(item);
+    this.tmpItems.push(item);
   }
 
   onMouseUp(event) {
     this.setPoint2(event);
+    this.startPoint = null;
     this.clearTempItems();
     this.onCallback(null, this.rect);
   }
 
   onMouseMove(event) {
-    this.setPoint2(event);
+    if (this.startPoint) {
+      this.setPoint2(event);
+    }
   }
 
   onKeyDown(event) {
@@ -45,7 +48,7 @@ export default class IaRect {
   }
 
   clearTempItems() {
-    this.tempItems.splice(0);
+    this.tmpItems.splice(0);
   }
 
   setPoint2(event) {

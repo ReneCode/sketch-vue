@@ -15,7 +15,7 @@
       <v-flex xs6>
         <svg ref="svg" width="400" height="400">
           <rect v-for="(item,index) in items" :key="index" class="rect" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
-          <rect v-for="(item,index) in tempSvgItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
+          <rect v-for="(item,index) in tmpItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
       </v-flex>
     </v-layout>
@@ -30,7 +30,7 @@ export default {
 
   data() {
     return {
-      tempSvgItems: []
+      tmpItems: []
     }
   },
 
@@ -49,7 +49,7 @@ export default {
   },
 
   mounted() {
-    this.svg.init(this.$refs.svg);
+    this.svg.init(this.$refs.svg, this.tmpItems);
 
     const options = {
       projectId: this.projectId,
@@ -64,8 +64,8 @@ export default {
 
   methods: {
     sketchRect() {
-      this.svg.start('sketchRect', this.tempSvgItems)
-        .then((rect) => {
+      this.svg.start('sketchRect')
+        .then(rect => {
           const svg = {
             ...rect,
             type: "rect"
@@ -77,10 +77,12 @@ export default {
           }
           if (svg.width !== 0 && svg.height !== 0) {
             this.$store.dispatch('createGraphic', payload);
+            // restart
+            this.sketchRect();
           }
         })
-        .catch(err => {
-          console.log("rect reject:", err);
+        .catch(() => {
+          // stop sketching
         });
     },
 

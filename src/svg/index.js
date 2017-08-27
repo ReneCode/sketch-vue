@@ -6,35 +6,33 @@ import IaRect from './ia-rect';
 class Svg {
   constructor() {
     this.iaList = [];
-    this.transform = new SvgTransform();
-    console.log("svg-create")
-    this.name = "Abc;"
   }
 
-  init(svgElement) {
+  init(svgElement, tmpItems) {
     this.svgElement = svgElement;
+    this.tmpItems = tmpItems;
+
+    this.transform = new SvgTransform();
     this.transform.init(svgElement);
-    console.log("svg-init", svgElement)
 
     this.registerListener(svgElement);
   }
 
   exit() {
-    console.log("svg-exit")
     this.unregisterListener();
   }
 
-  start(name, payload) {
+  start(name) {
     return new Promise((resolve, reject) => {
       let interAction;
       switch (name) {
         case "sketchRect":
-          interAction = new IaRect(this.transform);
+          interAction = new IaRect(this.transform, this.tmpItems);
           break;
       }
       if (interAction) {
         this.iaList.push(interAction);
-        interAction.start(payload);
+        interAction.start();
         interAction.on((err, data) => {
           // remove interaction
           this.iaList = this.iaList.filter(ia => ia !== interAction);
