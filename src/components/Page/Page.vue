@@ -2,26 +2,20 @@
   <v-container>
     <v-layout row class="mb-3">
       <v-flex xs12 class="text-xs-left">
-        <h5>ProjectId: {{projectId}}</h5>
-        <h5>PageId:{{pageId}}</h5>
         <v-btn @click="addGraphic">Add Graphic</v-btn>
+        <v-btn @click="sketchRect">Sketch Rect</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs6 >
+      <v-flex xs6>
         <ul>
-          <li v-for="(graphic,index) in graphics" :key="index">{{graphic}}</li>
+          <li v-for="(item,index) in items" :key="index">{{item.id}}</li>
         </ul>
       </v-flex>
       <v-flex xs6>
         <svg ref="svg" width="400" height="400">
-          <rect v-for="(graphic,index) in graphics" :key="index"
-            class="rect"
-            :gid="graphic.id"
-            :x="graphic.svg.x" 
-            :y="graphic.svg.y"
-            :width="graphic.svg.width"
-            :height="graphic.svg.height"></rect>
+          <rect v-for="(item,index) in items" :key="index" class="rect" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
+          <rect v-for="(item,index) in tempSvgItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
       </v-flex>
     </v-layout>
@@ -34,8 +28,14 @@ import Svg from '@/svg'
 export default {
   props: ['projectId', 'pageId'],
 
+  data() {
+    return {
+      tempSvgItems: []
+    }
+  },
+
   computed: {
-    graphics() {
+    items() {
       return this.$store.getters.loadedGraphics;
     },
 
@@ -63,6 +63,27 @@ export default {
   },
 
   methods: {
+    sketchRect() {
+      this.svg.start('sketchRect', this.tempSvgItems)
+        .then((rect) => {
+          const svg = {
+            ...rect,
+            type: "rect"
+          };
+          const payload = {
+            projectId: this.projectId,
+            pageId: this.pageId,
+            svg: svg
+          }
+          if (svg.width !== 0 && svg.height !== 0) {
+            this.$store.dispatch('createGraphic', payload);
+          }
+        })
+        .catch(err => {
+          console.log("rect reject:", err);
+        });
+    },
+
     addGraphic() {
       const svg = {
         type: "rect",
@@ -84,9 +105,16 @@ export default {
 
 <style>
 .rect {
-  fill:#eec;
+  fill: #eec;
   stroke: #630;
   cursor: pointer;
-  opacity: 0.5;
+  opacity: 0.8;
+}
+
+.selected {
+  fill: #ddd;
+  stroke: #222;
+  cursor: pointer;
+  opacity: 1;
 }
 </style>
