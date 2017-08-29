@@ -9,7 +9,7 @@
     <v-layout>
       <v-flex xs12>
         <svg ref="svg" width="600" height="400">
-          <rect v-for="(item,index) in items" :key="index" class="rect" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
+          <rect v-for="(item,index) in allItems" :key="index" :class="item.selected? 'selected': 'rect'" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
           <rect v-for="(item,index) in tmpItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
       </v-flex>
@@ -19,13 +19,15 @@
 
 <script>
 import Svg from '@/svg'
+import selectionList from '@/store/selectionList';
 
 export default {
   props: ['projectId', 'pageId'],
 
   data() {
     return {
-      tmpItems: []
+      tmpItems: [],
+      selectedItems: selectionList.getItems()
     }
   },
 
@@ -34,9 +36,30 @@ export default {
       return this.$store.getters.loadedGraphics;
     },
 
+    loadedGraphics() {
+      return this.$store.getters.loadedGraphics;
+    },
+
+    allItems: function() {
+      return this.loadedGraphics.map(item => {
+        // do not show items, that are in temporaryData
+        let selectedItem = this.selectedItems.find(selItem => selItem.id === item.id);
+        if (!selectedItem) {
+          return item;
+        } else {
+          // item is in selectedItems
+          return selectedItem;
+        }
+      })
+    },
+
     loading() {
       return this.$store.getters.loading;
     }
+
+    // selectedItems() {
+    //   return selectionList.getItems();
+    // }
   },
 
   created() {
