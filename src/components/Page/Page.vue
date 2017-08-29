@@ -2,18 +2,13 @@
   <v-container>
     <v-layout row class="mb-3">
       <v-flex xs12 class="text-xs-left">
-        <v-btn @click="addGraphic">Add Graphic</v-btn>
-        <v-btn @click="sketchRect">Sketch Rect</v-btn>
+        <v-btn @click="onSketchRect">Sketch Rect</v-btn>
+        <v-btn @click="onSelect">Select</v-btn>
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs6>
-        <ul>
-          <li v-for="(item,index) in items" :key="index">{{item.id}}</li>
-        </ul>
-      </v-flex>
-      <v-flex xs6>
-        <svg ref="svg" width="400" height="400">
+      <v-flex xs12>
+        <svg ref="svg" width="600" height="400">
           <rect v-for="(item,index) in items" :key="index" class="rect" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
           <rect v-for="(item,index) in tmpItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
@@ -63,7 +58,7 @@ export default {
   },
 
   methods: {
-    sketchRect() {
+    onSketchRect() {
       this.svg.start('sketchRect')
         .then(rect => {
           const svg = {
@@ -86,26 +81,18 @@ export default {
         });
     },
 
-    addGraphic() {
-      const svg = {
-        type: "rect",
-        x: Math.floor(10 + Math.random() * 50),
-        y: Math.floor(10 + Math.random() * 100),
-        width: Math.floor(10 + Math.random() * 200),
-        height: Math.floor(10 + Math.random() * 150)
-      };
-      const payload = {
-        projectId: this.projectId,
-        pageId: this.pageId,
-        svg: svg
-      }
-      this.$store.dispatch('createGraphic', payload);
+    onSelect() {
+      this.svg.start('selectItem');
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+svg {
+  background-color: #f0f0f0;
+}
+
 .rect {
   fill: #eec;
   stroke: #630;

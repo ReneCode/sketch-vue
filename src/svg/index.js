@@ -2,6 +2,7 @@
 import SvgTransform from './svg-transform';
 
 import IaRect from './ia-rect';
+import IaSelect from './ia-select';
 
 class Svg {
   constructor() {
@@ -28,6 +29,9 @@ class Svg {
       switch (name) {
         case "sketchRect":
           interAction = new IaRect(this.transform, this.tmpItems);
+          break;
+        case "selectItem":
+          interAction = new IaSelect(this.transform, this.tmpItems);
           break;
       }
       if (interAction) {
