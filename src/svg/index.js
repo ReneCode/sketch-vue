@@ -3,6 +3,7 @@ import SvgTransform from './svg-transform';
 
 import IaRect from './ia-rect';
 import IaSelect from './ia-select';
+import IaMove from './ia-move';
 
 class Svg {
   constructor() {
@@ -17,6 +18,9 @@ class Svg {
     this.transform.init(svgElement);
 
     this.registerListener(svgElement);
+
+    this.start('iaSelect')
+    this.start('iaMove')
   }
 
   exit() {
@@ -27,16 +31,21 @@ class Svg {
     return new Promise((resolve, reject) => {
       let interAction;
       switch (name) {
-        case "sketchRect":
+        case "iaRect":
           interAction = new IaRect(this.transform, this.tmpItems);
           break;
-        case "selectItem":
+        case "iaSelect":
           interAction = new IaSelect(this.transform, this.tmpItems);
+          break;
+        case "iaMove":
+          interAction = new IaMove(this.transform, this.tmpItems);
           break;
       }
       if (interAction) {
         this.iaList.push(interAction);
-        interAction.start();
+        if (interAction.start) {
+          interAction.start();
+        }
         interAction.on((err, data) => {
           // remove interaction
           this.iaList = this.iaList.filter(ia => ia !== interAction);

@@ -28,6 +28,7 @@ export default class IaRect extends IaBase {
     this.setPoint2(event);
     this.startPoint = null;
     this.clearTempItems();
+    // resolve ia
     this.onCallback(null, this.rect);
   }
 
@@ -40,6 +41,7 @@ export default class IaRect extends IaBase {
   onKeyDown(event) {
     if (event.keyCode === 27) {
       this.clearTempItems();
+      // reject ia
       this.onCallback("escape", null);
     }
   }

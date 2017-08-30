@@ -82,7 +82,7 @@ export default {
 
   methods: {
     onSketchRect() {
-      this.svg.start('sketchRect')
+      this.svg.start('iaRect')
         .then(rect => {
           const svg = {
             ...rect,
@@ -105,7 +105,10 @@ export default {
     },
 
     onSelect() {
-      this.svg.start('selectItem');
+      this.svg.start('iaSelect')
+      .then(data => {
+        console.log("Select:", data);
+      })
     }
   }
 }

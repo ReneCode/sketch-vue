@@ -12,9 +12,6 @@ export default class IaSelect extends IaBase {
     this.tmpItems = tmpItems;
   }
 
-  start() {
-  }
-
   onMouseDown(event) {
     this.mouseDownPoint = this.getScreenPoint(event);
   }
@@ -27,16 +24,13 @@ export default class IaSelect extends IaBase {
         return;
       }
       let selectedItem = store.getters.graphic(iid);
-      console.log(selectedItem)
       if (!selectedItem) {
         return;
       }
       selectionList.addItem(selectedItem);
-    }
-  }
 
-  on(callback) {
-    this.onCallback = callback;
+      // this.onCallback(null, selectedItem);
+    }
   }
 
 }
