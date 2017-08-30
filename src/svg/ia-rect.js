@@ -6,7 +6,7 @@ export default class IaRect extends IaBase {
     this.tmpItems = tmpItems;
   }
 
-  start(tmpItems) {
+  start() {
     this.startPoint = null;
   }
 
@@ -55,8 +55,9 @@ export default class IaRect extends IaBase {
       const p2 = this.getSVGPoint(event);
       this.rect.x = Math.min(this.startPoint.x, p2.x);
       this.rect.y = Math.min(this.startPoint.y, p2.y);
-      this.rect.width = Math.abs(this.startPoint.x - p2.x);
-      this.rect.height = Math.abs(this.startPoint.y - p2.y);
+      let delta = this.startPoint.sub(p2).abs();
+      this.rect.width = delta.x;
+      this.rect.height = delta.y;
     }
   }
 

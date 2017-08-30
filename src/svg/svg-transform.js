@@ -1,3 +1,4 @@
+import Point from '@/model/point'
 
 class SvgTransform {
   init(svgElement) {
@@ -9,10 +10,10 @@ class SvgTransform {
     if (!event) {
       throw new Error("getScreenPoint: event missing");
     }
-    return {
-      x: event.clientX,
-      y: event.clientY
-    };
+    return new Point(
+      event.clientX,
+      event.clientY
+    );
   }
 
   getSVGPoint(event) {
@@ -24,11 +25,9 @@ class SvgTransform {
     pt.x = event.clientX;
     pt.y = event.clientY;
     pt = pt.matrixTransform(svg.getScreenCTM().inverse());
-    let svgPt = {
-      x: pt.x,
-      y: pt.y
-    }
-    return svgPt;
+    return new Point(
+      pt.x,
+      pt.y);
   }
 }
 

@@ -3,7 +3,7 @@
     <v-layout row class="mb-3">
       <v-flex xs12 class="text-xs-left">
         <v-btn @click="onSketchRect">Sketch Rect</v-btn>
-        <v-btn @click="onSelect">Select</v-btn>
+        <!-- <v-btn @click="onSelect">Select</v-btn> -->
       </v-flex>
     </v-layout>
     <v-layout>
@@ -102,13 +102,6 @@ export default {
         .catch(() => {
           // stop sketching
         });
-    },
-
-    onSelect() {
-      this.svg.start('iaSelect')
-      .then(data => {
-        console.log("Select:", data);
-      })
     }
   }
 }

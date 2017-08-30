@@ -7,11 +7,6 @@ import IaBase from './ia-base'
 const DELTA_LIMIT = 3;
 
 export default class IaSelect extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform)
-    this.tmpItems = tmpItems;
-  }
-
   onMouseDown(event) {
     this.mouseDownPoint = this.getScreenPoint(event);
   }
