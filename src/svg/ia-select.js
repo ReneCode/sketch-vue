@@ -2,11 +2,13 @@
 import store from '@/store';
 import selectionList from '@/store/selectionList';
 
+import IaBase from './ia-base'
+
 const DELTA_LIMIT = 3;
 
-export default class IaSelect {
+export default class IaSelect extends IaBase {
   constructor(transform, tmpItems) {
-    this.transform = transform;
+    super(transform)
     this.tmpItems = tmpItems;
   }
 
@@ -18,7 +20,7 @@ export default class IaSelect {
   }
 
   onMouseUp(event) {
-    if (this.getMouseDelta(event) <= DELTA_LIMIT) {
+    if (this.getMouseDelta(event, this.mouseDownPoint) <= DELTA_LIMIT) {
       selectionList.clear();
       const iid = this.pickItemId(event);
       if (!iid) {
@@ -35,49 +37,6 @@ export default class IaSelect {
 
   on(callback) {
     this.onCallback = callback;
-  }
-
-  //
-
-  getMouseDelta(event) {
-    const mouseUpPoint = this.getScreenPoint(event);
-    const xDelta = Math.abs(mouseUpPoint.x - this.mouseDownPoint.x);
-    const yDelta = Math.abs(mouseUpPoint.y - this.mouseDownPoint.y);
-    const delta = Math.max(xDelta, yDelta);
-    return delta;
-  }
-
-  getScreenPoint(event) {
-    return this.transform.getScreenPoint(event);
-  }
-
-  pickItemId(event) {
-    const pt = this.getScreenPoint(event);
-    const element = document.elementFromPoint(pt.x, pt.y);
-    if (!element) {
-      return null;
-    }
-    let pickedElement = null;
-    switch (element.nodeName) {
-      case "text":
-        pickedElement = element;
-        break;
-      case "tspan":
-        if (element.parentNode && element.parentNode.nodeName === "text") {
-          pickedElement = element.parentNode;
-        }
-        break;
-      case "rect":
-        pickedElement = element;
-        break;
-    }
-
-    if (!pickedElement) {
-      return null;
-    }
-
-    const iid = pickedElement.getAttribute("iid");
-    return iid;
   }
 
 }

@@ -96,7 +96,7 @@ export default {
           if (svg.width !== 0 && svg.height !== 0) {
             this.$store.dispatch('createGraphic', payload);
             // restart
-            this.sketchRect();
+            this.onSketchRect();
           }
         })
         .catch(() => {

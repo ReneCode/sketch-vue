@@ -1,7 +1,8 @@
+import IaBase from './ia-base'
 
-export default class IaRect {
+export default class IaRect extends IaBase {
   constructor(transform, tmpItems) {
-    this.transform = transform;
+    super(transform);
     this.tmpItems = tmpItems;
   }
 
@@ -43,10 +44,6 @@ export default class IaRect {
     }
   }
 
-  on(callback) {
-    this.onCallback = callback;
-  }
-
   clearTempItems() {
     this.tmpItems.splice(0);
   }
@@ -59,10 +56,6 @@ export default class IaRect {
       this.rect.width = Math.abs(this.startPoint.x - p2.x);
       this.rect.height = Math.abs(this.startPoint.y - p2.y);
     }
-  }
-
-  getSVGPoint(event) {
-    return this.transform.getSVGPoint(event);
   }
 
 }
