@@ -102,7 +102,7 @@ class Svg {
     this.route("onKeyDown", ev);
   }
   onKeyUp(ev) {
-    this.route("onKeyDown", ev);
+    this.route("onKeyUp", ev);
   }
 
   route(method, ev) {

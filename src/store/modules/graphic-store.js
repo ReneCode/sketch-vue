@@ -36,6 +36,8 @@ export default {
         for (let key in obj) {
           const graphic = {
             id: key,
+            projectId: projectId,
+            pageId: pageId,
             svg: obj[key].svg
           }
           graphics.push(graphic)
@@ -62,6 +64,19 @@ export default {
             reject();
           });
       });
+    },
+
+    deleteGraphics({ commit }, items) {
+      let promises = [];
+
+      for (let item of items) {
+        const projectId = item.projectId;
+        const pageId = item.pageId;
+        const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
+        let promise = firebase.database().ref(ref).remove();
+        promises.push(promise);
+      }
+      return Promise.all(promises);
     }
   }
 };

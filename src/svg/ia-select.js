@@ -28,4 +28,12 @@ export default class IaSelect extends IaBase {
     }
   }
 
+  onKeyDown(event) {
+    console.log("ev:", event)
+    if (event.key === "Backspace") {
+      let items = selectionList.getItems();
+      store.dispatch('deleteGraphics', items);
+    }
+  }
+
 }
