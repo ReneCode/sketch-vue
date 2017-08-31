@@ -1,3 +1,4 @@
+import store from '@/store';
 import IaBase from './ia-base'
 import selectionList from '@/store/selectionList';
 import Point from '@/model/point'
@@ -19,8 +20,14 @@ export default class IaMove extends IaBase {
   }
 
   onMouseUp(event) {
-    this.startPoint = null;
-    this.move = false;
+    if (this.move) {
+      let item = this.updateItem(event);
+      this.startPoint = null;
+      this.move = false;
+      if (item) {
+        store.dispatch('updateGraphic', item);
+      }
+    }
   }
 
   onMouseMove(event) {
@@ -29,16 +36,26 @@ export default class IaMove extends IaBase {
         this.move = true;
       }
     }
+    this.updateItem(event);
+  }
+
+  updateItem(event) {
     if (this.move) {
       const currentPoint = this.getSVGPoint(event);
-      let delta = currentPoint.sub(this.startPoint);
+      // let delta = currentPoint.sub(this.startPoint);
       let item = this.getFirstItem();
       if (item) {
-        let newRefPoint = this.firstItemRefPoint.add(delta);
-        item.svg.x = newRefPoint.x;
-        item.svg.y = newRefPoint.y;
+        let itemRefPoint = this.getRefPoint(item);
+        if (itemRefPoint) {
+          // let newRefPoint = itemRefPoint.add(delta);
+          let newRefPoint = currentPoint.sub(this.itemDelta);
+          item.svg.x = newRefPoint.x;
+          item.svg.y = newRefPoint.y;
+          return item;
+        }
       }
     }
+    return null;
   }
 
   getFirstItem() {
@@ -51,12 +68,16 @@ export default class IaMove extends IaBase {
 
   getFirstItemRefPoint() {
     const firstItem = this.getFirstItem();
-    if (!firstItem.svg) {
+    return this.getRefPoint(firstItem);
+  }
+
+  getRefPoint(item) {
+    if (!item || !item.svg) {
       return null;
     }
     return new Point(
-      firstItem.svg.x,
-      firstItem.svg.y);
+      item.svg.x,
+      item.svg.y);
   }
 
   onKeyDown(event) {

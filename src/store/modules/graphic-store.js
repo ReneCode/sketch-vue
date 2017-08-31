@@ -77,6 +77,19 @@ export default {
         promises.push(promise);
       }
       return Promise.all(promises);
+    },
+
+    updateGraphic({ commit }, item) {
+      if (!item) {
+        throw new Error("bad item");
+      }
+      const projectId = item.projectId;
+      const pageId = item.pageId;
+      const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
+      const graphic = {
+        svg: item.svg
+      };
+      return firebase.database().ref(ref).update(graphic);
     }
   }
 };
