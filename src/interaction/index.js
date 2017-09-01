@@ -39,9 +39,9 @@ class Interaction {
   }
 
   stop(name) {
-    const foundIndex = self.iaList.findIndex(ia => ia.name === name);
+    const foundIndex = this.iaList.findIndex(ia => ia.name === name);
     if (foundIndex >= 0) {
-      self.iaList.splice(foundIndex, 1);
+      this.iaList.splice(foundIndex, 1);
     }
   }
 
@@ -56,6 +56,7 @@ class Interaction {
         callback(err, data);
       });
     }
+    return interAction;
   }
 
   startAsPromise(name) {
@@ -165,12 +166,12 @@ class Interaction {
         let stopRoute = false;
         const result = ia[method](event);
         switch (result) {
-          case "stop":
+          case false:
             stopRoute = true;
             break;
-          case "finish":
+          case "stop":
             stopRoute = true;
-            this.iaList = this.iaList.filter(i => i !== ia);
+            this.stop(ia.name);
             break;
           case undefined:
             break;

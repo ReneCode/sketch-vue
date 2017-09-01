@@ -8,14 +8,14 @@
     </v-layout>
     <v-layout>
       <v-flex xs12>
-        <svg ref="svg" width="600" height="400">
+        <svg ref="svg" width="600" height="320">
           <rect v-for="(item,index) in allItems" :key="index" :class="item.selected? 'selected': 'rect'" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
-          <rect v-for="(item,index) in tmpItems" :key="index" class="selected" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
+          <rect v-for="(item,index) in tmpItems" :key="index" class="tmp" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
       </v-flex>
     </v-layout>
     <code>
-    Interactions: {{iaList}}
+      Interactions: {{iaList}}
     </code>
   </v-container>
 </template>
@@ -129,9 +129,16 @@ svg {
 
 .selected {
   fill: #ddd;
-  stroke: #22a;
+  stroke: #222;
   cursor: pointer;
-  opacity: 1;
+  opacity: 0.8;
+}
+
+.tmp {
+  fill: #bbd;
+  stroke: #33c;
+  cursor: pointer;
+  opacity: 0.3;
 }
 
 code {

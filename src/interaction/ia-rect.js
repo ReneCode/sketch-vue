@@ -24,7 +24,7 @@ export default class IaRect extends IaBase {
       svg: this.rect
     }
     this.tmpItems.push(item);
-    return "stop";
+    return false;
   }
 
   onMouseUp(event) {

@@ -1,16 +1,16 @@
 
 export default class IaBase {
   constructor(transform) {
-    this.transform = transform;
+    this._transform = transform;
   }
 
   on(callback) {
-    this.callback = callback;
+    this._callback = callback;
   }
 
   commit(event, payload) {
-    if (this.callback) {
-      this.callback(event, payload)
+    if (this._callback) {
+      this._callback(event, payload)
     }
   }
 
@@ -23,7 +23,7 @@ export default class IaBase {
   }
 
   getScreenPoint(event) {
-    return this.transform.getScreenPoint(event);
+    return this._transform.getScreenPoint(event);
   }
 
   pickElement(event) {
@@ -63,6 +63,6 @@ export default class IaBase {
   }
 
   getSVGPoint(event) {
-    return this.transform.getSVGPoint(event);
+    return this._transform.getSVGPoint(event);
   }
 }
