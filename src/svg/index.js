@@ -36,13 +36,13 @@ class Svg {
       let interAction;
       switch (name) {
         case "iaRect":
-          interAction = new IaRect(this.transform, this.tmpItems);
+          interAction = new IaRect(name, this.transform, this.tmpItems);
           break;
         case "iaSelect":
-          interAction = new IaSelect(this.transform, this.tmpItems);
+          interAction = new IaSelect(name, this.transform, this.tmpItems);
           break;
         case "iaMove":
-          interAction = new IaMove(this.transform, this.tmpItems);
+          interAction = new IaMove(name, this.transform, this.tmpItems);
           break;
       }
       if (interAction) {
@@ -50,9 +50,13 @@ class Svg {
         if (interAction.start) {
           interAction.start();
         }
+        const self = this;
         interAction.on((err, data) => {
           // remove interaction
-          this.iaList = this.iaList.filter(ia => ia !== interAction);
+          const foundIndex = self.iaList.findIndex(ia => ia === interAction);
+          if (foundIndex >= 0) {
+            self.iaList.splice(foundIndex, 1);
+          }
           if (err) {
             reject(err);
           } else {

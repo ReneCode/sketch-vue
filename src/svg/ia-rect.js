@@ -1,8 +1,8 @@
 import IaBase from './ia-base'
 
 export default class IaRect extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
+  constructor(name, transform, tmpItems) {
+    super(name, transform);
     this.tmpItems = tmpItems;
   }
 

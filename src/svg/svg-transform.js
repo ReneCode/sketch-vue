@@ -20,11 +20,10 @@ class SvgTransform {
     if (!event) {
       throw new Error("getSVGPoint: event missing");
     }
-    const svg = this.svgElement;
-    let pt = svg.createSVGPoint();
+    let pt = this.svgElement.createSVGPoint();
     pt.x = event.clientX;
     pt.y = event.clientY;
-    pt = pt.matrixTransform(svg.getScreenCTM().inverse());
+    pt = pt.matrixTransform(this.transformMatrix);
     return new Point(
       pt.x,
       pt.y);

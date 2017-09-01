@@ -14,7 +14,9 @@
         </svg>
       </v-flex>
     </v-layout>
-    {{iaList}}
+    <code>
+    Interactions: {{iaList}}
+    </code>
   </v-container>
 </template>
 
@@ -129,5 +131,11 @@ svg {
   stroke: #222;
   cursor: pointer;
   opacity: 1;
+}
+
+code {
+  font-size: 11px;
+  line-height: 1;
+  color: #444;
 }
 </style>

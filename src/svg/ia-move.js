@@ -23,11 +23,6 @@ export default class IaMove extends IaBase {
     this.mouseDownScreenPoint = this.getScreenPoint(event);
     this.startSVGPoint = this.getSVGPoint(event);
     this.mode = MODE_MOUSE_DOWN;
-
-    // this.firstItemRefPoint = this.getFirstItemRefPoint();
-    // if (this.firstItemRefPoint) {
-    //   this.itemDelta = this.startPoint.sub(this.firstItemRefPoint);
-    // }
   }
 
   onMouseUp(event) {
@@ -35,6 +30,8 @@ export default class IaMove extends IaBase {
       case MODE_MOVE:
         this.moveSelectedItems(event);
         this.mouseDownScreenPoint = null;
+        this.startSVGPoint = null;
+        this.itemStartRefPoint = null;
         this.mode = MODE_NONE;
         this.saveToStore()
         break;

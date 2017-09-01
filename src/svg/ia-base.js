@@ -1,6 +1,7 @@
 
 export default class IaBase {
-  constructor(transform) {
+  constructor(name, transform) {
+    this.name = name;
     this.transform = transform;
   }
 
