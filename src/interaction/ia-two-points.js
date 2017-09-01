@@ -34,6 +34,7 @@ export default class IaTwoPoints extends IaBase {
   onKeyDown(event) {
     if (event.keyCode === 27) {
       this.commit("escape", null);
+      return "stop";
     }
   }
 

@@ -32,6 +32,10 @@ export default class IaSelect extends IaBase {
   }
 
   selectionCallback(err, payload) {
+    if (err) {
+      this.stopSelectionRectangle();
+      return;
+    }
     switch (payload.event) {
       case "onMouseDown":
         this.setRect(payload.pt1, payload.pt1);
@@ -45,15 +49,14 @@ export default class IaSelect extends IaBase {
         break;
       case "onMouseUp":
         this.setRect(payload.pt1, payload.pt2);
-        this.tmpItems.splice(0);
-        this.clearRect();
+        this.stopSelectionRectangle();
         break;
 
     }
-    console.log("#", err, payload);
   }
 
-  clearRect() {
+  stopSelectionRectangle() {
+    this.tmpItems.splice(0);
     this.rect = null;
   }
 
