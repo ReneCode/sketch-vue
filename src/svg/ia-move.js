@@ -5,70 +5,102 @@ import Point from '@/model/point'
 
 const DELTA_LIMIT = 3;
 
+const MODE_NONE = 1;
+const MODE_MOUSE_DOWN = 2;
+const MODE_MOVE = 3;
+
 export default class IaMove extends IaBase {
   start() {
-    this.startPoint = null;
-    this.move = false;
+    this.mouseDownScreenPoint = null;
+    this.mode = MODE_NONE;
   }
 
   onMouseDown(event) {
-    this.firstItemRefPoint = this.getFirstItemRefPoint();
-    if (this.firstItemRefPoint) {
-      this.startPoint = this.getSVGPoint(event);
-      this.itemDelta = this.startPoint.sub(this.firstItemRefPoint);
+    this.iid = this.pickItemId(event);
+    if (!this.iid) {
+      return;
     }
+    this.mouseDownScreenPoint = this.getScreenPoint(event);
+    this.startSVGPoint = this.getSVGPoint(event);
+    this.mode = MODE_MOUSE_DOWN;
+
+    // this.firstItemRefPoint = this.getFirstItemRefPoint();
+    // if (this.firstItemRefPoint) {
+    //   this.itemDelta = this.startPoint.sub(this.firstItemRefPoint);
+    // }
   }
 
   onMouseUp(event) {
-    if (this.move) {
-      let item = this.updateItem(event);
-      this.startPoint = null;
-      this.move = false;
-      if (item) {
-        store.dispatch('updateGraphic', item);
-      }
+    switch (this.mode) {
+      case MODE_MOVE:
+        this.moveSelectedItems(event);
+        this.mouseDownScreenPoint = null;
+        this.mode = MODE_NONE;
+        this.saveToStore()
+        break;
+      case MODE_MOUSE_DOWN:
+        this.mode = MODE_NONE
+        break;
     }
   }
 
   onMouseMove(event) {
-    if (this.startPoint) {
-      if (this.getMouseDelta(event, this.startPoint) > DELTA_LIMIT) {
-        this.move = true;
-      }
-    }
-    this.updateItem(event);
-  }
-
-  updateItem(event) {
-    if (this.move) {
-      const currentPoint = this.getSVGPoint(event);
-      // let delta = currentPoint.sub(this.startPoint);
-      let item = this.getFirstItem();
-      if (item) {
-        let itemRefPoint = this.getRefPoint(item);
-        if (itemRefPoint) {
-          // let newRefPoint = itemRefPoint.add(delta);
-          let newRefPoint = currentPoint.sub(this.itemDelta);
-          item.svg.x = newRefPoint.x;
-          item.svg.y = newRefPoint.y;
-          return item;
+    if (this.mode === MODE_MOUSE_DOWN) {
+      if (this.getMouseDelta(event, this.mouseDownScreenPoint) > DELTA_LIMIT) {
+        this.updateSelection();
+        this.itemStartRefPoint = this.getSelectionRefPoint();
+        if (this.itemStartRefPoint) {
+          this.mode = MODE_MOVE;
+        } else {
+          this.mode = MODE_NONE;
         }
       }
     }
-    return null;
+    this.moveSelectedItems(event);
   }
 
-  getFirstItem() {
+  saveToStore() {
+    const items = selectionList.getItems();
+    store.dispatch('updateGraphics', items);
+  }
+
+  updateSelection() {
+    if (!selectionList.containsItemWithId(this.iid)) {
+      const item = store.getters.graphic(this.iid);
+      if (item) {
+        selectionList.setItem(item);
+      }
+    }
+  }
+
+  moveSelectedItems(event) {
+    if (this.mode !== MODE_MOVE) {
+      return null;
+    }
+
+    const currentSVGPoint = this.getSVGPoint(event);
+    let delta = currentSVGPoint.sub(this.startSVGPoint);
+
+    let newRefPoint = this.itemStartRefPoint.add(delta);
+    this.setSelectionRefPoint(newRefPoint);
+  }
+
+  setSelectionRefPoint(pt) {
     const items = selectionList.getItems();
     if (!items || items.length === 0) {
       return null;
     }
-    return items[0];
+    const item = items[0];
+    item.svg.x = pt.x;
+    item.svg.y = pt.y;
   }
 
-  getFirstItemRefPoint() {
-    const firstItem = this.getFirstItem();
-    return this.getRefPoint(firstItem);
+  getSelectionRefPoint() {
+    const items = selectionList.getItems();
+    if (!items || items.length === 0) {
+      return null;
+    }
+    return this.getRefPoint(items[0]);
   }
 
   getRefPoint(item) {
@@ -82,7 +114,7 @@ export default class IaMove extends IaBase {
 
   onKeyDown(event) {
     if (event.keyCode === 27) {
-      this.clearTempItems();
+      selectionList.clear();
     }
   }
 

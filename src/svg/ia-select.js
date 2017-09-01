@@ -12,7 +12,8 @@ export default class IaSelect extends IaBase {
   }
 
   onMouseUp(event) {
-    if (this.getMouseDelta(event, this.mouseDownPoint) <= DELTA_LIMIT) {
+    if (this.mouseDownPoint && this.getMouseDelta(event, this.mouseDownPoint) <= DELTA_LIMIT) {
+      this.mouseDownPoint = null;
       selectionList.clear();
       const iid = this.pickItemId(event);
       if (!iid) {
@@ -20,16 +21,13 @@ export default class IaSelect extends IaBase {
       }
       let selectedItem = store.getters.graphic(iid);
       if (!selectedItem) {
-        return;
+        throw new Error("can't find Item:", iid);
       }
       selectionList.addItem(selectedItem);
-
-      // this.onCallback(null, selectedItem);
     }
   }
 
   onKeyDown(event) {
-    console.log("ev:", event)
     if (event.key === "Backspace") {
       let items = selectionList.getItems();
       store.dispatch('deleteGraphics', items);

@@ -27,6 +27,10 @@ class Svg {
     this.unregisterListener();
   }
 
+  getIaList() {
+    return this.iaList;
+  }
+
   start(name) {
     return new Promise((resolve, reject) => {
       let interAction;

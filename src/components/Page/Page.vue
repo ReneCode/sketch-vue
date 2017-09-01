@@ -14,6 +14,7 @@
         </svg>
       </v-flex>
     </v-layout>
+    {{iaList}}
   </v-container>
 </template>
 
@@ -32,6 +33,10 @@ export default {
   },
 
   computed: {
+    iaList() {
+      return this.svg.getIaList();
+    },
+
     items() {
       return this.$store.getters.loadedGraphics;
     },

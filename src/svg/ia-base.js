@@ -44,6 +44,9 @@ export default class IaBase {
   }
 
   pickItemId(event) {
+    if (!event) {
+      throw new Error("pickedItemId: event missing")
+    }
     let pickedElement = this.pickElement(event);
     if (!pickedElement) {
       return null;

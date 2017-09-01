@@ -90,6 +90,22 @@ export default {
         svg: item.svg
       };
       return firebase.database().ref(ref).update(graphic);
+    },
+
+    updateGraphics({ commit }, items) {
+      let promises = [];
+
+      for (let item of items) {
+        const projectId = item.projectId;
+        const pageId = item.pageId;
+        const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
+        const graphic = {
+          svg: item.svg
+        };
+        let promise = firebase.database().ref(ref).update(graphic);
+        promises.push(promise);
+      }
+      return Promise.all(promises);
     }
   }
 };
