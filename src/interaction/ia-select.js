@@ -1,7 +1,7 @@
 
 import store from '@/store';
 import selectionList from '@/store/selectionList';
-
+// import svg from '@/svg'
 import IaBase from './ia-base'
 
 export default class IaSelect extends IaBase {
@@ -17,6 +17,8 @@ export default class IaSelect extends IaBase {
       let selectedItem = store.getters.graphic(itemId);
       if (!selectedItem) {
         throw new Error("can't find Item:", itemId);
+      } else {
+        // svg.start('iaTwoPoints', this.selectionCallback);
       }
       selectionList.addItem(selectedItem);
     }
@@ -24,5 +26,9 @@ export default class IaSelect extends IaBase {
       event: "onMouseDown",
       itemId: itemId
     });
+  }
+
+  selectionCallback(err, payload) {
+    console.log("#", err, payload);
   }
 }

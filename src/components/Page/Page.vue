@@ -23,6 +23,7 @@
 <script>
 import Svg from '@/svg'
 import selectionList from '@/store/selectionList';
+import interaction from '@/interaction';
 
 export default {
   props: ['projectId', 'pageId'],
@@ -36,7 +37,7 @@ export default {
 
   computed: {
     iaList() {
-      return this.svg.getIaList();
+      return interaction.getIaList();
     },
 
     items() {
@@ -89,7 +90,7 @@ export default {
 
   methods: {
     onSketchRect() {
-      this.svg.start('iaRect')
+      interaction.start('iaRect')
         .then(rect => {
           const svg = {
             ...rect,
