@@ -116,7 +116,10 @@ class Svg {
   route(method, ev) {
     const event = window.event || ev; // old IE support
 
-    for (const ia of this.iaList) {
+    // start routing at the newest interation pushed on the idList.
+    // that is at the last position
+    for (let idx = this.iaList.length - 1; idx >= 0; idx--) {
+      const ia = this.iaList[idx];
       if (ia[method]) {
         let stopRoute = false;
         const result = ia[method](event);

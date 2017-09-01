@@ -1,4 +1,5 @@
 import IaBase from './ia-base'
+import selectionList from '@/store/selectionList';
 
 export default class IaRect extends IaBase {
   constructor(name, transform, tmpItems) {
@@ -11,6 +12,7 @@ export default class IaRect extends IaBase {
   }
 
   onMouseDown(event) {
+    selectionList.clear();
     this.startPoint = this.getSVGPoint(event);
     this.rect = {
       x: this.startPoint.x,
@@ -22,6 +24,7 @@ export default class IaRect extends IaBase {
       svg: this.rect
     }
     this.tmpItems.push(item);
+    return "stop";
   }
 
   onMouseUp(event) {
