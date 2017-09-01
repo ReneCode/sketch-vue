@@ -128,7 +128,7 @@ svg {
 
 .selected {
   fill: #ddd;
-  stroke: #222;
+  stroke: #22a;
   cursor: pointer;
   opacity: 1;
 }

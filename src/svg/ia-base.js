@@ -1,12 +1,17 @@
 
 export default class IaBase {
-  constructor(name, transform) {
-    this.name = name;
+  constructor(transform) {
     this.transform = transform;
   }
 
   on(callback) {
-    this.onCallback = callback;
+    this.callback = callback;
+  }
+
+  commit(event, payload) {
+    if (this.callback) {
+      this.callback(event, payload)
+    }
   }
 
   getMouseDelta(event, otherPoint) {

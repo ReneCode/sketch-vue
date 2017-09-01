@@ -2,8 +2,8 @@ import IaBase from './ia-base'
 import selectionList from '@/store/selectionList';
 
 export default class IaRect extends IaBase {
-  constructor(name, transform, tmpItems) {
-    super(name, transform);
+  constructor(transform, tmpItems) {
+    super(transform);
     this.tmpItems = tmpItems;
   }
 
@@ -32,7 +32,7 @@ export default class IaRect extends IaBase {
     this.startPoint = null;
     this.clearTempItems();
     // resolve ia
-    this.onCallback(null, this.rect);
+    this.commit(null, this.rect);
   }
 
   onMouseMove(event) {
@@ -45,7 +45,7 @@ export default class IaRect extends IaBase {
     if (event.keyCode === 27) {
       this.clearTempItems();
       // reject ia
-      this.onCallback("escape", null);
+      this.commit("escape", null);
     }
   }
 

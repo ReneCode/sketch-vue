@@ -3,7 +3,9 @@ import SvgTransform from './svg-transform';
 
 import IaRect from './ia-rect';
 import IaSelect from './ia-select';
+import IaDelete from './ia-delete';
 import IaMove from './ia-move';
+import IaTwoPoints from './ia-two-points';
 
 class Svg {
   constructor() {
@@ -19,8 +21,9 @@ class Svg {
 
     this.registerListener(svgElement);
 
-    this.start('iaSelect')
-    this.start('iaMove')
+    this.start('iaSelect', () => { });
+    this.start('iaDelete', () => { });
+    this.start('iaMove', () => { })
   }
 
   exit() {
@@ -31,20 +34,37 @@ class Svg {
     return this.iaList;
   }
 
-  start(name) {
-    return new Promise((resolve, reject) => {
-      let interAction;
-      switch (name) {
-        case "iaRect":
-          interAction = new IaRect(name, this.transform, this.tmpItems);
-          break;
-        case "iaSelect":
-          interAction = new IaSelect(name, this.transform, this.tmpItems);
-          break;
-        case "iaMove":
-          interAction = new IaMove(name, this.transform, this.tmpItems);
-          break;
+  start(name, callback) {
+    if (callback) {
+      return this.startWithCallback(name, callback);
+    } else {
+      return this.startAsPromise(name);
+    }
+  }
+
+  stop(name) {
+    const foundIndex = self.iaList.findIndex(ia => ia.name === name);
+    if (foundIndex >= 0) {
+      self.iaList.splice(foundIndex, 1);
+    }
+  }
+
+  startWithCallback(name, callback) {
+    let interAction = this.createInteraction(name);
+    if (interAction) {
+      this.iaList.push(interAction);
+      if (interAction.start) {
+        interAction.start();
       }
+      interAction.on((err, data) => {
+        callback(err, data);
+      });
+    }
+  }
+
+  startAsPromise(name) {
+    return new Promise((resolve, reject) => {
+      let interAction = this.createInteraction(name);
       if (interAction) {
         this.iaList.push(interAction);
         if (interAction.start) {
@@ -67,6 +87,31 @@ class Svg {
         reject();
       }
     });
+  }
+
+  createInteraction(name) {
+    let interAction;
+    switch (name) {
+      case "iaRect":
+        interAction = new IaRect(this.transform, this.tmpItems);
+        break;
+      case "iaSelect":
+        interAction = new IaSelect(this.transform, this.tmpItems);
+        break;
+      case "iaDelete":
+        interAction = new IaDelete(this.transform, this.tmpItems);
+        break;
+      case "iaMove":
+        interAction = new IaMove(this.transform, this.tmpItems);
+        break;
+      case "iaTwoPoints":
+        interAction = new IaTwoPoints(this.transform, this.tmpItems);
+        break;
+    }
+    if (interAction) {
+      interAction.name = name;
+    }
+    return interAction;
   }
 
   // ---------------
