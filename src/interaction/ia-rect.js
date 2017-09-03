@@ -1,5 +1,7 @@
 import IaBase from './ia-base'
 import selectionList from '@/store/selectionList';
+import ItemRectangle from '@/model/item-rectangle';
+// import store from '@/store';
 
 export default class IaRect extends IaBase {
   constructor(transform, tmpItems) {
@@ -14,16 +16,8 @@ export default class IaRect extends IaBase {
   onMouseDown(event) {
     selectionList.clear();
     this.startPoint = this.getSVGPoint(event);
-    this.rect = {
-      x: this.startPoint.x,
-      y: this.startPoint.y,
-      width: 0,
-      height: 0
-    }
-    const item = {
-      svg: this.rect
-    }
-    this.tmpItems.push(item);
+    this.item = new ItemRectangle(this.startPoint, this.startPoint);
+    this.tmpItems.push(this.item);
     return false;
   }
 
@@ -32,7 +26,7 @@ export default class IaRect extends IaBase {
     this.startPoint = null;
     this.clearTempItems();
     // resolve ia
-    this.commit(null, this.rect);
+    this.commit(null, this.item);
   }
 
   onMouseMove(event) {
@@ -49,18 +43,17 @@ export default class IaRect extends IaBase {
     }
   }
 
+  save() {
+  }
+
   clearTempItems() {
     this.tmpItems.splice(0);
   }
 
   setPoint2(event) {
-    if (this.rect) {
+    if (this.item) {
       const p2 = this.getSVGPoint(event);
-      this.rect.x = Math.min(this.startPoint.x, p2.x);
-      this.rect.y = Math.min(this.startPoint.y, p2.y);
-      let delta = this.startPoint.sub(p2).abs();
-      this.rect.width = delta.x;
-      this.rect.height = delta.y;
+      this.item.setFromTwoPoints(this.startPoint, p2);
     }
   }
 

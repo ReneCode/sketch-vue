@@ -1,22 +1,24 @@
 <template>
   <v-container>
-    <v-layout row class="mb-3">
-      <v-flex xs12 class="text-xs-left">
-        <v-btn @click="onSketchRect">Sketch Rect</v-btn>
-        <!-- <v-btn @click="onSelect">Select</v-btn> -->
-      </v-flex>
-    </v-layout>
     <v-layout>
-      <v-flex xs12>
+      <v-flex xs4>
+        <code>
+          Interactions: {{iaList}}
+        </code>
+      </v-flex>
+      <v-flex xs8>
+        <v-layout row class="mb-3">
+          <v-flex xs12 class="text-xs-left">
+            <v-btn @click="onSketchRect">Sketch Rect</v-btn>
+            <!-- <v-btn @click="onSelect">Select</v-btn> -->
+          </v-flex>
+        </v-layout>
         <svg ref="svg" width="600" height="320">
           <rect v-for="(item,index) in allItems" :key="index" :class="item.selected? 'selected': 'rect'" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
           <rect v-for="(item,index) in tmpItems" :key="index" class="tmp" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect>
         </svg>
       </v-flex>
     </v-layout>
-    <code>
-      Interactions: {{iaList}}
-    </code>
   </v-container>
 </template>
 
@@ -91,9 +93,9 @@ export default {
   methods: {
     onSketchRect() {
       interaction.start('iaRect')
-        .then(rect => {
+        .then(item => {
           const svg = {
-            ...rect,
+            ...item.svg,
             type: "rect"
           };
           const payload = {
