@@ -92,7 +92,7 @@ export default {
 
   methods: {
     onSketchRect() {
-      interaction.start('iaRect', (err, item) => {
+      interaction.start('iaRect', "hallo", (err, item) => {
         if (err) {
           return;
         }

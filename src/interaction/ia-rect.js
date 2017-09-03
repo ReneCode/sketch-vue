@@ -10,7 +10,8 @@ export default class IaRect extends IaBase {
     this.tmpItems = tmpItems;
   }
 
-  start() {
+  start(payload) {
+    console.log("iaRect start:", payload)
     this.startPoint = null;
   }
 

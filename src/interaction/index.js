@@ -37,12 +37,19 @@ class Interaction {
     }
   }
 
-  start(name, callback) {
+  start(name, ...args) {
     let interAction = this.createInteraction(name);
     if (interAction) {
+      let callback;
+      if (args.length > 0) {
+        const lastArgument = args[args.length - 1];
+        if (typeof lastArgument === 'function') {
+          callback = lastArgument;
+        }
+      }
       this.iaList.push(interAction);
       if (interAction.start) {
-        interAction.start();
+        interAction.start(...args);
       }
       let self = this;
       interAction.on((err, data) => {
