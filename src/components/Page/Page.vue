@@ -6,11 +6,14 @@
           Interactions: {{iaList}}
         </code>
       </v-flex>
-      <v-flex xs8>
+
+      <v-flex xs4>
         <v-layout row class="mb-3">
           <v-flex xs12 class="text-xs-left">
-            <v-btn @click="onSketchRect">Sketch Rect</v-btn>
-            <!-- <v-btn @click="onSelect">Select</v-btn> -->
+            <v-btn-toggle v-model="buttonMode">
+              <v-btn flat value="rect" @click="onRect">Sketch Rect</v-btn>
+              <v-btn flat value="select" @click="onSelect">Select</v-btn>
+            </v-btn-toggle>
           </v-flex>
         </v-layout>
         <svg ref="svg" width="600" height="320">
@@ -32,6 +35,7 @@ export default {
 
   data() {
     return {
+      buttonMode: "select",
       tmpItems: [],
       selectedItems: selectionList.getItems()
     }
@@ -87,12 +91,21 @@ export default {
   },
 
   methods: {
-    onSketchRect() {
+    onRect() {
+      interaction.stop('iaSelect')
+      interaction.stop('iaMove')
+      interaction.stop('iaDelete');
+
       const options = {
         projectId: this.projectId,
         pageId: this.pageId
       };
       interaction.start('iaRect', options);
+    },
+    onSelect() {
+      interaction.start('iaSelect');
+      interaction.start('iaDelete');
+      interaction.start('iaMove');
     }
   }
 }

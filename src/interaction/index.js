@@ -135,7 +135,11 @@ class Interaction {
 
   route(method, ev) {
     const event = window.event || ev; // old IE support
+    this.dispatch(method, event);
+    this.finishEvent(event)
+  }
 
+  dispatch(method, event) {
     // start routing at the newest interation pushed on the idList.
     // that is at the last position
     for (let idx = this.iaList.length - 1; idx >= 0; idx--) {
@@ -161,7 +165,6 @@ class Interaction {
         }
       }
     }
-    this.finishEvent(event)
   }
 
   finishEvent(event) {
