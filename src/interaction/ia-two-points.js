@@ -33,13 +33,13 @@ export default class IaTwoPoints extends IaBase {
 
   onKeyDown(event) {
     if (event.keyCode === 27) {
-      this.commit("escape", null);
+      this.emit("escape", null);
       return "stop";
     }
   }
 
   emit(eventName, pt1, pt2) {
-    this.commit(null, {
+    this.emit(null, {
       event: eventName,
       pt1: pt1,
       pt2: pt2

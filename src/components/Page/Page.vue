@@ -92,26 +92,21 @@ export default {
 
   methods: {
     onSketchRect() {
-      interaction.start('iaRect')
-        .then(item => {
-          const svg = {
-            ...item.svg,
-            type: "rect"
-          };
-          const payload = {
-            projectId: this.projectId,
-            pageId: this.pageId,
-            svg: svg
-          }
-          if (svg.width !== 0 && svg.height !== 0) {
-            this.$store.dispatch('createGraphic', payload);
-            // restart
-            this.onSketchRect();
-          }
-        })
-        .catch(() => {
-          // stop sketching
-        });
+      interaction.start('iaRect', (err, item) => {
+        if (err) {
+          return;
+        }
+        const svg = {
+          ...item.svg,
+          type: "rect"
+        };
+        const payload = {
+          projectId: this.projectId,
+          pageId: this.pageId,
+          svg: svg
+        }
+        this.$store.dispatch('createGraphic', payload);
+      });
     }
   }
 }

@@ -25,7 +25,7 @@ export default class IaSelect extends IaBase {
       });
       ia.onMouseDown(event);
     }
-    this.commit(null, {
+    this.emit(null, {
       event: "onMouseDown",
       itemId: itemId
     });

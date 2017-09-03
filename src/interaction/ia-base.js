@@ -8,7 +8,7 @@ export default class IaBase {
     this._callback = callback;
   }
 
-  commit(event, payload) {
+  emit(event, payload) {
     if (this._callback) {
       this._callback(event, payload)
     }

@@ -17,9 +17,9 @@ class Interaction {
 
     this.registerListener();
 
-    this.start('iaSelect', () => { });
-    this.start('iaDelete', () => { });
-    this.start('iaMove', () => { })
+    this.start('iaSelect');
+    this.start('iaDelete');
+    this.start('iaMove');
   }
 
   exit() {
@@ -30,14 +30,6 @@ class Interaction {
     return this.iaList;
   }
 
-  start(name, callback) {
-    if (callback) {
-      return this.startWithCallback(name, callback);
-    } else {
-      return this.startAsPromise(name);
-    }
-  }
-
   stop(name) {
     const foundIndex = this.iaList.findIndex(ia => ia.name === name);
     if (foundIndex >= 0) {
@@ -45,45 +37,24 @@ class Interaction {
     }
   }
 
-  startWithCallback(name, callback) {
+  start(name, callback) {
     let interAction = this.createInteraction(name);
     if (interAction) {
       this.iaList.push(interAction);
       if (interAction.start) {
         interAction.start();
       }
+      let self = this;
       interAction.on((err, data) => {
-        callback(err, data);
+        if (err) {
+          self.stop(name);
+        }
+        if (callback) {
+          callback(err, data);
+        }
       });
     }
     return interAction;
-  }
-
-  startAsPromise(name) {
-    return new Promise((resolve, reject) => {
-      let interAction = this.createInteraction(name);
-      if (interAction) {
-        this.iaList.push(interAction);
-        if (interAction.start) {
-          interAction.start();
-        }
-        const self = this;
-        interAction.on((err, data) => {
-          // remove interaction
-          const foundIndex = self.iaList.findIndex(ia => ia === interAction);
-          if (foundIndex >= 0) {
-            self.iaList.splice(foundIndex, 1);
-          }
-          if (err) {
-            reject(err);
-          } else {
-            resolve(data);
-          }
-        })
-      } else {
-        reject();
-      }
-    });
   }
 
   createInteraction(name) {

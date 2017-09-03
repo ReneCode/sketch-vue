@@ -25,8 +25,12 @@ export default class IaRect extends IaBase {
     this.setPoint2(event);
     this.startPoint = null;
     this.clearTempItems();
-    // resolve ia
-    this.commit(null, this.item);
+
+    if (this.item.svg.width === 0 || this.item.svg.height === 0) {
+      this.emit("zero rect", null)
+    } else {
+      this.emit(null, this.item);
+    }
   }
 
   onMouseMove(event) {
@@ -39,7 +43,7 @@ export default class IaRect extends IaBase {
     if (event.keyCode === 27) {
       this.clearTempItems();
       // reject ia
-      this.commit("escape", null);
+      this.emit("escape", null);
     }
   }
 
