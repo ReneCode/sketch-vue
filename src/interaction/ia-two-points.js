@@ -12,14 +12,14 @@ export default class IaTwoPoints extends IaBase {
   onMouseDown(event) {
     this.firstPoint = this.getSVGPoint(event);
     this.mode = MODE_MOUSE_DOWN;
-    this.emit("onMouseDown", this.firstPoint, null);
+    this.emit(null, this.createPayload("onMouseDown", this.firstPoint, null));
   }
 
   onMouseUp(event) {
     if (this.mode === MODE_MOUSE_DOWN) {
       this.mode = MODE_NONE;
       let currentScreenPoint = this.getSVGPoint(event);
-      this.emit("onMouseUp", this.firstPoint, currentScreenPoint);
+      this.emit(null, this.createPayload("onMouseUp", this.firstPoint, currentScreenPoint));
       return "stop";
     }
   }
@@ -27,7 +27,7 @@ export default class IaTwoPoints extends IaBase {
   onMouseMove(event) {
     if (this.mode === MODE_MOUSE_DOWN) {
       let currentScreenPoint = this.getSVGPoint(event);
-      this.emit("onMouseMove", this.firstPoint, currentScreenPoint);
+      this.emit(null, this.createPayload("onMouseMove", this.firstPoint, currentScreenPoint));
     }
   }
 
@@ -38,12 +38,11 @@ export default class IaTwoPoints extends IaBase {
     }
   }
 
-  emit(eventName, pt1, pt2) {
-    this.emit(null, {
+  createPayload(eventName, pt1, pt2) {
+    return {
       event: eventName,
       pt1: pt1,
       pt2: pt2
-    });
+    };
   }
-
 }

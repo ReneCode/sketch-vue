@@ -42,7 +42,7 @@ export default class IaRect extends IaBase {
   onKeyDown(event) {
     if (event.keyCode === 27) {
       this.clearTempItems();
-      // reject ia
+      this.startPoint = null;
       this.emit("escape", null);
     }
   }
