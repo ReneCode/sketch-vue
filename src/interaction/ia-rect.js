@@ -2,7 +2,7 @@ import IaBase from './ia-base'
 import selectionList from '@/store/selectionList';
 import interaction from '@/interaction';
 import ItemRectangle from '@/model/item-rectangle';
-// import store from '@/store';
+import store from '@/store';
 
 export default class IaRect extends IaBase {
   constructor(transform, tmpItems) {
@@ -10,8 +10,8 @@ export default class IaRect extends IaBase {
     this.tmpItems = tmpItems;
   }
 
-  start(payload) {
-    console.log("iaRect start:", payload)
+  start(options) {
+    this.options = options;
     this.startPoint = null;
   }
 
@@ -21,10 +21,6 @@ export default class IaRect extends IaBase {
       return this.twoPointsCallback(err, payload);
     });
     ia.onMouseDown(event);
-
-    // this.startPoint = this.getSVGPoint(event);
-    // this.item = new ItemRectangle(this.startPoint, this.startPoint);
-    // this.tmpItems.push(this.item);
     return false;
   }
 
@@ -57,6 +53,11 @@ export default class IaRect extends IaBase {
       this.emit("zero rect", null)
     } else {
       let item = new ItemRectangle(payload.pt1, payload.pt2);
+      item.svg.type = "rect";
+      item.projectId = this.options.projectId;
+      item.pageId = this.options.pageId;
+      store.dispatch('createGraphic', item);
+
       this.emit(null, item);
     }
   }

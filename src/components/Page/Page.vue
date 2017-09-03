@@ -66,10 +66,6 @@ export default {
     loading() {
       return this.$store.getters.loading;
     }
-
-    // selectedItems() {
-    //   return selectionList.getItems();
-    // }
   },
 
   created() {
@@ -92,21 +88,11 @@ export default {
 
   methods: {
     onSketchRect() {
-      interaction.start('iaRect', "hallo", (err, item) => {
-        if (err) {
-          return;
-        }
-        const svg = {
-          ...item.svg,
-          type: "rect"
-        };
-        const payload = {
-          projectId: this.projectId,
-          pageId: this.pageId,
-          svg: svg
-        }
-        this.$store.dispatch('createGraphic', payload);
-      });
+      const options = {
+        projectId: this.projectId,
+        pageId: this.pageId
+      };
+      interaction.start('iaRect', options);
     }
   }
 }
@@ -132,7 +118,7 @@ svg {
 }
 
 .tmp {
-  fill: #bbd;
+  fill: #bbf;
   stroke: #33c;
   cursor: pointer;
   opacity: 0.3;
