@@ -3,11 +3,12 @@ import ItemBase from './item-base';
 import Point from './point';
 
 class ItemCircle extends ItemBase {
-  constructor(pt, radius) {
+  constructor(pt1, pt2) {
     super(0);
+    let radius = pt1.sub(pt2).length();
     let svg = {
-      x: pt.x,
-      y: pt.y,
+      x: pt1.x,
+      y: pt1.y,
       radius: radius
     }
     this.svg = svg;
