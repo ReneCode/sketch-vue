@@ -7,11 +7,13 @@
         </code>
       </v-flex>
 
-      <v-flex xs4>
-        <v-layout row class="mb-3">
+      <v-flex xs8>
+        <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
             <v-btn :dark="iaName() === 'iaSelect'" @click="onSelect">Select</v-btn>
-            <v-btn :dark="iaName() === 'iaRect'" @click="onRect">Rectangle</v-btn>
+            <v-btn :dark="iaName() === 'iaRect'" @click="onRectangle">Rectangle</v-btn>
+            <v-btn :dark="iaName() === 'iaCircle'" @click="onCircle">Circle</v-btn>
+            <v-btn :dark="iaName() === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
             
           </v-flex>
         </v-layout>
@@ -97,11 +99,21 @@ export default {
       }
     },
 
-    onRect() {
-      interaction.stop('iaSelect')
-      interaction.stop('iaMove')
-      interaction.stop('iaDelete');
-
+    onCircle() {
+      const options = {
+        projectId: this.projectId,
+        pageId: this.pageId
+      };
+      interaction.startOnly('iaCircle', options);
+    },
+    onPolygon() {
+      const options = {
+        projectId: this.projectId,
+        pageId: this.pageId
+      };
+      interaction.startOnly('iaPolygon', options);
+    },
+    onRectangle() {
       const options = {
         projectId: this.projectId,
         pageId: this.pageId

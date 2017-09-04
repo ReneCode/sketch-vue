@@ -1,5 +1,6 @@
 
 import IaRect from './ia-rect';
+import IaCircle from './ia-circle';
 import IaSelect from '@/interaction/ia-select';
 import IaDelete from './ia-delete';
 import IaMove from './ia-move';
@@ -97,6 +98,9 @@ class Interaction {
   createInteraction(name) {
     let interAction;
     switch (name) {
+      case "iaCircle":
+        interAction = new IaCircle(this.transform, this.tmpItems);
+        break;
       case "iaRect":
         interAction = new IaRect(this.transform, this.tmpItems);
         break;

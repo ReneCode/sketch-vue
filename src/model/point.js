@@ -5,6 +5,10 @@ export default class Point {
     this.y = y;
   }
 
+  length() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
   add(otherPoint) {
     return new Point(
       this.x + otherPoint.x,
