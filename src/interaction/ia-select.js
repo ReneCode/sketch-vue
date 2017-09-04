@@ -32,8 +32,6 @@ export default class IaSelect extends IaBase {
 
   iaSelectionCallback(payload) {
     switch (payload.event) {
-      case "escape":
-        return "stop";
       case "onMouseUp":
         return this.finishSelectionBox(payload);
     }

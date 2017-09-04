@@ -3,17 +3,16 @@
     <v-layout>
       <v-flex xs4>
         <code>
-          Interactions: {{iaList}}
+          Interactions: {{iaName()}} {{iaList}}
         </code>
       </v-flex>
 
       <v-flex xs4>
         <v-layout row class="mb-3">
           <v-flex xs12 class="text-xs-left">
-            <v-btn-toggle v-model="buttonMode">
-              <v-btn flat value="rect" @click="onRect">Sketch Rect</v-btn>
-              <v-btn flat value="select" @click="onSelect">Select</v-btn>
-            </v-btn-toggle>
+            <v-btn :dark="iaName() === 'iaSelect'" @click="onSelect">Select</v-btn>
+            <v-btn :dark="iaName() === 'iaRect'" @click="onRect">Rectangle</v-btn>
+            
           </v-flex>
         </v-layout>
         <svg ref="svg" width="600" height="320">
@@ -35,7 +34,7 @@ export default {
 
   data() {
     return {
-      buttonMode: "select",
+      buttonMode: "",
       tmpItems: [],
       selectedItems: selectionList.getItems()
     }
@@ -91,6 +90,13 @@ export default {
   },
 
   methods: {
+    iaName() {
+      let iaList = interaction.getIaList()
+      if (iaList && iaList.length > 0) {
+        return iaList[0].name;
+      }
+    },
+
     onRect() {
       interaction.stop('iaSelect')
       interaction.stop('iaMove')
@@ -100,12 +106,10 @@ export default {
         projectId: this.projectId,
         pageId: this.pageId
       };
-      interaction.start('iaRect', options);
+      interaction.startOnly('iaRect', options);
     },
     onSelect() {
-      interaction.start('iaSelect');
-      interaction.start('iaDelete');
-      interaction.start('iaMove');
+      interaction.startDefault();
     }
   }
 }

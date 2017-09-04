@@ -8,6 +8,7 @@ import IaTwoPoints from './ia-two-points';
 class Interaction {
   constructor() {
     this.iaList = [];
+    this.runningInteraction = "";
   }
 
   init(domElement, transform, tmpItems) {
@@ -17,9 +18,7 @@ class Interaction {
 
     this.registerListener();
 
-    this.start('iaSelect');
-    this.start('iaDelete');
-    this.start('iaMove');
+    this.startDefault();
   }
 
   exit() {
@@ -30,10 +29,41 @@ class Interaction {
     return this.iaList;
   }
 
+  getRunningInteraction() {
+    console.log("getRunning")
+    return this.runningInteraction;
+  }
+
+  clear() {
+    for (let ia of this.iaList) {
+      if (typeof ia["stop"] === 'function') {
+        ia.stop();
+      }
+    }
+    this.iaList.splice(0);
+    this.runningInteraction = "";
+  }
+
+  startOnly(name, ...args) {
+    this.clear();
+    this.start(name, ...args);
+    this.runningInteraction = name;
+  }
+
+  startDefault() {
+    this.clear();
+    this.start('iaSelect');
+    this.start('iaDelete');
+    this.start('iaMove');
+  }
+
   stop(name) {
     const foundIndex = this.iaList.findIndex(ia => ia.name === name);
     if (foundIndex >= 0) {
       this.iaList.splice(foundIndex, 1);
+    }
+    if (this.iaList.length === 0) {
+      this.startDefault();
     }
   }
 
