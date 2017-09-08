@@ -46,11 +46,11 @@ export default class IaRect extends IaBase {
       let item = new ItemRectangle(payload.pt1, payload.pt2);
       item.projectId = this.options.projectId;
       item.pageId = this.options.pageId;
-      store.dispatch('createGraphic', item);
-
-      this.cleanUp();
-
-      this.startTwoPoints();
+      store.dispatch('createGraphic', item)
+        .then(() => {
+          this.cleanUp();
+          this.startTwoPoints();
+        });
       return false
     }
   }

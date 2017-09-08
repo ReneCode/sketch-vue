@@ -146,10 +146,11 @@ svg {
 .item-selected {
   fill: #ddd;
   stroke: #222;
+  stroke-width: 1px;
   stroke-dasharray: 5;
   cursor: pointer;
   opacity: 0.8;
-  animation: dash-rotate 1s linear infinite;
+  animation: dash-rotate 0.5s linear infinite;
 }
 
 @keyframes dash-rotate {

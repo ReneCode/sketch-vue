@@ -67,6 +67,9 @@ export default class IaBase {
   }
 
   getSVGPoint(event) {
-    return this._transform.getSVGPoint(event);
+    let pt = this._transform.getSVGPoint(event);
+    pt.x = Math.floor(pt.x);
+    pt.y = Math.floor(pt.y);
+    return pt;
   }
 }

@@ -46,9 +46,12 @@ export default class IaCircle extends IaBase {
       let item = this.circle;
       item.projectId = this.options.projectId;
       item.pageId = this.options.pageId;
-      store.dispatch('createGraphic', item);
+      store.dispatch('createGraphic', item)
+        .then(() => {
+          this.cleanUp();
+          this.startTwoPoints();
+        })
 
-      this.startTwoPoints();
       return false
     }
   }
