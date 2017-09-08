@@ -48,6 +48,9 @@ export default class IaBase {
       case "circle":
         pickedElement = element;
         break;
+      case "polygon":
+        pickedElement = element;
+        break;
     }
     return pickedElement;
   }

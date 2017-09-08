@@ -9,6 +9,10 @@ export default class Point {
     return Math.sqrt(this.x * this.x + this.y * this.y);
   }
 
+  equal(otherPoint) {
+    return this.x === otherPoint.x && this.y === otherPoint.y;
+  }
+
   add(otherPoint) {
     return new Point(
       this.x + otherPoint.x,

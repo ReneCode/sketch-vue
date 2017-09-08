@@ -1,9 +1,11 @@
 
 import IaRect from './ia-rect';
 import IaCircle from './ia-circle';
+import IaPolygon from './ia-polygon';
 import IaSelect from '@/interaction/ia-select';
 import IaDelete from './ia-delete';
 import IaMove from './ia-move';
+import IaOnePoint from './ia-one-point';
 import IaTwoPoints from './ia-two-points';
 
 class Interaction {
@@ -98,6 +100,9 @@ class Interaction {
   createInteraction(name) {
     let interAction;
     switch (name) {
+      case "iaPolygon":
+        interAction = new IaPolygon(this.transform, this.tmpItems);
+        break;
       case "iaCircle":
         interAction = new IaCircle(this.transform, this.tmpItems);
         break;
@@ -116,10 +121,14 @@ class Interaction {
       case "iaTwoPoints":
         interAction = new IaTwoPoints(this.transform, this.tmpItems);
         break;
+      case "iaOnePoint":
+        interAction = new IaOnePoint(this.transform, this.tmpItems);
+        break;
     }
-    if (interAction) {
-      interAction.name = name;
+    if (!interAction) {
+      throw new Error("can not create Interaction: " + name);
     }
+    interAction.name = name;
     return interAction;
   }
 
