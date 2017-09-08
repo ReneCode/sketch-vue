@@ -45,6 +45,9 @@ export default class IaBase {
       case "rect":
         pickedElement = element;
         break;
+      case "circle":
+        pickedElement = element;
+        break;
     }
     return pickedElement;
   }
