@@ -8,7 +8,7 @@ export default class IaTwoPoints extends IaBase {
 
   start(options) {
     this.options = options;
-    this.mouseDownScreenPoint = null;
+    this.firstPoint = null;
     this.mode = MODE_NONE;
   }
 

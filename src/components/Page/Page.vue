@@ -138,6 +138,7 @@ svg {
 .item-normal {
   fill: #eec;
   stroke: #630;
+  stroke-width: 2px;
   cursor: pointer;
   opacity: 0.8;
 }
@@ -145,8 +146,19 @@ svg {
 .item-selected {
   fill: #ddd;
   stroke: #222;
+  stroke-dasharray: 5;
   cursor: pointer;
   opacity: 0.8;
+  animation: dash-rotate 1s linear infinite;
+}
+
+@keyframes dash-rotate {
+  from {  
+    stroke-dashoffset: 10;
+  }
+  to {
+    stroke-dashoffset: 0;   
+  }
 }
 
 .tmp {
