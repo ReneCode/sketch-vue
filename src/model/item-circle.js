@@ -7,6 +7,7 @@ class ItemCircle extends ItemBase {
     super(0);
     let radius = pt1.sub(pt2).length();
     let svg = {
+      type: 'circle',
       x: pt1.x,
       y: pt1.y,
       radius: radius

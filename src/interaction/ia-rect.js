@@ -12,7 +12,6 @@ export default class IaRect extends IaBase {
 
   startTwoPoints() {
     const options = {
-      drawRectangle: true,
       callbackName: "twoPointsCallback"
     }
     interaction.start('iaTwoPoints', options);
@@ -21,9 +20,21 @@ export default class IaRect extends IaBase {
   twoPointsCallback(payload) {
     switch (payload.event) {
       case "escape":
+        this.cleanUp();
         return "stop";
+      case "onMouseMove":
+        return this.resizeRectangle(payload);
       case "onMouseUp":
         return this.finishRectangle(payload);
+    }
+  }
+
+  resizeRectangle(payload) {
+    if (!this.rectangle) {
+      this.rectangle = new ItemRectangle(payload.pt1, payload.pt2);
+      this.tmpItems.push(this.rectangle);
+    } else {
+      this.rectangle.setFromTwoPoints(payload.pt1, payload.pt2);
     }
   }
 
@@ -33,13 +44,19 @@ export default class IaRect extends IaBase {
       return "stop";
     } else {
       let item = new ItemRectangle(payload.pt1, payload.pt2);
-      item.svg.type = "rect";
       item.projectId = this.options.projectId;
       item.pageId = this.options.pageId;
       store.dispatch('createGraphic', item);
 
+      this.cleanUp();
+
       this.startTwoPoints();
       return false
     }
+  }
+
+  cleanUp() {
+    this.tmpItems.splice(0);
+    this.rectangle = null;
   }
 }

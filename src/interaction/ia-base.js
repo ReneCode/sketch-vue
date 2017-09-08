@@ -1,7 +1,8 @@
 
 export default class IaBase {
-  constructor(transform) {
+  constructor(transform, tmpItems) {
     this._transform = transform;
+    this.tmpItems = tmpItems;
   }
 
   on(callback) {

@@ -19,7 +19,7 @@
         </v-layout>
         <svg ref="svg" width="600" height="320">
           <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'" ></svg-item>
-          <!-- <rect v-for="(item,index) in tmpItems" :key="index" class="tmp" :iid="item.id" :x="item.svg.x" :y="item.svg.y" :width="item.svg.width" :height="item.svg.height"></rect> -->
+          <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
         </svg>
       </v-flex>
     </v-layout>

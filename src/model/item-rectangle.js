@@ -7,6 +7,7 @@ class ItemRectangle extends ItemBase {
     super(0);
     let delta = pt1.sub(pt2).abs();
     let svg = {
+      type: 'rect',
       x: Math.min(pt1.x, pt2.x),
       y: Math.min(pt1.y, pt2.y),
       width: delta.x,
