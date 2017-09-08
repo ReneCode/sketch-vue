@@ -21,8 +21,6 @@ export default class IaSelect extends IaBase {
       selectionList.addItem(selectedItem);
     } else {
       const options = {
-        tmpItems: this.tmpItems,
-        drawRectangle: true,
         callbackName: "iaSelectionCallback"
       }
       let ia = interaction.start('iaTwoPoints', options);
@@ -32,11 +30,45 @@ export default class IaSelect extends IaBase {
 
   iaSelectionCallback(payload) {
     switch (payload.event) {
+      case "escape":
+        return this.cleanUp();
+      case "onMouseMove":
+        return this.resizeSelectionBox(payload);
       case "onMouseUp":
         return this.finishSelectionBox(payload);
     }
   }
 
+  resizeSelectionBox(payload) {
+    if (!this.selectionBox) {
+      this.selectionBox = {
+        selection: true,
+        svg: {
+          type: "rect",
+          x: 0,
+          y: 0,
+          width: 0,
+          height: 0
+        }
+      };
+      this.tmpItems.push(this.selectionBox);
+    }
+
+    this.selectionBox.svg.x = Math.min(payload.pt1.x, payload.pt2.x);
+    this.selectionBox.svg.y = Math.min(payload.pt1.y, payload.pt2.y);
+    let delta = payload.pt2.sub(payload.pt1).abs();
+    this.selectionBox.svg.width = delta.x;
+    this.selectionBox.svg.height = delta.y;
+  }
+
   finishSelectionBox(payload) {
+    this.resizeSelectionBox(payload);
+
+    this.cleanUp();
+  }
+
+  cleanUp() {
+    this.tmpItems.splice(0);
+    this.selectionBox = null;
   }
 }

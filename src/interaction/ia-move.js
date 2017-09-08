@@ -109,9 +109,14 @@ export default class IaMove extends IaBase {
       item.svg.y);
   }
 
+  cleanUp() {
+    this.mode = MODE_NONE;
+    selectionList.clear();
+  }
+
   onKeyDown(event) {
     if (event.keyCode === 27) {
-      selectionList.clear();
+      this.cleanUp();
     }
   }
 

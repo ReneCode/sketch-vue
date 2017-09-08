@@ -54,15 +54,4 @@ export default class IaTwoPoints extends IaBase {
       pt2: pt2
     };
   }
-
-  // setRect(pt1, pt2) {
-  //   if (!this.rect) {
-  //     this.rect = {};
-  //   }
-  //   this.rect.x = Math.min(pt1.x, pt2.x);
-  //   this.rect.y = Math.min(pt1.y, pt2.y);
-  //   let delta = pt2.sub(pt1).abs();
-  //   this.rect.width = delta.x;
-  //   this.rect.height = delta.y;
-  // }
 }

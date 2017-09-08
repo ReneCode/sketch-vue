@@ -4,6 +4,10 @@ import ItemCircle from '@/model/item-circle';
 import store from '@/store';
 
 export default class IaCircle extends IaBase {
+  constructor(transform, tmpItems) {
+    super(transform);
+    this.tmpItems = tmpItems;
+  }
 
   start(options) {
     this.options = options;

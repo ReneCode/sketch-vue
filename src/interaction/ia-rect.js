@@ -4,6 +4,10 @@ import ItemRectangle from '@/model/item-rectangle';
 import store from '@/store';
 
 export default class IaRect extends IaBase {
+  constructor(transform, tmpItems) {
+    super(transform);
+    this.tmpItems = tmpItems;
+  }
 
   start(options) {
     this.options = options;

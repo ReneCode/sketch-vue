@@ -5,7 +5,8 @@ class SelectionList {
   }
 
   addItem(item) {
-    const newItem = Object.assign({}, item, { selected: true });
+    const newItem = JSON.parse(JSON.stringify(item));
+    newItem.selected = true;
     this.items.push(newItem);
   }
 

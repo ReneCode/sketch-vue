@@ -3,7 +3,9 @@
     <v-layout>
       <v-flex xs4>
         <code>
-          Interactions: {{iaName()}} {{iaList}}
+          <!-- Interactions: {{iaName()}} {{iaList}} -->
+          <!-- Loaded: {{loadedGraphics}}
+          Selected: {{selectedItems}} -->
         </code>
       </v-flex>
 
@@ -17,7 +19,7 @@
 
           </v-flex>
         </v-layout>
-        <svg ref="svg" width="600" height="320">
+        <svg ref="svg" width="600" height="400">
           <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'" ></svg-item>
           <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
         </svg>
@@ -48,10 +50,6 @@ export default {
   computed: {
     iaList() {
       return interaction.getIaList();
-    },
-
-    items() {
-      return this.$store.getters.loadedGraphics;
     },
 
     loadedGraphics() {
