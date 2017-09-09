@@ -1,4 +1,5 @@
 import * as firebase from 'firebase';
+import itemFactory from '@/model/item-factory'
 
 export default {
   state: {
@@ -34,13 +35,18 @@ export default {
         let graphics = [];
         const obj = data.val();
         for (let key in obj) {
-          const graphic = {
-            id: key,
-            projectId: projectId,
-            pageId: pageId,
-            svg: obj[key].svg
-          }
-          graphics.push(graphic)
+          const item = itemFactory.createFromSvg(obj[key].svg)
+          item.id = key;
+          item.projectId = projectId;
+          item.pageId = pageId;
+          graphics.push(item);
+          // const graphic = {
+          //   id: key,
+          //   projectId: projectId,
+          //   pageId: pageId,
+          //   svg: obj[key].svg
+          // }
+          // graphics.push(graphic)
         }
         commit('setLoadedGraphics', graphics);
         commit('setLoading', false);

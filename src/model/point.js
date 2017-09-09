@@ -1,6 +1,6 @@
 
 export default class Point {
-  constructor(x, y) {
+  constructor(x = 0, y = 0) {
     this.x = x;
     this.y = y;
   }
@@ -11,6 +11,10 @@ export default class Point {
 
   equal(otherPoint) {
     return this.x === otherPoint.x && this.y === otherPoint.y;
+  }
+
+  clone() {
+    return new Point(this.x, this.y);
   }
 
   add(otherPoint) {

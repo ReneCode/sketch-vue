@@ -12,6 +12,22 @@ export default class ItemPolygon extends ItemBase {
     this.svg = svg;
   }
 
+  static createFromSvg(svg) {
+    let polygon = new ItemPolygon();
+    polygon.svg.points.splice(0);
+    for (let pt of svg.points) {
+      polygon.addPoint(new Point(pt.x, pt.y));
+    }
+    return polygon;
+  }
+
+  clone() {
+    let newPolygon = new ItemPolygon();
+    Object.assign(newPolygon, this);
+    Object.assign(newPolygon.svg, this.svg);
+    return newPolygon;
+  }
+
   addPoint(pt) {
     this.svg.points.push(pt);
   }
@@ -41,13 +57,14 @@ export default class ItemPolygon extends ItemBase {
     return this.svg.points.length;
   }
 
-  getRefPoint() {
-    // return new Point(this.svg.x, this.svg.y);
-    return new Point(0, 0);
+  move(delta) {
+    let cnt = this.svg.points.length;
+    if (cnt === 0) {
+      return;
+    }
+    for (let i = 0; i < cnt; i++) {
+      this.svg.points.splice(i, 1, this.svg.points[i].add(delta));
+    }
   }
 
-  setRefPoint(refPoint) {
-    // this.svg.x = refPoint.x;
-    // this.svg.y = refPoint.y;
-  }
 }

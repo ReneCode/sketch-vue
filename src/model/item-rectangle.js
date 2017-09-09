@@ -5,6 +5,8 @@ import Point from './point';
 class ItemRectangle extends ItemBase {
   constructor(pt1, pt2) {
     super(0);
+    pt1 = pt1 || new Point();
+    pt2 = pt2 || new Point();
     let delta = pt1.sub(pt2).abs();
     let svg = {
       type: 'rect',
@@ -16,6 +18,19 @@ class ItemRectangle extends ItemBase {
     this.svg = svg;
   }
 
+  static createFromSvg(svg) {
+    let rectangle = new ItemRectangle();
+    Object.assign(rectangle.svg, svg);
+    return rectangle;
+  }
+
+  clone() {
+    let newRectangle = new ItemRectangle();
+    Object.assign(newRectangle, this);
+    Object.assign(newRectangle.svg, this.svg);
+    return newRectangle;
+  }
+
   setFromTwoPoints(pt1, pt2) {
     let delta = pt1.sub(pt2).abs();
     this.svg.x = Math.min(pt1.x, pt2.x);
@@ -24,13 +39,9 @@ class ItemRectangle extends ItemBase {
     this.svg.height = delta.y;
   }
 
-  getRefPoint() {
-    return new Point(this.svg.x, this.svg.y);
-  }
-
-  setRefPoint(refPoint) {
-    this.svg.x = refPoint.x;
-    this.svg.y = refPoint.y;
+  move(delta) {
+    this.svg.x += delta.x;
+    this.svg.y += delta.y;
   }
 }
 

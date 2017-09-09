@@ -1,9 +1,6 @@
 import store from '@/store';
 import IaBase from './ia-base'
 import selectionList from '@/store/selectionList';
-import Point from '@/model/point'
-
-const DELTA_LIMIT = 3;
 
 const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;
@@ -11,7 +8,6 @@ const MODE_MOVE = 3;
 
 export default class IaMove extends IaBase {
   start() {
-    this.mouseDownScreenPoint = null;
     this.mode = MODE_NONE;
   }
 
@@ -20,8 +16,7 @@ export default class IaMove extends IaBase {
     if (!this.iid) {
       return;
     }
-    this.mouseDownScreenPoint = this.getScreenPoint(event);
-    this.startSVGPoint = this.getSVGPoint(event);
+    this.lastSVGPoint = this.getSVGPoint(event);
     this.mode = MODE_MOUSE_DOWN;
   }
 
@@ -29,31 +24,21 @@ export default class IaMove extends IaBase {
     switch (this.mode) {
       case MODE_MOVE:
         this.moveSelectedItems(event);
-        this.mouseDownScreenPoint = null;
-        this.startSVGPoint = null;
-        this.itemStartRefPoint = null;
-        this.mode = MODE_NONE;
+        this.lastSVGPoint = null;
         this.saveToStore()
         break;
-      case MODE_MOUSE_DOWN:
-        this.mode = MODE_NONE
-        break;
     }
+    this.mode = MODE_NONE
   }
 
   onMouseMove(event) {
     if (this.mode === MODE_MOUSE_DOWN) {
-      if (this.getMouseDelta(event, this.mouseDownScreenPoint) > DELTA_LIMIT) {
-        this.updateSelection();
-        this.itemStartRefPoint = this.getSelectionRefPoint();
-        if (this.itemStartRefPoint) {
-          this.mode = MODE_MOVE;
-        } else {
-          this.mode = MODE_NONE;
-        }
-      }
+      this.updateSelection();
+      this.mode = MODE_MOVE;
     }
-    this.moveSelectedItems(event);
+    if (this.mode === MODE_MOVE) {
+      this.moveSelectedItems(event);
+    }
   }
 
   saveToStore() {
@@ -72,41 +57,20 @@ export default class IaMove extends IaBase {
 
   moveSelectedItems(event) {
     if (this.mode !== MODE_MOVE) {
-      return null;
+      return;
+    }
+    const items = selectionList.getItems();
+    if (!items || items.length === 0) {
+      return;
     }
 
     const currentSVGPoint = this.getSVGPoint(event);
-    let delta = currentSVGPoint.sub(this.startSVGPoint);
+    let delta = currentSVGPoint.sub(this.lastSVGPoint);
+    this.lastSVGPoint = currentSVGPoint;
 
-    let newRefPoint = this.itemStartRefPoint.add(delta);
-    this.setSelectionRefPoint(newRefPoint);
-  }
-
-  setSelectionRefPoint(pt) {
-    const items = selectionList.getItems();
-    if (!items || items.length === 0) {
-      return null;
+    for (let item of items) {
+      item.move(delta);
     }
-    const item = items[0];
-    item.svg.x = pt.x;
-    item.svg.y = pt.y;
-  }
-
-  getSelectionRefPoint() {
-    const items = selectionList.getItems();
-    if (!items || items.length === 0) {
-      return null;
-    }
-    return this.getRefPoint(items[0]);
-  }
-
-  getRefPoint(item) {
-    if (!item || !item.svg) {
-      return null;
-    }
-    return new Point(
-      item.svg.x,
-      item.svg.y);
   }
 
   cleanUp() {
