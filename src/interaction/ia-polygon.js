@@ -53,11 +53,16 @@ export default class IaPolygon extends IaBase {
 
   addPointToPolygon(pt) {
     if (!this.polygon) {
-      this.polygon = new ItemPolygon(pt, pt);
+      this.polygon = new ItemPolygon();
       this.tmpItems.push(this.polygon);
-    } else {
+      // fix first point
       this.polygon.addPoint(pt);
+    } else {
+      // fix the last (temp) point
+      this.polygon.updateLastPoint(pt);
     }
+    // add temp point
+    this.polygon.addPoint(pt);
   }
 
   finishPolygon() {
