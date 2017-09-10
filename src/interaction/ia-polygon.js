@@ -19,7 +19,7 @@ export default class IaPolygon extends IaBase {
     const options = {
       callbackName: "iaPolygonCallback"
     }
-    interaction.start('iaOnePoint', options);
+    this.iaOnePoint = interaction.start('iaOnePoint', options);
   }
 
   iaPolygonCallback(payload) {
@@ -41,6 +41,7 @@ export default class IaPolygon extends IaBase {
     }
     // no legal polygon - stop interaction
     this.cleanUp();
+    interaction.stop(this.iaOnePoint);
     return "stop";
   }
 

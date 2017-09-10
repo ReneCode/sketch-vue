@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex xs4>
         <code>
-          <!-- Interactions: {{iaName()}} {{iaList}} -->
+          Interactions: {{iaName()}} {{iaList}}
           <!-- Loaded: {{loadedGraphics}}
           Selected: {{selectedItems}} -->
         </code>
@@ -13,7 +13,7 @@
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
             <v-btn :dark="iaName() === 'iaSelect'" @click="onSelect">Select</v-btn>
-            <v-btn :dark="iaName() === 'iaRect'" @click="onRectangle">Rectangle</v-btn>
+            <v-btn :dark="iaName() === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
             <v-btn :dark="iaName() === 'iaCircle'" @click="onCircle">Circle</v-btn>
             <v-btn :dark="iaName() === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
 
@@ -119,7 +119,7 @@ export default {
         projectId: this.projectId,
         pageId: this.pageId
       };
-      interaction.startOnly('iaRect', options);
+      interaction.startOnly('iaRectangle', options);
     },
     onSelect() {
       interaction.startDefault();

@@ -3,7 +3,6 @@ import interaction from '@/interaction'
 
 const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;
-// const MODE_MOUSE_MOVE = 3;
 
 export default class IaOnePoint extends IaBase {
 
@@ -21,18 +20,10 @@ export default class IaOnePoint extends IaBase {
   onMouseUp(event) {
     let currentPoint = this.getSVGPoint(event);
     if (!this.firstPoint.equal(currentPoint)) {
+      this.firstPoint = null;
       this.dispatch(this.createPayload("onPoint", currentPoint));
     }
   }
-
-  // onMouseUp(event) {
-  //   if (this.mode === MODE_MOUSE_MOVE) {
-  //     let currentPoint = this.getSVGPoint(event);
-  //     if (this.firstPoint.equal(currentPoint)) {
-  //       this.dispatch(this.createPayload("onPoint", this.firstPoint));
-  //     }
-  //   }
-  // }
 
   onMouseMove(event) {
     let currentPoint = this.getSVGPoint(event);
@@ -42,6 +33,8 @@ export default class IaOnePoint extends IaBase {
   onKeyDown(event) {
     if (event.keyCode === 27) {
       this.dispatch(this.createPayload("escape", null));
+      this.firstPoint = null;
+      this.options = null;
       return "stop"
     }
   }

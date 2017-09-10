@@ -1,5 +1,5 @@
 
-import IaRect from './ia-rect';
+import IaRectangle from './ia-rectangle';
 import IaCircle from './ia-circle';
 import IaPolygon from './ia-polygon';
 import IaSelect from '@/interaction/ia-select';
@@ -61,7 +61,12 @@ class Interaction {
   }
 
   stop(name) {
-    const foundIndex = this.iaList.findIndex(ia => ia.name === name);
+    let foundIndex = -1;
+    if (typeof name === 'string') {
+      foundIndex = this.iaList.findIndex(ia => ia.name === name);
+    } else if (typeof name === 'object') {
+      foundIndex = this.iaList.findIndex(ia => ia === name);
+    }
     if (foundIndex >= 0) {
       this.iaList.splice(foundIndex, 1);
     }
@@ -87,7 +92,7 @@ class Interaction {
       let self = this;
       interAction.on((err, data) => {
         if (err) {
-          self.stop(name);
+          self.stop(interAction);
         }
         if (callback) {
           callback(err, data);
@@ -106,8 +111,8 @@ class Interaction {
       case "iaCircle":
         interAction = new IaCircle(this.transform, this.tmpItems);
         break;
-      case "iaRect":
-        interAction = new IaRect(this.transform, this.tmpItems);
+      case "iaRectangle":
+        interAction = new IaRectangle(this.transform, this.tmpItems);
         break;
       case "iaSelect":
         interAction = new IaSelect(this.transform, this.tmpItems);
@@ -196,7 +201,7 @@ class Interaction {
             break;
           case "stop":
             stopRoute = true;
-            this.stop(ia.name);
+            this.stop(ia);
             break;
           case undefined:
             break;
