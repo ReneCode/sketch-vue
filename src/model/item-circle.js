@@ -24,8 +24,8 @@ class ItemCircle extends ItemBase {
 
   clone() {
     let newCircle = new ItemCircle();
-    Object.assign(newCircle, this);
-    Object.assign(newCircle.svg, this.svg);
+    const clone = JSON.parse(JSON.stringify(this));
+    Object.assign(newCircle, clone);
     return newCircle;
   }
 

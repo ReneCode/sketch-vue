@@ -3,9 +3,9 @@
     <v-layout>
       <v-flex xs4>
         <code>
-          Interactions: {{iaName()}} {{iaList}}
-          <!-- Loaded: {{loadedGraphics}}
-          Selected: {{selectedItems}} -->
+          <!-- Interactions: {{iaName()}} {{iaList}} -->
+          Loaded: {{loadedGraphics}}
+          Selected: {{selectedItems}}
         </code>
       </v-flex>
 

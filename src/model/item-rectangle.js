@@ -26,8 +26,8 @@ class ItemRectangle extends ItemBase {
 
   clone() {
     let newRectangle = new ItemRectangle();
-    Object.assign(newRectangle, this);
-    Object.assign(newRectangle.svg, this.svg);
+    const clone = JSON.parse(JSON.stringify(this));
+    Object.assign(newRectangle, clone);
     return newRectangle;
   }
 

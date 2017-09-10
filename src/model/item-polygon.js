@@ -22,13 +22,18 @@ export default class ItemPolygon extends ItemBase {
 
   clone() {
     let newPolygon = new ItemPolygon();
-    Object.assign(newPolygon, this);
-    Object.assign(newPolygon.svg, this.svg);
+    const clone = JSON.parse(JSON.stringify(this));
+    Object.assign(newPolygon, clone);
+    // correct the points - they have to be Point classes
+    newPolygon.svg.points.splice(0);
+    for (let pt of this.svg.points) {
+      newPolygon.addPoint(pt);
+    }
     return newPolygon;
   }
 
   addPoint(pt) {
-    this.svg.points.push(pt);
+    this.svg.points.push(new Point(pt.x, pt.y));
   }
 
   updateLastPoint(pt) {
