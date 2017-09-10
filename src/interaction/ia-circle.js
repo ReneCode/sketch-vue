@@ -11,18 +11,27 @@ export default class IaCircle extends IaBase {
 
   start(options) {
     this.options = options;
-    this.startTwoPoints();
-  }
-
-  startTwoPoints() {
-    const options = {
-      callbackName: "twoPointsCallback"
+    const opt = {
+      callbackName: "iaCircleCallback"
     }
-    interaction.start('iaTwoPoints', options);
+    this.iaOnePoint = interaction.start('iaOnePoint', opt);
   }
 
-  twoPointsCallback(payload) {
+  stop() {
+    interaction.stop(this.iaOnePoint);
+    return "stop";
+  }
+
+  iaCircleCallback(payload) {
     switch (payload.event) {
+      case "escape":
+        this.cleanUp();
+        return this.stop();
+      case "onPoint":
+        return this.onPoint(payload.pt);
+      case "onPointMove":
+        return this.onPointMove(payload.pt);
+      /*
       case "escape":
         this.cleanUp();
         return "stop";
@@ -31,37 +40,46 @@ export default class IaCircle extends IaBase {
       case "onMouseUp":
         return this.finishCircle(payload);
     }
+    */
+    }
   }
 
-  resizeCircle(payload) {
-    if (!this.circle) {
-      this.circle = new ItemCircle(payload.pt1, payload.pt2);
+  onPoint(pt) {
+    if (!this.firstPoint) {
+      this.firstPoint = pt;
+      this.circle = new ItemCircle(pt);
       this.tmpItems.push(this.circle);
     } else {
-      this.circle.setFromTwoPoints(payload.pt1, payload.pt2);
+      if (this.firstPoint.equal(pt)) {
+        this.cleanUp();
+        return this.stop();
+      }
+      let radius = this.firstPoint.sub(pt).length();
+      this.circle.setRadius(radius);
+      this.saveCircle();
+      return false;
     }
   }
 
-  finishCircle(payload) {
-    let delta = payload.pt1.sub(payload.pt2);
-    if (delta.x === 0 || delta.y === 0) {
-      return "stop";
-    } else {
-      let item = this.circle;
-      item.projectId = this.options.projectId;
-      item.pageId = this.options.pageId;
-      store.dispatch('createGraphic', item)
-        .then(() => {
-          this.cleanUp();
-          this.startTwoPoints();
-        })
-
-      return false
+  onPointMove(pt) {
+    if (this.circle) {
+      let radius = this.firstPoint.sub(pt).length();
+      this.circle.setRadius(radius);
     }
+  }
+
+  saveCircle() {
+    this.circle.projectId = this.options.projectId;
+    this.circle.pageId = this.options.pageId;
+    store.dispatch('createGraphic', this.circle)
+      .then(() => {
+        this.cleanUp();
+      })
   }
 
   cleanUp() {
-    this.circle = null;
     this.tmpItems.splice(0);
+    this.circle = null;
+    this.firstPoint = null;
   }
 }
