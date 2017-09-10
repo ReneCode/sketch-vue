@@ -7,6 +7,9 @@
 
 > A Vue.js project
 
+## Testing
+[Hints for vue unit testing](https://eddyerburgh.me/unit-test-vue-components-beginners)
+
 ## Build Setup
 
 ``` bash
