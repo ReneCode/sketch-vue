@@ -6,6 +6,10 @@ yarn-debug.log*
 yarn-error.log*
 package-lock.json
 
+# webpack temp files
+.tmp/
+
+
 # Editor directories and files
 .idea
 *.suo
