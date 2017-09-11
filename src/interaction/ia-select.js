@@ -13,14 +13,19 @@ export default class IaSelect extends IaBase {
 
   onMouseDown(event) {
     const itemId = this.pickItemId(event);
-    selectionList.clear();
     if (itemId) {
+      if (selectionList.containsItemWithId(itemId)) {
+        // already selected
+        return;
+      }
       let selectedItem = store.getters.graphic(itemId);
       if (!selectedItem) {
         throw new Error("can't find Item:", itemId);
       }
+      selectionList.clear();
       selectionList.addItem(selectedItem);
     } else {
+      selectionList.clear();
       const options = {
         callbackName: "iaSelectionCallback"
       }

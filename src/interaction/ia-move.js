@@ -59,15 +59,11 @@ export default class IaMove extends IaBase {
     if (this.mode !== MODE_MOVE) {
       return;
     }
-    const items = selectionList.getItems();
-    if (!items || items.length === 0) {
-      return;
-    }
-
     const currentSVGPoint = this.getSVGPoint(event);
     let delta = currentSVGPoint.sub(this.lastSVGPoint);
     this.lastSVGPoint = currentSVGPoint;
 
+    const items = selectionList.getItems();
     for (let item of items) {
       item.move(delta);
     }
