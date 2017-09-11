@@ -3,6 +3,7 @@ import store from '@/store';
 import selectionList from '@/store/selectionList';
 import interaction from '@/interaction'
 import IaBase from './ia-base'
+import BoundingBox from '@/model/bounding-box';
 
 export default class IaSelect extends IaBase {
   constructor(transform, tmpItems) {
@@ -59,6 +60,25 @@ export default class IaSelect extends IaBase {
     let delta = payload.pt2.sub(payload.pt1).abs();
     this.selectionBox.svg.width = delta.x;
     this.selectionBox.svg.height = delta.y;
+
+    this.selectItemsInSelectionBox();
+  }
+
+  selectItemsInSelectionBox() {
+    let selectedItems = [];
+    let items = store.getters.loadedGraphics;
+    let selBBox = BoundingBox.createFromRectangle(this.selectionBox.svg);
+    for (let item of items) {
+      if (item.isInSelectionBox(selBBox)) {
+        selectedItems.push(item);
+      }
+    }
+
+    // TODO: check if selection has changed
+    selectionList.clear();
+    for (let selItem of selectedItems) {
+      selectionList.addItem(selItem);
+    }
   }
 
   finishSelectionBox(payload) {

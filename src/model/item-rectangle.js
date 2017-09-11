@@ -1,6 +1,7 @@
 
 import ItemBase from './item-base';
 import Point from './point';
+import BoundingBox from './bounding-box'
 
 class ItemRectangle extends ItemBase {
   constructor(pt1, pt2) {
@@ -29,6 +30,15 @@ class ItemRectangle extends ItemBase {
     const clone = JSON.parse(JSON.stringify(this));
     Object.assign(newRectangle, clone);
     return newRectangle;
+  }
+
+  createBoundingBox() {
+    let rect = this.svg;
+    return new BoundingBox(
+      rect.x,
+      rect.y,
+      rect.x + rect.width,
+      rect.y + rect.height);
   }
 
   setFromTwoPoints(pt1, pt2) {

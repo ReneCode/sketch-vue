@@ -14,6 +14,7 @@
             <v-btn :dark="iaName === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
             <v-btn :dark="iaName === 'iaCircle'" @click="onCircle">Circle</v-btn>
             <v-btn :dark="iaName === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
+            <!-- <v-btn @click="onUndo" class="ml-5">Undo</v-btn> -->
 
           </v-flex>
         </v-layout>

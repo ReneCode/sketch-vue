@@ -1,6 +1,7 @@
 
 import ItemBase from './item-base';
 import Point from './point';
+import BoundingBox from './bounding-box'
 
 class ItemCircle extends ItemBase {
   constructor(pt, radius) {
@@ -29,17 +30,20 @@ class ItemCircle extends ItemBase {
     return newCircle;
   }
 
+  createBoundingBox() {
+    let circle = this.svg;
+    return new BoundingBox(
+      circle.x - circle.radius,
+      circle.y - circle.radius,
+      circle.x + circle.radius,
+      circle.y + circle.radius
+    );
+  }
+
   setRadius(radius) {
     this.svg.radius = radius;
   }
-/*
-  setFromTwoPoints(pt1, pt2) {
-    let radius = pt1.sub(pt2).length();
-    this.svg.x = pt1.x;
-    this.svg.y = pt1.y;
-    this.svg.radius = radius;
-  }
-*/
+
   move(delta) {
     this.svg.x += delta.x;
     this.svg.y += delta.y;
