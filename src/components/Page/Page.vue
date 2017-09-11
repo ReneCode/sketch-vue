@@ -1,26 +1,24 @@
 <template>
   <v-container>
     <v-layout>
-      <v-flex xs4>
-        <code>
-          <!-- Interactions: {{iaName()}} {{iaList}} -->
-          Loaded: {{loadedGraphics}}
-          Selected: {{selectedItems}}
-        </code>
-      </v-flex>
+      <!-- <v-flex xs4>
+          <code>
+            Interactions: {{iaName()}} {{iaList}}
+          </code>
+        </v-flex> -->
 
-      <v-flex xs8>
+      <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
-            <v-btn :dark="iaName() === 'iaSelect'" @click="onSelect">Select</v-btn>
-            <v-btn :dark="iaName() === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
-            <v-btn :dark="iaName() === 'iaCircle'" @click="onCircle">Circle</v-btn>
-            <v-btn :dark="iaName() === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
+            <v-btn :dark="iaName === 'iaSelect'" @click="onSelect">Select</v-btn>
+            <v-btn :dark="iaName === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
+            <v-btn :dark="iaName === 'iaCircle'" @click="onCircle">Circle</v-btn>
+            <v-btn :dark="iaName === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
 
           </v-flex>
         </v-layout>
         <svg ref="svg" width="600" height="400">
-          <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'" ></svg-item>
+          <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
           <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
         </svg>
       </v-flex>
@@ -43,13 +41,17 @@ export default {
     return {
       buttonMode: "",
       tmpItems: [],
-      selectedItems: selectionList.getItems()
+      selectedItems: selectionList.getItems(),
+      iaList: interaction.getIaList()
     }
   },
 
   computed: {
-    iaList() {
-      return interaction.getIaList();
+    iaName() {
+      if (this.iaList && this.iaList.length > 0) {
+        return this.iaList[0].name;
+      }
+      return "";
     },
 
     loadedGraphics() {
@@ -93,12 +95,6 @@ export default {
   },
 
   methods: {
-    iaName() {
-      let iaList = interaction.getIaList()
-      if (iaList && iaList.length > 0) {
-        return iaList[0].name;
-      }
-    },
 
     onCircle() {
       const options = {
@@ -152,11 +148,11 @@ svg {
 }
 
 @keyframes dash-rotate {
-  from {  
+  from {
     stroke-dashoffset: 10;
   }
   to {
-    stroke-dashoffset: 0;   
+    stroke-dashoffset: 0;
   }
 }
 
