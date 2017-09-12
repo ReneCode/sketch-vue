@@ -15,6 +15,13 @@ export default class BoundingBox {
       rect.y + rect.height);
   }
 
+  expand(pt) {
+    this.left = Math.min(this.left, pt.x);
+    this.top = Math.min(this.top, pt.y);
+    this.right = Math.max(this.right, pt.x);
+    this.bottom = Math.max(this.bottom, pt.y);
+  }
+
   intersect(other) {
     return (
       this.left <= other.right &&

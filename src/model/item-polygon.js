@@ -1,5 +1,6 @@
 
 import ItemBase from './item-base';
+import BoundingBox from './bounding-box';
 import Point from './point';
 
 export default class ItemPolygon extends ItemBase {
@@ -30,6 +31,19 @@ export default class ItemPolygon extends ItemBase {
       newPolygon.addPoint(pt);
     }
     return newPolygon;
+  }
+
+  createBoundingBox() {
+    let count = this.svg.points.length;
+    if (count === 0) {
+      return null;
+    }
+    let pt = this.svg.points[0];
+    let bbox = new BoundingBox(pt.x, pt.y, pt.x, pt.y);
+    for (let i = 1; i < count; i++) {
+      bbox.expand(this.svg.points[i])
+    }
+    return bbox;
   }
 
   addPoint(pt) {
