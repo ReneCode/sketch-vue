@@ -1,6 +1,6 @@
 import IaBase from './ia-base'
 import interaction from '@/interaction';
-import ItemCircle from '@/model/item-circle';
+import ItemCircle from '@/models/item-circle';
 import store from '@/store';
 
 export default class IaCircle extends IaBase {

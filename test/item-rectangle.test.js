@@ -1,8 +1,8 @@
 
 let should = require('chai').should();
 
-import ItemRectangle from '../src/model/item-rectangle'
-import Point from '../src/model/point'
+import ItemRectangle from '../src/models/item-rectangle'
+import Point from '../src/models/point'
 
 describe('ItemRectangle', () => {
   it('should construct ItemRectangle()', () => {

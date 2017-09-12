@@ -1,4 +1,4 @@
-import Point from '@/model/point'
+import Point from '@/models/point'
 
 class SvgTransform {
   init(svgElement) {

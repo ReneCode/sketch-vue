@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import itemFactory from '@/model/item-factory'
+import itemFactory from '@/models/item-factory'
 
 export default {
   state: {

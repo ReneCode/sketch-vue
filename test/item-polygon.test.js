@@ -1,8 +1,8 @@
 
 let should = require('chai').should();
 
-import ItemPolygon from '../src/model/item-polygon'
-import Point from '../src/model/point'
+import ItemPolygon from '../src/models/item-polygon'
+import Point from '../src/models/point'
 
 describe('ItemPolygon', () => {
   it('should construct ItemPolygon()', () => {

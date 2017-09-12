@@ -1,6 +1,6 @@
 import IaBase from './ia-base'
 import interaction from '@/interaction';
-import ItemRectangle from '@/model/item-rectangle';
+import ItemRectangle from '@/models/item-rectangle';
 import store from '@/store';
 
 export default class IaRectangle extends IaBase {

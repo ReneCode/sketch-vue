@@ -3,7 +3,7 @@ import store from '@/store';
 import selectionList from '@/store/selectionList';
 import interaction from '@/interaction'
 import IaBase from './ia-base'
-import BoundingBox from '@/model/bounding-box';
+import BoundingBox from '@/models/bounding-box';
 
 export default class IaSelect extends IaBase {
   constructor(transform, tmpItems) {

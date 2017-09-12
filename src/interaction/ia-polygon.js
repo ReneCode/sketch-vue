@@ -1,6 +1,6 @@
 import IaBase from './ia-base'
 import interaction from '@/interaction';
-import ItemPolygon from '@/model/item-polygon';
+import ItemPolygon from '@/models/item-polygon';
 import store from '@/store';
 
 export default class IaPolygon extends IaBase {
