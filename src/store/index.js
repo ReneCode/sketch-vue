@@ -5,6 +5,7 @@ import project from './modules/project-store';
 import page from './modules/page-store';
 import graphic from './modules/graphic-store';
 import user from './modules/user-store';
+import undoRedo from './modules/undo-redo-store';
 
 Vue.use(Vuex);
 
@@ -45,7 +46,8 @@ const store = new Vuex.Store({
     project,
     page,
     graphic,
-    user
+    user,
+    undoRedo
   }
 });
 

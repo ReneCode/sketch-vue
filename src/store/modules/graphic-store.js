@@ -1,5 +1,6 @@
 import * as firebase from 'firebase';
 import itemFactory from '@/models/item-factory'
+import undoRedoList from './undo-redo-list';
 
 export default {
   state: {
@@ -40,13 +41,6 @@ export default {
           item.projectId = projectId;
           item.pageId = pageId;
           graphics.push(item);
-          // const graphic = {
-          //   id: key,
-          //   projectId: projectId,
-          //   pageId: pageId,
-          //   svg: obj[key].svg
-          // }
-          // graphics.push(graphic)
         }
         commit('setLoadedGraphics', graphics);
         commit('setLoading', false);
@@ -56,6 +50,7 @@ export default {
     createGraphic({ commit }, payload) {
       return new Promise((resolve, reject) => {
         const graphic = {
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
           svg: payload.svg
         };
         const projectId = payload.projectId;
@@ -63,6 +58,7 @@ export default {
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics';
         firebase.database().ref(ref).push(graphic)
           .then(data => {
+            undoRedoList.add(ref + '/' + data.key, null, graphic);
             resolve(data.key);
           })
           .catch(err => {
@@ -72,13 +68,15 @@ export default {
       });
     },
 
-    deleteGraphics({ commit }, items) {
+    deleteGraphics({ commit, getters }, items) {
       let promises = [];
 
       for (let item of items) {
         const projectId = item.projectId;
         const pageId = item.pageId;
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
+        const oldData = getters.graphic(item.id);
+        undoRedoList.add(ref, oldData, null);
         let promise = firebase.database().ref(ref).remove();
         promises.push(promise);
       }
@@ -93,12 +91,13 @@ export default {
       const pageId = item.pageId;
       const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
       const graphic = {
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
         svg: item.svg
       };
       return firebase.database().ref(ref).update(graphic);
     },
 
-    updateGraphics({ commit }, items) {
+    updateGraphics({ commit, getters }, items) {
       let promises = [];
 
       for (let item of items) {
@@ -106,8 +105,11 @@ export default {
         const pageId = item.pageId;
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
         const graphic = {
+          timestamp: firebase.database.ServerValue.TIMESTAMP,
           svg: item.svg
         };
+        let oldData = getters.graphic(item.id);
+        undoRedoList.add(ref, oldData, graphic);
         let promise = firebase.database().ref(ref).update(graphic);
         promises.push(promise);
       }

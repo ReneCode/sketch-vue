@@ -1,20 +1,22 @@
 <template>
   <v-container>
     <v-layout>
-      <!-- <v-flex xs4>
-          <code>
-            Interactions: {{iaName()}} {{iaList}}
-          </code>
-        </v-flex> -->
+      <v-flex xs4>
+        <code>
+          <!-- Interactions: {{iaName()}} {{iaList}} -->
+          UndoRedoList: {{undoRedoList}}
+        </code>
+      </v-flex>
 
-      <v-flex xs12>
+      <v-flex xs8>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
             <v-btn :dark="iaName === 'iaSelect'" @click="onSelect">Select</v-btn>
             <v-btn :dark="iaName === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
             <v-btn :dark="iaName === 'iaCircle'" @click="onCircle">Circle</v-btn>
             <v-btn :dark="iaName === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
-            <!-- <v-btn @click="onUndo" class="ml-5">Undo</v-btn> -->
+            <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
+            <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
 
           </v-flex>
         </v-layout>
@@ -29,6 +31,7 @@
 
 <script>
 import Svg from '@/svg'
+import undoRedoList from '@/store/modules/undo-redo-list';
 import selectionList from '@/store/selectionList';
 import interaction from '@/interaction';
 import SvgItem from './SvgItem'
@@ -43,7 +46,8 @@ export default {
       buttonMode: "",
       tmpItems: [],
       selectedItems: selectionList.getItems(),
-      iaList: interaction.getIaList()
+      iaList: interaction.getIaList(),
+      undoRedoList: undoRedoList
     }
   },
 
@@ -75,6 +79,7 @@ export default {
     loading() {
       return this.$store.getters.loading;
     }
+
   },
 
   created() {
@@ -120,6 +125,14 @@ export default {
     },
     onSelect() {
       interaction.startDefault();
+    },
+    onUndo() {
+      selectionList.clear();
+      undoRedoList.undo();
+    },
+    onRedo() {
+      selectionList.clear();
+      undoRedoList.redo();
     }
   }
 }
