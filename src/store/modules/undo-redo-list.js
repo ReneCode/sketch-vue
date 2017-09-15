@@ -1,5 +1,7 @@
 import store from '@/store';
 
+const START_MARKER = "START";
+
 class UndoRedoList {
   constructor() {
     this.list = [];
@@ -24,13 +26,29 @@ class UndoRedoList {
     this.updateCanUndoRedo();
   }
 
+  start() {
+    // remove possible redo step
+    this.list.splice(this.currentIdx + 1)
+    this.list.push(START_MARKER);
+    this.currentIdx = this.list.length - 1;
+    this.updateCanUndoRedo();
+  }
+
   undo() {
     if (!this.canUndo) {
       return;
     }
-    let urData = this.list[this.currentIdx];
-    store.dispatch('undo', urData);
+    while (this.currentIdx >= 0 && this.list[this.currentIdx] !== START_MARKER) {
+      let urData = this.list[this.currentIdx];
+      store.dispatch('undo', urData);
+      this.currentIdx--;
+    }
+    if (this.list[this.currentIdx] !== START_MARKER) {
+      throw new Error("bad undo list");
+    }
+    // skip start-marker
     this.currentIdx--;
+
     this.updateCanUndoRedo();
   }
 
@@ -38,9 +56,17 @@ class UndoRedoList {
     if (!this.canRedo) {
       return;
     }
+    // skip start-marker
     this.currentIdx++;
-    let urData = this.list[this.currentIdx];
-    store.dispatch('redo', urData);
+    if (this.list[this.currentIdx] !== START_MARKER) {
+      throw new Error("bad redo list");
+    }
+
+    while (this.currentIdx + 1 < this.list.length && this.list[this.currentIdx + 1] !== START_MARKER) {
+      this.currentIdx++;
+      let urData = this.list[this.currentIdx];
+      store.dispatch('redo', urData);
+    }
     this.updateCanUndoRedo();
   }
 

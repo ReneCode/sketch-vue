@@ -4,7 +4,7 @@
       <v-flex xs4>
         <code>
           <!-- Interactions: {{iaName()}} {{iaList}} -->
-          UndoRedoList: {{undoRedoList}}
+          <!-- UndoRedoList: {{undoRedoList.currentIdx}} {{urList}} -->
         </code>
       </v-flex>
 
@@ -52,6 +52,19 @@ export default {
   },
 
   computed: {
+    urList() {
+      return this.undoRedoList.getList().map(ur => {
+        if (!ur.ref) {
+          return ur;
+        } else {
+          return {
+            old: ur.oldData,
+            new: ur.newData
+          }
+        }
+      });
+    },
+
     iaName() {
       if (this.iaList && this.iaList.length > 0) {
         return this.iaList[0].name;

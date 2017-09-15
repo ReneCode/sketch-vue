@@ -1,16 +1,6 @@
 import * as firebase from 'firebase';
 
 export default {
-  state: {
-    loadedProjects: []
-  },
-
-  getters: {
-  },
-
-  mutations: {
-  },
-
   actions: {
     undo({ commit }, payload) {
       if (payload.oldData) {

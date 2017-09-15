@@ -50,7 +50,6 @@ export default {
     createGraphic({ commit }, payload) {
       return new Promise((resolve, reject) => {
         const graphic = {
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
           svg: payload.svg
         };
         const projectId = payload.projectId;
@@ -58,6 +57,7 @@ export default {
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics';
         firebase.database().ref(ref).push(graphic)
           .then(data => {
+            undoRedoList.start();
             undoRedoList.add(ref + '/' + data.key, null, graphic);
             resolve(data.key);
           })
@@ -71,6 +71,7 @@ export default {
     deleteGraphics({ commit, getters }, items) {
       let promises = [];
 
+      undoRedoList.start();
       for (let item of items) {
         const projectId = item.projectId;
         const pageId = item.pageId;
@@ -83,30 +84,17 @@ export default {
       return Promise.all(promises);
     },
 
-    updateGraphic({ commit }, item) {
-      if (!item) {
-        throw new Error("bad item");
-      }
-      const projectId = item.projectId;
-      const pageId = item.pageId;
-      const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
-      const graphic = {
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        svg: item.svg
-      };
-      return firebase.database().ref(ref).update(graphic);
-    },
-
     updateGraphics({ commit, getters }, items) {
       let promises = [];
 
+      undoRedoList.start();
       for (let item of items) {
         const projectId = item.projectId;
         const pageId = item.pageId;
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics/' + item.id;
+        const clone = item.clone();
         const graphic = {
-          timestamp: firebase.database.ServerValue.TIMESTAMP,
-          svg: item.svg
+          svg: clone.svg
         };
         let oldData = getters.graphic(item.id);
         undoRedoList.add(ref, oldData, graphic);
