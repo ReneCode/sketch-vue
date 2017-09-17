@@ -2,6 +2,7 @@
 import ItemCircle from './item-circle';
 import ItemRectangle from './item-rectangle';
 import ItemPolygon from './item-polygon';
+import ItemPolyline from './item-polyline';
 
 class ItemFactory {
   createFromSvg(svg) {
@@ -12,6 +13,8 @@ class ItemFactory {
         return ItemCircle.createFromSvg(svg);
       case 'polygon':
         return ItemPolygon.createFromSvg(svg);
+      case 'polyline':
+        return ItemPolyline.createFromSvg(svg);
     }
     throw new Error("ItemFactory. bad svg type:" + svg.type);
   }

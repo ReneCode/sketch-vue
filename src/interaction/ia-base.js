@@ -34,20 +34,14 @@ export default class IaBase {
     }
     let pickedElement = null;
     switch (element.nodeName) {
-      case "text":
-        pickedElement = element;
-        break;
       case "tspan":
         if (element.parentNode && element.parentNode.nodeName === "text") {
           pickedElement = element.parentNode;
         }
         break;
+      case "text":
       case "rect":
-        pickedElement = element;
-        break;
       case "circle":
-        pickedElement = element;
-        break;
       case "polygon":
         pickedElement = element;
         break;

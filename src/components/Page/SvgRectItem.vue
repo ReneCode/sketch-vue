@@ -10,3 +10,8 @@ export default {
 }
 </script>
 
+<style>
+rect {
+    fill: #eec;
+}
+</style>

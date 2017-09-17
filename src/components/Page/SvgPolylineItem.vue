@@ -1,13 +1,19 @@
 <template>
-  <polygon :points="points">
-  </polygon>
+  <polyline :points="points" :fill="fill">
+  </polyline>
 </template>
 
 <script>
 export default {
-  name: 'svg-polygon-item',
+  name: 'svg-polyline-item',
   props: ['item'],
   computed: {
+    fill() {
+      if (this.item.svg.fill) {
+        return this.item.svg.fill;
+      }
+      return "none";
+    },
     points() {
       let str;
       for (let pt of this.item.svg.points) {
@@ -24,8 +30,7 @@ export default {
 </script>
 
 <style>
-polygon {
-  fill: #eec;
+polyline {
+  fill: none;
 }
 </style>
-

@@ -16,10 +16,8 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      component: Home
-    },
+    { path: '/', component: Home },
+
     { path: '/projects', component: Projects },
     { path: '/projects/new', component: CreateProject },
     { path: '/projects/:projectId', props: true, component: Project },
@@ -29,7 +27,6 @@ export default new Router({
     { path: '/projects/:projectId/pages/:pageId', props: true, component: Page },
 
     { path: '/signup', component: Signup },
-    { path: '/signin', component: Signin },
     { path: '/signin', component: Signin }
   ],
   mode: "history"

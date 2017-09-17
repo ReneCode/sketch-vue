@@ -1,31 +1,33 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-layout>
-      <v-flex xs4>
-        <code>
-          <!-- Interactions: {{iaName()}} {{iaList}} -->
-          <!-- UndoRedoList: {{undoRedoList.currentIdx}} {{urList}} -->
-        </code>
-      </v-flex>
-
-      <v-flex xs8>
+      <!-- <v-flex xs4>
+                      <code>
+                        Interactions: {{iaName()}} {{iaList}}
+                        UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
+                      </code>
+                    </v-flex> -->
+      <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
             <v-btn :dark="iaName === 'iaSelect'" @click="onSelect">Select</v-btn>
             <v-btn :dark="iaName === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
             <v-btn :dark="iaName === 'iaCircle'" @click="onCircle">Circle</v-btn>
             <v-btn :dark="iaName === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
+            <v-btn :dark="iaName === 'iaFreehand'" @click="onFreehand">Freehand</v-btn>
             <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
             <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
 
           </v-flex>
         </v-layout>
-        <svg ref="svg" width="600" height="400">
-          <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
-          <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
-        </svg>
       </v-flex>
     </v-layout>
+    <div style='height:500px;'>
+      <svg ref="svg" width="100%" height="100%">
+        <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
+        <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
+      </svg>
+    </div>
   </v-container>
 </template>
 
@@ -52,6 +54,7 @@ export default {
   },
 
   computed: {
+
     urList() {
       return this.undoRedoList.getList().map(ur => {
         if (!ur.ref) {
@@ -136,6 +139,13 @@ export default {
       };
       interaction.startOnly('iaRectangle', options);
     },
+    onFreehand() {
+      const options = {
+        projectId: this.projectId,
+        pageId: this.pageId
+      };
+      interaction.startOnly('iaFreehand', options);
+    },
     onSelect() {
       interaction.startDefault();
     },
@@ -157,7 +167,6 @@ svg {
 }
 
 .item-normal {
-  fill: #eec;
   stroke: #630;
   stroke-width: 2px;
   cursor: pointer;
@@ -165,9 +174,8 @@ svg {
 }
 
 .item-selected {
-  fill: #ddd;
   stroke: #222;
-  stroke-width: 1px;
+  stroke-width: 2px;
   stroke-dasharray: 5;
   cursor: pointer;
   opacity: 0.8;

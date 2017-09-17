@@ -10,3 +10,8 @@ export default {
 }
 </script>
 
+<style>
+circle {
+    fill: #eec;
+}
+</style>

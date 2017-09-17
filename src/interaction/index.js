@@ -2,6 +2,7 @@
 import IaRectangle from './ia-rectangle';
 import IaCircle from './ia-circle';
 import IaPolygon from './ia-polygon';
+import IaFreehand from './ia-freehand';
 import IaSelect from '@/interaction/ia-select';
 import IaDelete from './ia-delete';
 import IaMove from './ia-move';
@@ -105,6 +106,9 @@ class Interaction {
   createInteraction(name) {
     let interAction;
     switch (name) {
+      case "iaFreehand":
+        interAction = new IaFreehand(this.transform, this.tmpItems);
+        break;
       case "iaPolygon":
         interAction = new IaPolygon(this.transform, this.tmpItems);
         break;
