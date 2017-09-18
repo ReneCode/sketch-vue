@@ -1,5 +1,5 @@
 <template>
-  <polyline :points="points" :fill="fill">
+  <polyline :points="points" :style="style">
   </polyline>
 </template>
 
@@ -8,11 +8,18 @@ export default {
   name: 'svg-polyline-item',
   props: ['item'],
   computed: {
-    fill() {
+    style() {
+      let style = {};
       if (this.item.svg.fill) {
-        return this.item.svg.fill;
+        style.fill = this.item.svg.fill;
       }
-      return "none";
+      if (this.item.svg.stroke) {
+        style.stroke = this.item.svg.stroke;
+      }
+      if (this.item.svg.strokeWidth) {
+        style.strokeWidth = this.item.svg.strokeWidth;
+      }
+      return style;
     },
     points() {
       let str;

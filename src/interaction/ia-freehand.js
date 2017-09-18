@@ -1,28 +1,30 @@
 
 import IaBase from './ia-base'
 import ItemPolyline from '@/models/item-polyline';
+
 import store from '@/store';
 
-const MODE_NONE = 0;
-const MODE_MOUSE_DOWN = 1;
+const MODE_NONE = 1;
+const MODE_MOUSE_DOWN = 2;
 
 export default class IaFreehand extends IaBase {
   constructor(transform, tmpItems) {
     super(transform);
     this.tmpItems = tmpItems;
-    this.mode = MODE_NONE;
   }
 
   start(options) {
     this.options = options;
+    this.mode = MODE_NONE;
   }
 
   onMouseDown(event) {
     this.mode = MODE_MOUSE_DOWN;
     const pt = this.getSVGPoint(event);
     this.polyline = new ItemPolyline();
+    this.polyline.svg.strokeWidth = "3px";
+    this.polyline.svg.stroke = "#227";
     this.tmpItems.push(this.polyline);
-    // fix first point
     this.polyline.addPoint(pt);
   }
 
@@ -38,84 +40,36 @@ export default class IaFreehand extends IaBase {
     if (this.polyline) {
       const pt = this.getSVGPoint(event);
       this.polyline.addPoint(pt);
-
-      let item = this.polyline;
-      item.projectId = this.options.projectId;
-      item.pageId = this.options.pageId;
-      store.dispatch('createGraphic', item)
-        .then(() => {
-          this.cleanUp();
-        });
+      this.finishPolyline();
     }
   }
 
-  /*
-  startFirstPoint() {
-    this.polygon = null;
-    const options = {
-      callbackName: "iaFreehandCallback"
-    }
-    this.iaOnePoint = interaction.start('iaOnePoint', options);
-  }
-
-  iaPolygonCallback(payload) {
-    switch (payload.event) {
-      case "escape":
-        return this.escape();
-      case "onPoint":
-        return this.addPointToPolygon(payload.pt);
-      case "onPointMove":
-        return this.redrawPolygon(payload.pt);
+  onKeyDown(event) {
+    if (event.keyCode === 27) {
+      this.cleanUp();
+      return "stop"
     }
   }
 
-  escape() {
-    // legal polygon is if there are 3 points and one temporary ( > 3)
-    if (this.polygon && this.polygon.countPoints() > 3) {
-      this.polygon.removeLastPoint();
-      return this.finishPolygon();
+  addPointToPolyline(pt) {
+    if (!this.polyline) {
+      this.polyline = new ItemPolyline();
+      this.tmpItems.push(this.polyline);
     }
-    // no legal polygon - stop interaction
-    this.cleanUp();
-    interaction.stop(this.iaOnePoint);
-    return "stop";
+    this.polyline.addPoint(pt);
   }
 
-  redrawPolygon(pt) {
-    if (!this.polygon) {
-      return;
-    }
-    this.polygon.updateLastPoint(pt);
-  }
-
-  addPointToPolygon(pt) {
-    if (!this.polygon) {
-      this.polygon = new ItemPolygon();
-      this.tmpItems.push(this.polygon);
-      // fix first point
-      this.polygon.addPoint(pt);
-    } else {
-      // fix the last (temp) point
-      this.polygon.updateLastPoint(pt);
-    }
-    // add temp point
-    this.polygon.addPoint(pt);
-  }
-
-  finishPolygon() {
-    let item = this.polygon;
+  finishPolyline() {
+    let item = this.polyline;
     item.projectId = this.options.projectId;
     item.pageId = this.options.pageId;
     store.dispatch('createGraphic', item)
       .then(() => {
         this.cleanUp();
-        this.startFirstPoint();
       });
   }
-  */
 
   cleanUp() {
-    this.mode = MODE_NONE;
     this.polyline = null;
     this.tmpItems.splice(0);
   }
