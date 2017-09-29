@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "p1": {
+      "description": "project-1",
+      "name": "name of p1"
+    }
+  }
+}
