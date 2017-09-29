@@ -51,6 +51,7 @@ export default {
 
       if (!this.$store.getters.user) {
         items = [
+          { icon: 'apps', title: 'Projects', link: '/projects' },
           { icon: 'face', title: 'Sign in', link: '/signin' },
           { icon: 'lock_open', title: 'Sign up', link: '/signup' }
         ];

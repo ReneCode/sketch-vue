@@ -21,14 +21,23 @@ new Vue({
   render: h => h(App),
 
   created() {
-    firebase.initializeApp({
-      apiKey: "AIzaSyBUipVOW2ovDYuIpT5_yaBA4VfklFyPjOI",
-      authDomain: "sketch-vue.firebaseapp.com",
-      databaseURL: "https://sketch-vue.firebaseio.com",
-      projectId: "sketch-vue",
-      storageBucket: ""
-    });
+    const useLocalFirebase = true;
 
+    if (useLocalFirebase) {
+      const config = {
+        apiKey: 'fake-api-key-for-testing-purposes-only',
+        databaseURL: 'ws://localhost.firebaseio.test:5000'
+      }
+      firebase.initializeApp(config, "[DEFAULT]");
+    } else {
+      firebase.initializeApp({
+        apiKey: "AIzaSyBUipVOW2ovDYuIpT5_yaBA4VfklFyPjOI",
+        authDomain: "sketch-vue.firebaseapp.com",
+        databaseURL: "https://sketch-vue.firebaseio.com",
+        projectId: "sketch-vue",
+        storageBucket: ""
+      });
+    }
     this.$store.dispatch('loadProjects');
   }
 })
