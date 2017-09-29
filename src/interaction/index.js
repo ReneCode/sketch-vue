@@ -6,6 +6,7 @@ import IaFreehand from './ia-freehand';
 import IaSelect from '@/interaction/ia-select';
 import IaDelete from './ia-delete';
 import IaMove from './ia-move';
+import IaKeyCommand from './ia-key-command';
 import IaOnePoint from './ia-one-point';
 import IaTwoPoints from './ia-two-points';
 
@@ -59,6 +60,7 @@ class Interaction {
     this.start('iaSelect');
     this.start('iaDelete');
     this.start('iaMove');
+    this.start('iaKeyCommand');
   }
 
   stop(name) {
@@ -126,6 +128,9 @@ class Interaction {
         break;
       case "iaMove":
         interAction = new IaMove(this.transform, this.tmpItems);
+        break;
+      case "iaKeyCommand":
+        interAction = new IaKeyCommand(this.transform, this.tmpItems);
         break;
       case "iaTwoPoints":
         interAction = new IaTwoPoints(this.transform, this.tmpItems);
