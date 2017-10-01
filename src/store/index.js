@@ -5,7 +5,10 @@ import project from './modules/project-store';
 import page from './modules/page-store';
 import graphic from './modules/graphic-store';
 import user from './modules/user-store';
+import interaction from './modules/interaction-store';
 import undoRedo from './modules/undo-redo-store';
+
+import interactionStorePlugin from '@/interaction/interaction-store-plugin'
 
 Vue.use(Vuex);
 
@@ -47,8 +50,12 @@ const store = new Vuex.Store({
     page,
     graphic,
     user,
+    interaction,
     undoRedo
-  }
+  },
+
+  plugins: [interactionStorePlugin]
+
 });
 
 export default store;

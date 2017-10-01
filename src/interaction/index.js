@@ -1,10 +1,10 @@
 
 import InteractionFactory from './ia-factory';
+import store from '@/store';
 
 class Interaction {
   constructor() {
     this.iaList = [];
-    this.runningInteraction = "";
   }
 
   init(domElement, transform, tmpItems) {
@@ -12,8 +12,6 @@ class Interaction {
     this.domElement = domElement;
 
     this.registerListener();
-
-    this.startDefault();
   }
 
   exit() {
@@ -24,11 +22,6 @@ class Interaction {
     return this.iaList;
   }
 
-  getRunningInteraction() {
-    console.log("getRunning")
-    return this.runningInteraction;
-  }
-
   clear() {
     for (let ia of this.iaList) {
       if (typeof ia["stop"] === 'function') {
@@ -36,21 +29,6 @@ class Interaction {
       }
     }
     this.iaList.splice(0);
-    this.runningInteraction = "";
-  }
-
-  startOnly(name, ...args) {
-    this.clear();
-    this.start(name, ...args);
-    this.runningInteraction = name;
-  }
-
-  startDefault() {
-    this.clear();
-    this.start('iaSelect');
-    this.start('iaDelete');
-    this.start('iaMove');
-    this.start('iaZoom');
   }
 
   stop(name) {
@@ -64,7 +42,7 @@ class Interaction {
       this.iaList.splice(foundIndex, 1);
     }
     if (this.iaList.length === 0) {
-      this.startDefault();
+      store.commit('setInteractionMode', { mode: 'select' });
     }
   }
 

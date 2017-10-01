@@ -1,20 +1,21 @@
 <template>
   <v-container fluid>
     <v-layout>
+      {{iaList.map(i => i.name)}}
       <!-- <v-flex xs4>
-                        <code>
-                          Interactions: {{iaName()}} {{iaList}}
-                          UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
-                        </code>
-                      </v-flex> -->
+                          <code>
+                            Interactions: {{iaName()}} {{iaList}}
+                            UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
+                          </code>
+                        </v-flex> -->
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
-            <v-btn :dark="iaName === 'iaSelect'" @click="onSelect">Select</v-btn>
-            <v-btn :dark="iaName === 'iaRectangle'" @click="onRectangle">Rectangle</v-btn>
-            <v-btn :dark="iaName === 'iaCircle'" @click="onCircle">Circle</v-btn>
-            <v-btn :dark="iaName === 'iaPolygon'" @click="onPolygon">Polygon</v-btn>
-            <v-btn :dark="iaName === 'iaFreehand'" @click="onFreehand">Freehand</v-btn>
+            <v-btn :dark="iaMode === 'select'" @click="onSetInteractionMode('select')">Select</v-btn>
+            <v-btn :dark="iaMode === 'rectangle'" @click="onSetInteractionMode('rectangle')">Rectangle</v-btn>
+            <v-btn :dark="iaMode === 'circle'" @click="onSetInteractionMode('circle')">Circle</v-btn>
+            <v-btn :dark="iaMode === 'polygon'" @click="onSetInteractionMode('polygon')">Polygon</v-btn>
+            <v-btn :dark="iaMode === 'freehand'" @click="onSetInteractionMode('freehand')">Freehand</v-btn>
             <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
             <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
 
@@ -58,7 +59,6 @@ export default {
 
   computed: {
     svgTransform() {
-      console.log("get transform")
       if (this.svg) {
         return this.svg.getSvgTransformString();
       } else {
@@ -79,11 +79,8 @@ export default {
       });
     },
 
-    iaName() {
-      if (this.iaList && this.iaList.length > 0) {
-        return this.iaList[0].name;
-      }
-      return "";
+    iaMode() {
+      return this.$store.getters.interactionMode;
     },
 
     loadedGraphics() {
@@ -121,6 +118,7 @@ export default {
       pageId: this.pageId
     }
     this.$store.dispatch('loadGraphics', options);
+    this.onSetInteractionMode('select');
   },
 
   beforeDestroy() {
@@ -128,37 +126,13 @@ export default {
   },
 
   methods: {
-
-    onCircle() {
-      const options = {
+    onSetInteractionMode(mode) {
+      const payload = {
+        mode: mode,
         projectId: this.projectId,
         pageId: this.pageId
-      };
-      interaction.startOnly('iaCircle', options);
-    },
-    onPolygon() {
-      const options = {
-        projectId: this.projectId,
-        pageId: this.pageId
-      };
-      interaction.startOnly('iaPolygon', options);
-    },
-    onRectangle() {
-      const options = {
-        projectId: this.projectId,
-        pageId: this.pageId
-      };
-      interaction.startOnly('iaRectangle', options);
-    },
-    onFreehand() {
-      const options = {
-        projectId: this.projectId,
-        pageId: this.pageId
-      };
-      interaction.startOnly('iaFreehand', options);
-    },
-    onSelect() {
-      interaction.startDefault();
+      }
+      this.$store.commit('setInteractionMode', payload);
     },
     onUndo() {
       selectionList.clear();
