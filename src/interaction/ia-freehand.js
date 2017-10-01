@@ -51,24 +51,6 @@ export default class IaFreehand extends IaBase {
     }
   }
 
-  addPointToPolyline(pt) {
-    if (!this.polyline) {
-      this.polyline = new ItemPolyline();
-      this.tmpItems.push(this.polyline);
-    }
-    this.polyline.addPoint(pt);
-  }
-
-  finishPolyline() {
-    let item = this.polyline;
-    item.projectId = this.options.projectId;
-    item.pageId = this.options.pageId;
-    store.dispatch('createGraphic', item)
-      .then(() => {
-        this.cleanUp();
-      });
-  }
-
   cleanUp() {
     this.polyline = null;
     this.tmpItems.splice(0);
