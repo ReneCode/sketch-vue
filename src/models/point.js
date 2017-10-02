@@ -2,13 +2,14 @@
 import Matrix2d from './matrix-2d';
 
 export default class Point {
-  constructor(x = 0, y = 0) {
+  constructor(x = 0, y = 0, z = 0) {
     this.x = x;
     this.y = y;
+    this.z = z;
   }
 
   length() {
-    return Math.sqrt(this.x * this.x + this.y * this.y);
+    return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
   }
 
   angle() {
@@ -20,20 +21,22 @@ export default class Point {
   }
 
   clone() {
-    return new Point(this.x, this.y);
+    return new Point(this.x, this.y, this.z);
   }
 
   add(otherPoint) {
     return new Point(
       this.x + otherPoint.x,
-      this.y + otherPoint.y
+      this.y + otherPoint.y,
+      this.z + otherPoint.z
     );
   }
 
   sub(otherPoint) {
     return new Point(
       this.x - otherPoint.x,
-      this.y - otherPoint.y
+      this.y - otherPoint.y,
+      this.z - otherPoint.z
     );
   }
 
