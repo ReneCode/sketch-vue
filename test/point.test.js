@@ -32,4 +32,12 @@ describe('Point', () => {
     pt.x.should.be.closeTo(2, 0.00001);
     pt.y.should.be.closeTo(-10, 0.00001);
   });
+
+  it('should scale point', () => {
+    const p1 = new Point(10, 2);
+    const pt = p1.scale(6, 7);
+    pt.x.should.be.closeTo(60, 0.00001);
+    pt.y.should.be.closeTo(14, 0.00001);
+  });
+
 });

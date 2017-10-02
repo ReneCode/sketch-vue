@@ -19,24 +19,21 @@ export default class Matrix2d {
     return new Matrix2d(1, 0, 0, 1, 0, 0);
   }
 
-  flipX() {
-  }
-
-  translate(tx, ty) {
-    return this.transform(
+  static translate(tx, ty) {
+    return new Matrix2d(
       1, 0, 0,
       1, tx, ty
     );
   }
 
-  scale(sx, sy) {
-    return this.transform(
+  static scale(sx, sy) {
+    return new Matrix2d(
       sx, 0, 0,
       sy, 0, 0
     );
   }
 
-  rotate(angle) {
+  static rotate(angle) {
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
     return new Matrix2d(
@@ -45,26 +42,15 @@ export default class Matrix2d {
     );
   }
 
-/*  multiply(matrix) {
+  // result = this * other
+  multiply(other) {
     return new Matrix2d(
-      this.a * a2 + this.c * b2,
-      this.b * a2 + this.d * b2,
-      this.a * c2 + this.c * d2,
-      this.b * c2 + this.d * d2,
-      this.a * e2 + this.c * f2 + this.e,
-      this.b * e2 + this.d * f2 + this.f
-    )
-  }
-  */
-
-  transform(a2, b2, c2, d2, e2, f2) {
-    return new Matrix2d(
-      this.a * a2 + this.c * b2,
-      this.b * a2 + this.d * b2,
-      this.a * c2 + this.c * d2,
-      this.b * c2 + this.d * d2,
-      this.a * e2 + this.c * f2 + this.e,
-      this.b * e2 + this.d * f2 + this.f
+      other.a * this.a + other.c * this.b,
+      other.b * this.a + other.d * this.b,
+      other.a * this.c + other.c * this.d,
+      other.b * this.c + other.d * this.d,
+      other.a * this.e + other.c * this.f + other.e,
+      other.b * this.e + other.d * this.f + other.f
     )
   }
 

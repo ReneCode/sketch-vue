@@ -44,16 +44,14 @@ export default class Point {
   }
 
   rotate(angle) {
-    /*    const length = this.length();
-        return new Point(
-          length * Math.cos(angle),
-          length * Math.sin(angle)
-        );
-        */
-    const mat = Matrix2d.identity().rotate(angle)
-
+    const mat = Matrix2d.rotate(angle)
     const pt = mat.transformPoint(this.x, this.y);
     return new Point(pt.x, pt.y)
   }
 
+  scale(sx, sy) {
+    const mat = Matrix2d.scale(sx, sy)
+    const pt = mat.transformPoint(this.x, this.y);
+    return new Point(pt.x, pt.y)
+  }
 }

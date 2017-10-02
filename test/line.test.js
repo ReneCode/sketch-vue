@@ -45,13 +45,15 @@ describe('Line', () => {
     angle.should.be.equal(Math.PI)
   });
 
-  it.skip('should rotate 45 deg', () => {
-    const p1 = new Point(4, 6);
+  it('should rotate 45 deg', () => {
+    const p1 = new Point(4, 9);
     const p2 = new Point(6, 6);
     const l1 = new Line(p1, p2);
-    l1.angle().should.be.equal(0)
-    const line = l1.rotate(Math.PI / 4)
+    const angle1 = l1.angle();
+    const angleRotate = Math.PI / 2;
+    const line = l1.rotate(angleRotate)
     const angle = line.angle();
-    angle.should.be.equal(Math.PI / 4)
+
+    angle.should.be.closeTo(angle1 + angleRotate, 0.0001)
   });
 });

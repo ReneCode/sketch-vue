@@ -1,3 +1,5 @@
+import Matrix2d from './matrix-2d'
+import Point from './point'
 
 export default class Line {
   constructor(p1, p2) {
@@ -15,4 +17,16 @@ export default class Line {
     return delta.angle();
   }
 
+  // rotate around this.p1
+  rotate(angle) {
+    const matrix = Matrix2d.translate(-this.p1.x, -this.p1.y)
+      .multiply(Matrix2d.rotate(angle))
+      .multiply(Matrix2d.translate(this.p1.x, this.p1.y));
+
+    const pt = matrix.transformPoint(this.p2.x, this.p2.y);
+    return new Line(
+      this.p1,
+      new Point(pt.x, pt.y)
+    )
+  }
 }
