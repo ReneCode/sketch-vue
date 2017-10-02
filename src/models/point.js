@@ -1,4 +1,6 @@
 
+import Matrix2d from './matrix-2d';
+
 export default class Point {
   constructor(x = 0, y = 0) {
     this.x = x;
@@ -7,6 +9,10 @@ export default class Point {
 
   length() {
     return Math.sqrt(this.x * this.x + this.y * this.y);
+  }
+
+  angle() {
+    return Math.atan2(this.y, this.x);
   }
 
   equal(otherPoint) {
@@ -35,6 +41,19 @@ export default class Point {
     return new Point(
       Math.abs(this.x),
       Math.abs(this.y));
+  }
+
+  rotate(angle) {
+    /*    const length = this.length();
+        return new Point(
+          length * Math.cos(angle),
+          length * Math.sin(angle)
+        );
+        */
+    const mat = Matrix2d.identity().rotate(angle)
+
+    const pt = mat.transformPoint(this.x, this.y);
+    return new Point(pt.x, pt.y)
   }
 
 }
