@@ -1,14 +1,11 @@
 import IaBase from './ia-base'
 import interaction from '@/interaction';
 import ItemCircle from '@/models/item-circle';
+
+import temporaryItemList from '@/store/temporary-item-list';
 import store from '@/store';
 
 export default class IaCircle extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
-    this.tmpItems = tmpItems;
-  }
-
   start(options) {
     this.options = options;
     const opt = {
@@ -48,7 +45,7 @@ export default class IaCircle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.circle = new ItemCircle(pt);
-      this.tmpItems.push(this.circle);
+      temporaryItemList.addItem(this.circle);
     } else {
       if (this.firstPoint.equal(pt)) {
         this.cleanUp();
@@ -78,8 +75,10 @@ export default class IaCircle extends IaBase {
   }
 
   cleanUp() {
-    this.tmpItems.splice(0);
-    this.circle = null;
+    if (this.circle) {
+      temporaryItemList.removeItem(this.circle);
+      this.circle = null;
+    }
     this.firstPoint = null;
   }
 }

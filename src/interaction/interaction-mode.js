@@ -17,6 +17,7 @@ const iaMatrix = {
 
   'circle': [
     // 'iaZoom',
+    // 'iaCursor',
     'iaCircle'
   ],
 

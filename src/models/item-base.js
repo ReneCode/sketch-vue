@@ -2,7 +2,6 @@
 class ItemBase {
   constructor(id) {
     this.id = id;
-    this.pickable = true;
   }
 
   createBoundingBox() {

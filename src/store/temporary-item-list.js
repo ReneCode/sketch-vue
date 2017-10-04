@@ -9,11 +9,12 @@ class TemporaryItemList {
   }
 
   removeItem(item) {
-    const idx = this.items.find(it => it === item);
-    if (idx) {
+    const idx = this.items.findIndex(it => it === item);
+    if (idx >= 0) {
       this.items.splice(idx, 1);
       return true;
     } else {
+      console.log('TemporaryItemList#removeItem item not found')
       return false;
     }
   }

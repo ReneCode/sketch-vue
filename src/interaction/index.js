@@ -1,5 +1,5 @@
 
-import InteractionFactory from './ia-factory';
+import InteractionFactory from './interaction-factory';
 import store from '@/store';
 
 class Interaction {
@@ -7,8 +7,8 @@ class Interaction {
     this.iaList = [];
   }
 
-  init(domElement, transform, tmpItems) {
-    this.interactionFactory = new InteractionFactory(transform, tmpItems);
+  init(domElement, transform) {
+    this.interactionFactory = new InteractionFactory(transform);
     this.domElement = domElement;
 
     this.registerListener();

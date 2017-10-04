@@ -2,13 +2,9 @@ import IaBase from './ia-base'
 import interaction from '@/interaction';
 import ItemRectangle from '@/models/item-rectangle';
 import store from '@/store';
+import temporaryItemList from '@/store/temporary-item-list';
 
 export default class IaRectangle extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
-    this.tmpItems = tmpItems;
-  }
-
   start(options) {
     this.options = options;
     this.firstPoint = null;
@@ -39,7 +35,7 @@ export default class IaRectangle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.rectangle = new ItemRectangle(pt, pt);
-      this.tmpItems.push(this.rectangle);
+      temporaryItemList.addItem(this.rectangle);
     } else {
       if (this.firstPoint.equal(pt)) {
         this.cleanUp();
@@ -67,8 +63,10 @@ export default class IaRectangle extends IaBase {
   }
 
   cleanUp() {
-    this.tmpItems.splice(0);
-    this.rectangle = null;
+    if (this.rectangle) {
+      temporaryItemList.removeItem(this.rectangle);
+      this.rectangle = null;
+    }
     this.firstPoint = null;
   }
 }

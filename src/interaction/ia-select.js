@@ -4,13 +4,9 @@ import selectionList from '@/store/selectionList';
 import interaction from '@/interaction'
 import IaBase from './ia-base'
 import BoundingBox from '@/models/bounding-box';
+import temporaryItemList from '@/store/temporary-item-list';
 
 export default class IaSelect extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
-    this.tmpItems = tmpItems;
-  }
-
   onMouseDown(event) {
     const itemId = this.pickItemId(event);
     if (itemId) {
@@ -57,7 +53,7 @@ export default class IaSelect extends IaBase {
           height: 0
         }
       };
-      this.tmpItems.push(this.selectionBox);
+      temporaryItemList.addItem(this.selectionBox);
     }
 
     this.selectionBox.svg.x = Math.min(payload.pt1.x, payload.pt2.x);
@@ -93,7 +89,9 @@ export default class IaSelect extends IaBase {
   }
 
   cleanUp() {
-    this.tmpItems.splice(0);
-    this.selectionBox = null;
+    if (this.selectionBox) {
+      temporaryItemList.removeItem(this.selectionBox);
+      this.selectionBox = null;
+    }
   }
 }

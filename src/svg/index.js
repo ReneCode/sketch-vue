@@ -8,10 +8,10 @@ class Svg {
     this.transform = new SvgTransform();
   }
 
-  init(svgElement, tmpItems) {
+  init(svgElement) {
     // let transform = new SvgTransform();
     this.transform.init(svgElement);
-    interaction.init(svgElement, this.transform, tmpItems);
+    interaction.init(svgElement, this.transform);
   }
 
   exit() {

@@ -1,13 +1,18 @@
 <template>
   <v-container fluid>
     <v-layout>
-      {{iaList.map(i => i.name)}}
+      <div>
+        {{iaList.map(i => i.name)}}
+      </div>
+      <!-- <div>
+        {{tmpItems}}
+      </div> -->
       <!-- <v-flex xs4>
-                          <code>
-                            Interactions: {{iaName()}} {{iaList}}
-                            UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
-                          </code>
-                        </v-flex> -->
+                            <code>
+                              Interactions: {{iaName()}} {{iaList}}
+                              UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
+                            </code>
+                          </v-flex> -->
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
@@ -38,6 +43,7 @@
 import Svg from '@/svg'
 import undoRedoList from '@/store/modules/undo-redo-list';
 import selectionList from '@/store/selectionList';
+import temporaryItemList from '@/store/temporary-item-list';
 import interaction from '@/interaction';
 import SvgItem from './SvgItem'
 
@@ -49,7 +55,7 @@ export default {
   data() {
     return {
       buttonMode: "",
-      tmpItems: [],
+      tmpItems: temporaryItemList.getItems(),
       selectedItems: selectionList.getItems(),
       iaList: interaction.getIaList(),
       undoRedoList: undoRedoList,
@@ -111,7 +117,7 @@ export default {
   },
 
   mounted() {
-    this.svg.init(this.$refs.svg, this.tmpItems);
+    this.svg.init(this.$refs.svg);
 
     const options = {
       projectId: this.projectId,

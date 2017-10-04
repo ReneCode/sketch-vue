@@ -12,46 +12,45 @@ import IaZoom from './ia-zoom';
 import IaCursor from './ia-cursor';
 
 class InteractionFactory {
-  constructor(transform, tmpItems) {
+  constructor(transform) {
     this.transform = transform;
-    this.tmpItems = tmpItems;
   }
 
   create(name) {
     let interAction;
     switch (name) {
       case "iaCursor":
-        interAction = new IaCursor(this.transform, this.tmpItems);
+        interAction = new IaCursor(this.transform);
         break;
       case "iaZoom":
-        interAction = new IaZoom(this.transform, this.tmpItems);
+        interAction = new IaZoom(this.transform);
         break;
       case "iaFreehand":
-        interAction = new IaFreehand(this.transform, this.tmpItems);
+        interAction = new IaFreehand(this.transform);
         break;
       case "iaPolygon":
-        interAction = new IaPolygon(this.transform, this.tmpItems);
+        interAction = new IaPolygon(this.transform);
         break;
       case "iaCircle":
-        interAction = new IaCircle(this.transform, this.tmpItems);
+        interAction = new IaCircle(this.transform);
         break;
       case "iaRectangle":
-        interAction = new IaRectangle(this.transform, this.tmpItems);
+        interAction = new IaRectangle(this.transform);
         break;
       case "iaSelect":
-        interAction = new IaSelect(this.transform, this.tmpItems);
+        interAction = new IaSelect(this.transform);
         break;
       case "iaDelete":
-        interAction = new IaDelete(this.transform, this.tmpItems);
+        interAction = new IaDelete(this.transform);
         break;
       case "iaMove":
-        interAction = new IaMove(this.transform, this.tmpItems);
+        interAction = new IaMove(this.transform);
         break;
       case "iaTwoPoints":
-        interAction = new IaTwoPoints(this.transform, this.tmpItems);
+        interAction = new IaTwoPoints(this.transform);
         break;
       case "iaOnePoint":
-        interAction = new IaOnePoint(this.transform, this.tmpItems);
+        interAction = new IaOnePoint(this.transform);
         break;
     }
     if (!interAction) {

@@ -2,13 +2,9 @@ import IaBase from './ia-base'
 import interaction from '@/interaction';
 import ItemPolygon from '@/models/item-polygon';
 import store from '@/store';
+import temporaryItemList from '@/store/temporary-item-list';
 
 export default class IaPolygon extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
-    this.tmpItems = tmpItems;
-  }
-
   start(options) {
     this.options = options;
     this.startFirstPoint();
@@ -55,7 +51,7 @@ export default class IaPolygon extends IaBase {
   addPointToPolygon(pt) {
     if (!this.polygon) {
       this.polygon = new ItemPolygon();
-      this.tmpItems.push(this.polygon);
+      temporaryItemList.addItem(this.polygon);
       // fix first point
       this.polygon.addPoint(pt);
     } else {
@@ -78,7 +74,9 @@ export default class IaPolygon extends IaBase {
   }
 
   cleanUp() {
-    this.polygon = null;
-    this.tmpItems.splice(0);
+    if (this.polygon) {
+      temporaryItemList.removeItem(this.polygon);
+      this.polygon = null;
+    }
   }
 }

@@ -2,16 +2,13 @@
 import IaBase from './ia-base'
 import ItemPolyline from '@/models/item-polyline';
 
-import store from '@/store';
+import temporaryItemList from '@/store/temporary-item-list';
 
 const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;
 
 export default class IaFreehand extends IaBase {
-  constructor(transform, tmpItems) {
-    super(transform);
-    this.tmpItems = tmpItems;
-  }
+  mode = MODE_NONE;
 
   start(options) {
     this.options = options;
@@ -22,9 +19,8 @@ export default class IaFreehand extends IaBase {
     this.mode = MODE_MOUSE_DOWN;
     const pt = this.getSVGPoint(event);
     this.polyline = new ItemPolyline();
-    this.polyline.svg.strokeWidth = "3px";
-    this.polyline.svg.stroke = "#227";
-    this.tmpItems.push(this.polyline);
+    temporaryItemList.addItem(this.polyline);
+    // fix first point
     this.polyline.addPoint(pt);
   }
 
@@ -52,7 +48,10 @@ export default class IaFreehand extends IaBase {
   }
 
   cleanUp() {
-    this.polyline = null;
-    this.tmpItems.splice(0);
+    this.mode = MODE_NONE;
+    if (this.polyline) {
+      temporaryItemList.removeItem(this.polyline);
+      this.polyline = null;
+    }
   }
 }
