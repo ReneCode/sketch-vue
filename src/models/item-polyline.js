@@ -2,6 +2,7 @@
 import ItemBase from './item-base';
 import BoundingBox from './bounding-box';
 import Point from './point';
+import shrinkPoints from './shrink-points'
 
 export default class ItemPolyline extends ItemBase {
   constructor() {
@@ -92,4 +93,7 @@ export default class ItemPolyline extends ItemBase {
     }
   }
 
+  shrink(maxDelta) {
+    shrinkPoints(this.svg.points, maxDelta);
+  }
 }

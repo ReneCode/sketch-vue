@@ -40,4 +40,16 @@ describe('Point', () => {
     pt.y.should.be.closeTo(14, 0.00001);
   });
 
+  it('should calc cross product. left orientation > 0', () => {
+    const p1 = new Point(1, 2);
+    const p2 = new Point(1, 3);
+    p1.cross(p2).should.be.greaterThan(0);
+  });
+
+  it('should calc cross product. right orientation < 0', () => {
+    const p1 = new Point(1, 2);
+    const p2 = new Point(1, 1.5);
+    p1.cross(p2).should.be.lessThan(0);
+  });
+
 });

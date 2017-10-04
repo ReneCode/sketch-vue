@@ -40,6 +40,10 @@ export default class Point {
     );
   }
 
+  cross(otherPoint) {
+    return this.x * otherPoint.y - this.y * otherPoint.x;
+  }
+
   abs() {
     return new Point(
       Math.abs(this.x),
