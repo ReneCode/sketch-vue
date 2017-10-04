@@ -7,7 +7,7 @@ import Point from '../src/models/point';
 
 import temporaryItemList from '../src/store/temporary-item-list';
 
-describe.only('temporaryItemList', () => {
+describe('temporaryItemList', () => {
   beforeEach('clear item list', () => {
     temporaryItemList.clear();
   })

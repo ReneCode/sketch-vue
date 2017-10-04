@@ -1,16 +1,16 @@
 
-import IaRectangle from './ia-rectangle';
-import IaCircle from './ia-circle';
-import IaPolygon from './ia-polygon';
-import IaFreehand from './ia-freehand';
-import IaSelect from '@/interaction/ia-select';
-import IaDelete from './ia-delete';
-import IaMove from './ia-move';
-import IaOnePoint from './ia-one-point';
-import IaTwoPoints from './ia-two-points';
-import IaZoom from './ia-zoom';
-import IaCursor from './ia-cursor';
-import IaPanning from './ia-panning';
+import IaRectangle from './ia/ia-rectangle';
+import IaCircle from './ia/ia-circle';
+import IaPolygon from './ia/ia-polygon';
+import IaFreehand from './ia/ia-freehand';
+import IaSelect from './ia/ia-select';
+import IaDelete from './ia/ia-delete';
+import IaMove from './ia/ia-move';
+import IaOnePoint from './ia/ia-one-point';
+import IaTwoPoints from './ia/ia-two-points';
+import IaZoom from './ia/ia-zoom';
+import IaCursor from './ia/ia-cursor';
+import IaPanning from './ia/ia-panning';
 
 class InteractionFactory {
   constructor(transform) {
