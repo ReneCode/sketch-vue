@@ -10,6 +10,11 @@ const iaMatrix = {
     'iaCursor'
   ],
 
+  'panning': [
+    'iaZoom',
+    'iaPanning'
+  ],
+
   'rectangle': [
     // 'iaZoom',
     'iaRectangle'

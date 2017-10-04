@@ -8,15 +8,16 @@ const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;
 
 export default class IaFreehand extends IaBase {
-  mode = MODE_NONE;
-
   start(options) {
     this.options = options;
     this.mode = MODE_NONE;
   }
 
+  stop() {
+    this.cleanUp();
+  }
+
   onMouseDown(event) {
-    this.mode = MODE_MOUSE_DOWN;
     const pt = this.getSVGPoint(event);
     this.polyline = new ItemPolyline();
     temporaryItemList.addItem(this.polyline);
@@ -25,19 +26,32 @@ export default class IaFreehand extends IaBase {
   }
 
   onMouseMove(event) {
-    if (this.mode === MODE_MOUSE_DOWN) {
+    if (this.polyline) {
       const pt = this.getSVGPoint(event);
       this.polyline.addPoint(pt);
     }
   }
 
   onMouseUp(event) {
-    this.mode = MODE_NONE;
     if (this.polyline) {
       const pt = this.getSVGPoint(event);
       this.polyline.addPoint(pt);
-      this.finishPolyline();
+      if (this.polyline.countPoints() >= 2) {
+        this.savePolyline();
+      } else {
+        this.cleanUp();
+      }
     }
+  }
+
+  savePolyline() {
+    let item = this.polyline;
+    item.projectId = this.options.projectId;
+    item.pageId = this.options.pageId;
+    store.dispatch('createGraphic', item)
+      .then(() => {
+        this.cleanUp();
+      });
   }
 
   onKeyDown(event) {
@@ -48,7 +62,6 @@ export default class IaFreehand extends IaBase {
   }
 
   cleanUp() {
-    this.mode = MODE_NONE;
     if (this.polyline) {
       temporaryItemList.removeItem(this.polyline);
       this.polyline = null;

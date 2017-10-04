@@ -54,6 +54,17 @@ class SvgTransform {
     this.zoom(pt, scale);
   }
 
+  setTranslate(newTranslate) {
+    this.tx = newTranslate.x;
+    this.ty = newTranslate.y;
+  }
+
+  getTranslate() {
+    return {
+      x: this.tx,
+      y: this.ty
+    };
+  }
   // -----------
 
   zoom(pt, scale) {

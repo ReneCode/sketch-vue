@@ -10,6 +10,7 @@ import IaOnePoint from './ia-one-point';
 import IaTwoPoints from './ia-two-points';
 import IaZoom from './ia-zoom';
 import IaCursor from './ia-cursor';
+import IaPanning from './ia-panning';
 
 class InteractionFactory {
   constructor(transform) {
@@ -19,6 +20,9 @@ class InteractionFactory {
   create(name) {
     let interAction;
     switch (name) {
+      case "iaPanning":
+        interAction = new IaPanning(this.transform);
+        break;
       case "iaCursor":
         interAction = new IaCursor(this.transform);
         break;

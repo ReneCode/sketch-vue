@@ -21,6 +21,7 @@
             <v-btn :dark="iaMode === 'circle'" @click="onSetInteractionMode('circle')">Circle</v-btn>
             <v-btn :dark="iaMode === 'polygon'" @click="onSetInteractionMode('polygon')">Polygon</v-btn>
             <v-btn :dark="iaMode === 'freehand'" @click="onSetInteractionMode('freehand')">Freehand</v-btn>
+            <v-btn :dark="iaMode === 'panning'" @click="onSetInteractionMode('panning')">Panning</v-btn>
             <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
             <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
 
@@ -183,7 +184,7 @@ svg {
 }
 
 .tmp {
-  fill: #bbf;
+  /* fill: #bbf; */
   stroke: #33c;
   cursor: pointer;
   opacity: 0.3;
