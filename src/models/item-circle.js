@@ -48,6 +48,11 @@ class ItemCircle extends ItemBase {
     this.svg.x += delta.x;
     this.svg.y += delta.y;
   }
+
+  setPosition(pt) {
+    this.svg.x = pt.x;
+    this.svg.y = pt.y;
+  }
 }
 
 export default ItemCircle;

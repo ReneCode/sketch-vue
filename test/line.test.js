@@ -60,7 +60,7 @@ describe('Line', () => {
     angle.should.be.closeTo(angle1 + angleRotate, 0.0001)
   });
 
-  describe.only('nearPoint', () => {
+  describe('nearPoint', () => {
     describe('horizontal line', () => {
       it('should result true - point on line', () => {
         const p1 = new Point(4, 6);

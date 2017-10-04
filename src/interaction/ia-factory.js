@@ -9,6 +9,7 @@ import IaMove from './ia-move';
 import IaOnePoint from './ia-one-point';
 import IaTwoPoints from './ia-two-points';
 import IaZoom from './ia-zoom';
+import IaCursor from './ia-cursor';
 
 class InteractionFactory {
   constructor(transform, tmpItems) {
@@ -19,8 +20,11 @@ class InteractionFactory {
   create(name) {
     let interAction;
     switch (name) {
+      case "iaCursor":
+        interAction = new IaCursor(this.transform, this.tmpItems);
+        break;
       case "iaZoom":
-        interAction = new IaZoom(this.transform);
+        interAction = new IaZoom(this.transform, this.tmpItems);
         break;
       case "iaFreehand":
         interAction = new IaFreehand(this.transform, this.tmpItems);

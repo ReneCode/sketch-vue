@@ -6,7 +6,8 @@ const iaMatrix = {
     'iaZoom',
     'iaSelect',
     'iaDelete',
-    'iaMove'
+    'iaMove',
+    'iaCursor'
   ],
 
   'rectangle': [
@@ -34,7 +35,6 @@ const iaMatrix = {
 class InteractionMode {
 
   set({ projectId, pageId, mode }) {
-    console.log("iaMode:", mode);
     let ias = iaMatrix[mode];
     if (!ias) {
       console.log("no valid interaction mode:", mode);

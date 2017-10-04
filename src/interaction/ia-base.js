@@ -26,40 +26,51 @@ export default class IaBase {
     return this._transform.getScreenPoint(event);
   }
 
-  pickElement(event) {
+  pickElements(event) {
     const pt = this.getScreenPoint(event);
-    const element = document.elementFromPoint(pt.x, pt.y);
-    if (!element) {
+    const elements = document.elementsFromPoint(pt.x, pt.y);
+    if (!elements) {
       return null;
     }
-    let pickedElement = null;
-    switch (element.nodeName) {
-      case "tspan":
-        if (element.parentNode && element.parentNode.nodeName === "text") {
-          pickedElement = element.parentNode;
-        }
-        break;
-      case "text":
-      case "rect":
-      case "circle":
-      case "polygon":
-        pickedElement = element;
-        break;
+    const pickedElements = [];
+    for (const element of elements) {
+      let pickedElement = null;
+      switch (element.nodeName) {
+        case "tspan":
+          if (element.parentNode && element.parentNode.nodeName === "text") {
+            pickedElement = element.parentNode;
+          }
+          break;
+        case "text":
+        case "rect":
+        case "circle":
+        case "polygon":
+          pickedElement = element;
+          break;
+      }
+      if (pickedElement) {
+        pickedElements.push(pickedElement)
+      }
     }
-    return pickedElement;
+    return pickedElements;
   }
 
   pickItemId(event) {
     if (!event) {
-      throw new Error("pickedItemId: event missing")
+      throw new Error("pickedItemIds: event missing")
     }
-    let pickedElement = this.pickElement(event);
-    if (!pickedElement) {
+    let pickedElements = this.pickElements(event);
+    if (!pickedElements || pickedElements.length === 0) {
       return null;
     }
 
-    const iid = pickedElement.getAttribute("iid");
-    return iid;
+    for (const pickedElement of pickedElements) {
+      const iid = pickedElement.getAttribute("iid");
+      if (iid && iid !== "0") {
+        return iid;
+      }
+    }
+    return null;
   }
 
   getSVGPoint(event) {
