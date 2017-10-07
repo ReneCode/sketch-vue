@@ -4,13 +4,13 @@ import interaction from './index'
 const iaMatrix = {
   'select': [
     'iaZoom',
-    'iaSelect',
+    'iaMove',
     'iaDelete',
-    'iaMove'
+    'iaSelect'
   ],
 
   'delete': [
-    'iaCursor',
+    // 'iaCursor',
     'iaZoom'
     // 'iaDelete'
   ],

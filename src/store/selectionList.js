@@ -24,12 +24,25 @@ class SelectionList {
     this.items.splice(0);
   }
 
+  any() {
+    return this.items.length > 0;
+  }
+
   containsItemWithId(id) {
     let found = this.items.find(item => item.id === id);
     if (found) {
       return true;
     }
     return false;
+  }
+
+  contains(items) {
+    for (var item of items) {
+      if (!this.items.find(i => i.id === item.id)) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }

@@ -3,8 +3,7 @@ import ItemCircle from '@/models/item-circle';
 import Point from '@/models/point';
 import interaction from '@/interaction';
 
-import store from '@/store';
-import selectionList from '@/store/selectionList';
+// import selectionList from '@/store/selectionList';
 
 import temporaryItemList from '@/store/temporary-item-list';
 
@@ -22,12 +21,6 @@ export default class IaPickItems extends IaBase {
     this.cursor = null;
   }
 
-  dispatch(payload) {
-    if (this.options && this.options.callbackName) {
-      interaction.dispatch(this.options.callbackName, payload);
-    }
-  }
-
   onMouseMove(event) {
     const pt = this.getSVGPoint(event);
     this.cursor.setPosition(pt);
@@ -39,19 +32,15 @@ export default class IaPickItems extends IaBase {
 
   onMouseDown(event) {
     const point = this.getSVGPoint(event);
-
-    const selectedItems = [];
-    let items = store.getters.loadedGraphics;
-    for (let item of items) {
-      if (item.nearPoint(point, this.circleRadius)) {
-        selectedItems.push(item);
-      }
+    const pickedItems = this.pickItems(point, this.circleRadius);
+    if (this.options && this.options.callbackName) {
+      const payload = {
+        event: event,
+        items: pickedItems
+      };
+      interaction.dispatch(this.options.callbackName, payload);
     }
-
-    selectionList.clear();
-    for (let selItem of selectedItems) {
-      selectionList.addItem(selItem);
-    }
+    return "stop";
   }
 
   createCursor() {

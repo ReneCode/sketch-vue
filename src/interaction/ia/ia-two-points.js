@@ -49,7 +49,7 @@ export default class IaTwoPoints extends IaBase {
 
   createPayload(eventName, pt1, pt2) {
     return {
-      event: eventName,
+      eventName: eventName,
       pt1: pt1,
       pt2: pt2
     };

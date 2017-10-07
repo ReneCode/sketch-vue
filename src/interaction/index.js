@@ -39,6 +39,10 @@ class Interaction {
       foundIndex = this.iaList.findIndex(ia => ia === name);
     }
     if (foundIndex >= 0) {
+      const ia = this.iaList[foundIndex];
+      if (typeof ia["stop"] === 'function') {
+        ia.stop();
+      }
       this.iaList.splice(foundIndex, 1);
     }
     if (this.iaList.length === 0) {
@@ -134,7 +138,7 @@ class Interaction {
     // that is at the last position
     for (let idx = this.iaList.length - 1; idx >= 0; idx--) {
       const ia = this.iaList[idx];
-      if (ia[method]) {
+      if (typeof ia[method] === 'function') {
         let stopRoute = false;
         const result = ia[method](event);
         switch (result) {
@@ -142,7 +146,7 @@ class Interaction {
             stopRoute = true;
             break;
           case "stop":
-            stopRoute = true;
+            // stopRoute = true;
             this.stop(ia);
             break;
           case undefined:

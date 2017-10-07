@@ -1,3 +1,4 @@
+import store from '@/store';
 
 export default class IaBase {
   constructor(transform) {
@@ -26,7 +27,7 @@ export default class IaBase {
     return this._transform.getScreenPoint(event);
   }
 
-  pickElements(event) {
+  pickElementsFromDOM(event) {
     const pt = this.getScreenPoint(event);
     const elements = document.elementsFromPoint(pt.x, pt.y);
     if (!elements) {
@@ -55,15 +56,27 @@ export default class IaBase {
     return pickedElements;
   }
 
+  pickItems(pickPoint, radius) {
+    const selectedItems = [];
+    let items = store.getters.loadedGraphics;
+    for (let item of items) {
+      if (item.nearPoint(pickPoint, this.circleRadius)) {
+        selectedItems.push(item);
+      }
+    }
+    return selectedItems;
+  }
+
   pickItemId(event) {
     if (!event) {
       throw new Error("pickedItemIds: event missing")
     }
-    let pickedElements = this.pickElements(event);
+    let pickedElements = this.pickElementsFromDOM(event);
     if (!pickedElements || pickedElements.length === 0) {
       return null;
     }
 
+    // todo return a list of ids
     for (const pickedElement of pickedElements) {
       const iid = pickedElement.getAttribute("iid");
       if (iid && iid !== "0") {

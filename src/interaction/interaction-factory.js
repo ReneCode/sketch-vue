@@ -9,7 +9,7 @@ import IaMove from './ia/ia-move';
 import IaOnePoint from './ia/ia-one-point';
 import IaTwoPoints from './ia/ia-two-points';
 import IaZoom from './ia/ia-zoom';
-import IaCursor from './ia/ia-cursor';
+import IaPickItems from './ia/ia-pick-items';
 import IaPanning from './ia/ia-panning';
 
 class InteractionFactory {
@@ -23,8 +23,8 @@ class InteractionFactory {
       case "iaPanning":
         interAction = new IaPanning(this.transform);
         break;
-      case "iaCursor":
-        interAction = new IaCursor(this.transform);
+      case "iaPickItems":
+        interAction = new IaPickItems(this.transform);
         break;
       case "iaZoom":
         interAction = new IaZoom(this.transform);

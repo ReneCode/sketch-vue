@@ -7,6 +7,35 @@ import BoundingBox from '@/models/bounding-box';
 import temporaryItemList from '@/store/temporary-item-list';
 
 export default class IaSelect extends IaBase {
+  start() {
+    this.restart();
+  }
+
+  restart() {
+    this.iaPickItems = interaction.start('iaPickItems', { callbackName: "iaPickItemsCallback" });
+  }
+
+  iaPickItemsCallback(payload) {
+    const items = payload.items;
+
+    if (items && items.length > 0) {
+      if (!selectionList.contains(items)) {
+        selectionList.clear();
+        for (var item of items) {
+          selectionList.addItem(item);
+        }
+      }
+      this.restart();
+    } else {
+      selectionList.clear();
+      const options = {
+        callbackName: "iaSelectionCallback"
+      }
+      this.iaTwoPoints = interaction.start('iaTwoPoints', options);
+      this.iaTwoPoints.onMouseDown(payload.event);
+    }
+  }
+  /*
   onMouseDown(event) {
     const itemId = this.pickItemId(event);
     if (itemId) {
@@ -29,19 +58,26 @@ export default class IaSelect extends IaBase {
       ia.onMouseDown(event);
     }
   }
-
+  */
   iaSelectionCallback(payload) {
-    switch (payload.event) {
+    switch (payload.eventName) {
       case "escape":
-        return this.cleanUp();
+        this.cleanUp();
+        this.restart();
+        break;
       case "onMouseMove":
         return this.resizeSelectionBox(payload);
       case "onMouseUp":
-        return this.finishSelectionBox(payload);
+        this.finishSelectionBox(payload);
+        this.restart();
     }
   }
 
   resizeSelectionBox(payload) {
+    if (payload.pt1.equal(payload.pt2)) {
+      return;
+    }
+
     if (!this.selectionBox) {
       this.selectionBox = {
         selection: true,
