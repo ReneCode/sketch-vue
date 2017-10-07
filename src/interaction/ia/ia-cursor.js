@@ -1,23 +1,31 @@
 import IaBase from './ia-base'
 import ItemCircle from '@/models/item-circle';
 import Point from '@/models/point';
+import interaction from '@/interaction';
 
 import store from '@/store';
 import selectionList from '@/store/selectionList';
 
 import temporaryItemList from '@/store/temporary-item-list';
 
-export default class IaCursor extends IaBase {
-  circleScreenRadius = 20;
-  circleStrokeWith = 2;
+export default class IaPickItems extends IaBase {
+  circleScreenRadius = 15;
+  circleScreenStrokeWith = 2;
 
-  start() {
+  start(options) {
+    this.options = options;
     this.createCursor();
   }
 
   stop() {
     temporaryItemList.removeItem(this.cursor);
     this.cursor = null;
+  }
+
+  dispatch(payload) {
+    if (this.options && this.options.callbackName) {
+      interaction.dispatch(this.options.callbackName, payload);
+    }
   }
 
   onMouseMove(event) {
@@ -49,9 +57,10 @@ export default class IaCursor extends IaBase {
   createCursor() {
     if (!this.cursor) {
       const pt = new Point(0, 0)
-      this.cursor = new ItemCircle(pt, this.circleScreenRadius);
+      this.circleRadius = this.screenDistanceToSVGDistance(this.circleScreenRadius);
+      this.cursor = new ItemCircle(pt, this.circleRadius);
       this.cursor.svg.stroke = "red";
-      this.cursor.svg.strokeWidth = this.circleStrokeWith;
+      this.cursor.svg.strokeWidth = this.screenDistanceToSVGDistance(this.circleScreenStrokeWith);
       this.cursor.svg.fill = "none";
       temporaryItemList.addItem(this.cursor);
     }
@@ -60,6 +69,6 @@ export default class IaCursor extends IaBase {
   updateCircleRadius() {
     this.circleRadius = this.screenDistanceToSVGDistance(this.circleScreenRadius);
     this.cursor.setRadius(this.circleRadius);
-    this.cursor.svg.strokeWidth = this.screenDistanceToSVGDistance(this.circleStrokeWith);
+    this.cursor.svg.strokeWidth = this.screenDistanceToSVGDistance(this.circleScreenStrokeWith);
   }
 }

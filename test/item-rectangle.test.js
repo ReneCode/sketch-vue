@@ -4,7 +4,7 @@ let should = require('chai').should();
 import ItemRectangle from '../src/models/item-rectangle'
 import Point from '../src/models/point'
 
-describe.only('ItemRectangle', () => {
+describe('ItemRectangle', () => {
   it('should construct ItemRectangle()', () => {
     let item = new ItemRectangle();
     item.svg.type.should.be.equal('rect');

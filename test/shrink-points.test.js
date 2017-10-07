@@ -4,7 +4,7 @@ let should = require('chai').should();
 import Point from '../src/models/point'
 import shrinkPoints from '../src/models/shrink-points';
 
-describe.only('shrink-points', () => {
+describe('shrink-points', () => {
 
   it('should not remove a point. points not in one row', () => {
     const points = []

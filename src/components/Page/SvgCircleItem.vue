@@ -30,6 +30,6 @@ export default {
 circle {
   stroke: #630;
   stroke-width: 2px;
-  fill: #eec;
+  fill: none;
 }
 </style>

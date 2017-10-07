@@ -25,7 +25,7 @@ export default {
 
 <style>
 polygon {
-  fill: #eec;
+  fill: none;
 }
 </style>
 

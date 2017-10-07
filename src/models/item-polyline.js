@@ -2,6 +2,7 @@
 import ItemBase from './item-base';
 import BoundingBox from './bounding-box';
 import Point from './point';
+import Line from './line';
 import shrinkPoints from './shrink-points'
 
 export default class ItemPolyline extends ItemBase {
@@ -96,4 +97,17 @@ export default class ItemPolyline extends ItemBase {
   shrink(maxDelta) {
     shrinkPoints(this.svg.points, maxDelta);
   }
+
+  nearPoint(point, radius) {
+    let cnt = this.svg.points.length;
+    for (let i = 1; i < cnt; i++) {
+      let line;
+      line = new Line(this.svg.points[i - 1], this.svg.points[i]);
+      if (line.nearPoint(point, radius)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

@@ -25,7 +25,7 @@ class ItemBase {
   }
 
   nearPoint(point, radius) {
-    return false;
+    throw new Error('method nearPoint missing', this);
   }
 
 }

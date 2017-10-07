@@ -53,6 +53,18 @@ class ItemCircle extends ItemBase {
     this.svg.x = pt.x;
     this.svg.y = pt.y;
   }
+
+  nearPoint(point, radius) {
+    let p2p = new Point(this.svg.x, this.svg.y).sub(point);
+    const distance = p2p.length();
+    const minDistance = this.svg.radius - radius;
+    const maxDistance = this.svg.radius + radius;
+    if (minDistance <= distance && distance <= maxDistance) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 export default ItemCircle;
