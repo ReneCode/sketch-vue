@@ -19,8 +19,8 @@ function distanceLinePoint(line, point) {
   const k = -(delta.x * c.x + delta.y * c.y + delta.z * c.z)
 
   /*
-    delta.x * (p1.x + lamda * delta.x) + 
-    delta.y * (p1.y + lamda * delta.y) + 
+    delta.x * (p1.x + lamda * delta.x) +
+    delta.y * (p1.y + lamda * delta.y) +
     delta.y * (p1.z + lamda * delta.z + k = 0
 
     delta.x * p1.x + lamda * delta.x^2 +

@@ -40,8 +40,16 @@ export default class Point {
     );
   }
 
+  scalar(otherPoint) {
+    return this.x * otherPoint.x + this.y * otherPoint.y;
+  }
+
   cross(otherPoint) {
     return this.x * otherPoint.y - this.y * otherPoint.x;
+  }
+
+  rotatedAngle(rotatedPoint) {
+    return rotatedPoint.angle() - this.angle();
   }
 
   abs() {

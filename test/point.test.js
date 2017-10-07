@@ -52,4 +52,18 @@ describe('Point', () => {
     p1.cross(p2).should.be.lessThan(0);
   });
 
+  it('should calc rotatedAngle +90', () => {
+    const p1 = new Point(1, 1);
+    const p2 = p1.rotate(Math.PI / 2);
+    const angle = p1.rotatedAngle(p2);
+    angle.should.be.closeTo(Math.PI / 2, 0.001);
+  })
+
+  it('should calc rotatedAngle -90', () => {
+    const p1 = new Point(1, 1);
+    const p2 = p1.rotate(-Math.PI / 2);
+    const angle = p1.rotatedAngle(p2);
+    angle.should.be.closeTo(-Math.PI / 2, 0.001);
+  })
+
 });
