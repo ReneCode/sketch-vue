@@ -1,6 +1,7 @@
 
 import ItemBase from './item-base';
 import Point from './point';
+import Line from './line';
 import BoundingBox from './bounding-box'
 
 class ItemRectangle extends ItemBase {
@@ -52,6 +53,47 @@ class ItemRectangle extends ItemBase {
   move(delta) {
     this.svg.x += delta.x;
     this.svg.y += delta.y;
+  }
+
+  topLine() {
+    return new Line(
+      new Point(this.svg.x, this.svg.y),
+      new Point(this.svg.x + this.svg.width, this.svg.y)
+    );
+  }
+  bottomLine() {
+    return new Line(
+      new Point(this.svg.x, this.svg.y + this.svg.height),
+      new Point(this.svg.x + this.svg.width, this.svg.y + this.svg.height)
+    );
+  }
+  leftLine() {
+    return new Line(
+      new Point(this.svg.x, this.svg.y),
+      new Point(this.svg.x, this.svg.y + this.svg.height)
+    );
+  }
+  rightLine() {
+    return new Line(
+      new Point(this.svg.x + this.svg.width, this.svg.y),
+      new Point(this.svg.x + this.svg.width, this.svg.y + this.svg.height)
+    );
+  }
+
+  nearPoint(point, radius) {
+    if (this.topLine().nearPoint(point, radius)) {
+      return true;
+    }
+    if (this.bottomLine().nearPoint(point, radius)) {
+      return true;
+    }
+    if (this.leftLine().nearPoint(point, radius)) {
+      return true;
+    }
+    if (this.rightLine().nearPoint(point, radius)) {
+      return true;
+    }
+    return false;
   }
 }
 

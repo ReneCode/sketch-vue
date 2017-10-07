@@ -4,6 +4,8 @@
       <div>
         {{iaList.map(i => i.name)}}
       </div>
+    </v-layout>
+    <v-layout>
       <!-- <div>
         {{tmpItems}}
       </div> -->
@@ -17,11 +19,12 @@
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
             <v-btn :dark="iaMode === 'select'" @click="onSetInteractionMode('select')">Select</v-btn>
+            <v-btn :dark="iaMode === 'panning'" @click="onSetInteractionMode('panning')">Panning</v-btn>
             <v-btn :dark="iaMode === 'rectangle'" @click="onSetInteractionMode('rectangle')">Rectangle</v-btn>
             <v-btn :dark="iaMode === 'circle'" @click="onSetInteractionMode('circle')">Circle</v-btn>
             <v-btn :dark="iaMode === 'polygon'" @click="onSetInteractionMode('polygon')">Polygon</v-btn>
             <v-btn :dark="iaMode === 'freehand'" @click="onSetInteractionMode('freehand')">Freehand</v-btn>
-            <v-btn :dark="iaMode === 'panning'" @click="onSetInteractionMode('panning')">Panning</v-btn>
+            <v-btn :dark="iaMode === 'delete'" @click="onSetInteractionMode('delete')">Delete</v-btn>
             <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
             <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
 

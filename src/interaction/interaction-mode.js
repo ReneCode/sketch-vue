@@ -6,8 +6,13 @@ const iaMatrix = {
     'iaZoom',
     'iaSelect',
     'iaDelete',
-    'iaMove',
-    'iaCursor'
+    'iaMove'
+  ],
+
+  'delete': [
+    'iaCursor',
+    'iaZoom'
+    // 'iaDelete'
   ],
 
   'panning': [

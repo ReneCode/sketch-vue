@@ -79,4 +79,8 @@ export default class IaBase {
     pt.y = Math.floor(pt.y);
     return pt;
   }
+
+  screenDistanceToSVGDistance(distance) {
+    return this._transform.screenDistanceToSVGDistance(distance);
+  }
 }

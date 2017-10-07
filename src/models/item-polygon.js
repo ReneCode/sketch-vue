@@ -2,6 +2,7 @@
 import ItemBase from './item-base';
 import BoundingBox from './bounding-box';
 import Point from './point';
+import Line from './line';
 
 export default class ItemPolygon extends ItemBase {
   constructor() {
@@ -80,6 +81,23 @@ export default class ItemPolygon extends ItemBase {
     for (let i = 0; i < cnt; i++) {
       this.svg.points.splice(i, 1, this.svg.points[i].add(delta));
     }
+  }
+
+  nearPoint(point, radius) {
+    let cnt = this.svg.points.length;
+    for (let i = 0; i < cnt; i++) {
+      let line;
+      if (i === 0) {
+        // connect last with first point
+        line = new Line(this.svg.points[cnt - 1], this.svg.points[i]);
+      } else {
+        line = new Line(this.svg.points[i - 1], this.svg.points[i]);
+      }
+      if (line.nearPoint(point, radius)) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }

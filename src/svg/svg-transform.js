@@ -38,6 +38,10 @@ class SvgTransform {
     );
   }
 
+  screenDistanceToSVGDistance(distance) {
+    return distance / this.sc;
+  }
+
   getSvgTransformString() {
     return `translate(${this.tx},${this.ty})scale(${this.sc})`;
   }

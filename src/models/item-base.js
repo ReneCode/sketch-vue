@@ -24,6 +24,10 @@ class ItemBase {
     return false;
   }
 
+  nearPoint(point, radius) {
+    return false;
+  }
+
 }
 
 export default ItemBase;
