@@ -4,7 +4,7 @@ let should = require('chai').should();
 import ItemCircle from '../src/models/item-circle'
 import Point from '../src/models/point'
 
-describe.only('ItemCircle', () => {
+describe('ItemCircle', () => {
   it('should construct ItemCircle()', () => {
     let item = new ItemCircle(new Point(30, 40), 50);
     item.svg.type.should.be.equal('circle');

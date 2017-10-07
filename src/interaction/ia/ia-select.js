@@ -35,30 +35,7 @@ export default class IaSelect extends IaBase {
       this.iaTwoPoints.onMouseDown(payload.event);
     }
   }
-  /*
-  onMouseDown(event) {
-    const itemId = this.pickItemId(event);
-    if (itemId) {
-      if (selectionList.containsItemWithId(itemId)) {
-        // already selected
-        return;
-      }
-      let selectedItem = store.getters.graphic(itemId);
-      if (!selectedItem) {
-        throw new Error("can't find Item:", itemId);
-      }
-      selectionList.clear();
-      selectionList.addItem(selectedItem);
-    } else {
-      selectionList.clear();
-      const options = {
-        callbackName: "iaSelectionCallback"
-      }
-      let ia = interaction.start('iaTwoPoints', options);
-      ia.onMouseDown(event);
-    }
-  }
-  */
+
   iaSelectionCallback(payload) {
     switch (payload.eventName) {
       case "escape":
