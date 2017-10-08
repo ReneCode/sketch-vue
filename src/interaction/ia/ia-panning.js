@@ -1,11 +1,14 @@
 import IaBase from './ia-base'
+import interaction from '@/interaction';
 
 export default class IaPanning extends IaBase {
 
   start() {
     this.startScreenPoint = null;
+    this.iaZoom = interaction.start('iaZoom');
   }
   stop() {
+    interaction.stop(this.iaZoom);
     this.startScreenPoint = null;
   }
 
@@ -29,6 +32,10 @@ export default class IaPanning extends IaBase {
       }
       this._transform.setTranslate(translation);
     }
+  }
+
+  onKeyDown(event) {
+    return "stop"
   }
 
 }

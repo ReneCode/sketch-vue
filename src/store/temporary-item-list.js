@@ -14,7 +14,6 @@ class TemporaryItemList {
       this.items.splice(idx, 1);
       return true;
     } else {
-      console.log('TemporaryItemList#removeItem item not found')
       return false;
     }
   }

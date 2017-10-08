@@ -12,6 +12,6 @@ export default {
 
 <style>
 rect {
-    fill: #eec;
+    fill: none;
 }
 </style>

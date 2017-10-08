@@ -48,9 +48,9 @@ export default class IaPickItems extends IaBase {
       const pt = new Point(0, 0)
       this.circleRadius = this.screenDistanceToSVGDistance(this.circleScreenRadius);
       this.cursor = new ItemCircle(pt, this.circleRadius);
-      this.cursor.svg.stroke = "red";
+      this.cursor.svg.stroke = "#111";
       this.cursor.svg.strokeWidth = this.screenDistanceToSVGDistance(this.circleScreenStrokeWith);
-      this.cursor.svg.fill = "none";
+      this.cursor.svg.fill = "gray";
       temporaryItemList.addItem(this.cursor);
     }
   }

@@ -16,28 +16,22 @@ const iaMatrix = {
   ],
 
   'panning': [
-    'iaZoom',
     'iaPanning'
   ],
 
   'rectangle': [
-    // 'iaZoom',
     'iaRectangle'
   ],
 
   'circle': [
-    // 'iaZoom',
-    // 'iaCursor',
     'iaCircle'
   ],
 
   'polygon': [
-    // 'iaZoom',
     'iaPolygon'
   ],
 
   'freehand': [
-    // 'iaZoom',
     'iaFreehand'
   ]
 
