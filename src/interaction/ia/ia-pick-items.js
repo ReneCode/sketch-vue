@@ -17,7 +17,7 @@ export default class IaPickItems extends IaBase {
   }
 
   stop() {
-    temporaryItemList.removeItem(this.cursor);
+    temporaryItemList.remove(this.cursor);
     this.cursor = null;
   }
 
@@ -36,7 +36,6 @@ export default class IaPickItems extends IaBase {
   onMouseDown(event) {
     const point = this.getSVGPoint(event);
     const pickedItems = this.pickItems(point, this.circleRadius);
-    console.log("#", event, pickedItems)
     this.dispatch('onMouseDown', event, pickedItems);
     return "stop";
   }

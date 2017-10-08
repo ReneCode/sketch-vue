@@ -28,7 +28,7 @@ describe('temporaryItemList', () => {
     const pt = new Point(40, 30)
     const circle = new ItemCircle(pt, 20);
     temporaryItemList.add(circle);
-    temporaryItemList.removeItem(circle).should.be.equal(true);
+    temporaryItemList.remove(circle).should.be.equal(true);
     temporaryItemList.getItems().should.be.deep.equal([]);
   })
 
@@ -37,7 +37,7 @@ describe('temporaryItemList', () => {
     const c2 = new ItemCircle(new Point(10, 20), 30);
     temporaryItemList.add(c1);
     temporaryItemList.add(c2);
-    temporaryItemList.removeItem(c1);
+    temporaryItemList.remove(c1);
     temporaryItemList.getItems().should.be.deep.equal([c2]);
   })
 
@@ -45,8 +45,26 @@ describe('temporaryItemList', () => {
     const c1 = new ItemCircle(new Point(40, 30), 20);
     const c2 = new ItemCircle(new Point(10, 20), 30);
     temporaryItemList.add(c1);
-    temporaryItemList.removeItem(c2).should.be.equal(false);
+    temporaryItemList.remove(c2).should.be.equal(false);
     temporaryItemList.getItems().should.be.deep.equal([c1]);
+  })
+
+  it('should clear list', () => {
+    const c1 = new ItemCircle(new Point(40, 30), 20);
+    const c2 = new ItemCircle(new Point(10, 20), 30);
+    temporaryItemList.add(c1);
+    temporaryItemList.add(c2);
+    temporaryItemList.clear();
+    temporaryItemList.getItems().should.be.deep.equal([]);
+  })
+
+  it('should clear list with lamda function', () => {
+    const c1 = new ItemCircle(new Point(40, 30), 20);
+    const c2 = new ItemCircle(new Point(10, 20), 30);
+    temporaryItemList.add(c1);
+    temporaryItemList.add(c2);
+    temporaryItemList.clear(item => item === c1);
+    temporaryItemList.getItems().should.be.deep.equal([c2]);
   })
 
 });

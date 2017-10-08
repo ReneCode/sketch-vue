@@ -111,7 +111,7 @@ export default class IaSelect extends IaBase {
 
   cleanUp() {
     if (this.selectionBox) {
-      temporaryItemList.removeItem(this.selectionBox);
+      temporaryItemList.remove(this.selectionBox);
       this.selectionBox = null;
     }
   }

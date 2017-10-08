@@ -75,7 +75,7 @@ export default class IaPolygon extends IaBase {
 
   cleanUp() {
     if (this.polygon) {
-      temporaryItemList.removeItem(this.polygon);
+      temporaryItemList.remove(this.polygon);
       this.polygon = null;
     }
   }

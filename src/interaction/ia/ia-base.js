@@ -60,7 +60,7 @@ export default class IaBase {
     const selectedItems = [];
     let items = store.getters.loadedGraphics;
     for (let item of items) {
-      if (item.nearPoint(pickPoint, this.circleRadius)) {
+      if (item.nearPoint(pickPoint, radius)) {
         selectedItems.push(item);
       }
     }

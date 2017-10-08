@@ -9,7 +9,7 @@ export default class IaCircleCursor extends IaBase {
   circleRadius = 0;
   circleFill = "gray";
 
-  getCircleRadius() {
+  getRadius() {
     return this.circleRadius;
   }
 
@@ -21,6 +21,7 @@ export default class IaCircleCursor extends IaBase {
   }
 
   stop() {
+    temporaryItemList.clear(item => item === this.cursor);
     this.cursor = null;
   }
 

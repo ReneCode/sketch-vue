@@ -64,7 +64,7 @@ export default class IaRectangle extends IaBase {
 
   cleanUp() {
     if (this.rectangle) {
-      temporaryItemList.removeItem(this.rectangle);
+      temporaryItemList.remove(this.rectangle);
       this.rectangle = null;
     }
     this.firstPoint = null;

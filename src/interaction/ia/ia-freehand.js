@@ -66,7 +66,7 @@ export default class IaFreehand extends IaBase {
 
   cleanUp() {
     if (this.polyline) {
-      temporaryItemList.removeItem(this.polyline);
+      temporaryItemList.remove(this.polyline);
       this.polyline = null;
     }
   }

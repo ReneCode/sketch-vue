@@ -10,7 +10,7 @@ class TemporaryItemList {
     }
   }
 
-  removeItem(item) {
+  remove(item) {
     const idx = this.items.findIndex(it => it === item);
     if (idx >= 0) {
       this.items.splice(idx, 1);
@@ -24,8 +24,22 @@ class TemporaryItemList {
     return this.items;
   }
 
-  clear() {
-    this.items.splice(0);
+  clear(lamba) {
+    if (lamba === undefined) {
+      this.items.splice(0);
+      return;
+    }
+    if (typeof lamba === 'function') {
+      for (var i = 0; i < this.items.length;) {
+        if (lamba(this.items[i])) {
+          this.items.splice(i, 1);
+          // in next round check the next item - now on the same index i
+        } else {
+          // check next item
+          i++
+        }
+      }
+    }
   }
 
   contains(item) {

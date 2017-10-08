@@ -76,7 +76,7 @@ export default class IaCircle extends IaBase {
 
   cleanUp() {
     if (this.circle) {
-      temporaryItemList.removeItem(this.circle);
+      temporaryItemList.remove(this.circle);
       this.circle = null;
     }
     this.firstPoint = null;
