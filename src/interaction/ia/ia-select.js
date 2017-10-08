@@ -107,4 +107,5 @@ export default class IaSelect extends IaBase {
       this.selectionBox = null;
     }
   }
+
 }

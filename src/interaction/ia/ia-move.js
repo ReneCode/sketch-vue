@@ -49,6 +49,9 @@ export default class IaMove extends IaBase {
 
   onKeyDown(event) {
     if (event.keyCode === 27) {
+      if (this.lastSVGPoint) {
+        selectionList.clear();
+      }
       this.cleanUp();
     }
   }
