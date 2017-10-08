@@ -45,7 +45,7 @@ export default class IaCircle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.circle = new ItemCircle(pt);
-      temporaryItemList.addItem(this.circle);
+      temporaryItemList.add(this.circle);
     } else {
       if (this.firstPoint.equal(pt)) {
         this.cleanUp();

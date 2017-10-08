@@ -35,7 +35,7 @@ export default class IaRectangle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.rectangle = new ItemRectangle(pt, pt);
-      temporaryItemList.addItem(this.rectangle);
+      temporaryItemList.add(this.rectangle);
     } else {
       if (this.firstPoint.equal(pt)) {
         this.cleanUp();

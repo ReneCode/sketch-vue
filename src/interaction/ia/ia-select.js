@@ -16,6 +16,14 @@ export default class IaSelect extends IaBase {
   }
 
   iaPickItemsCallback(payload) {
+    switch (payload.eventName) {
+      case 'onMouseDown':
+        this.pickItemsFinished(payload);
+        break;
+    }
+  }
+
+  pickItemsFinished(payload) {
     const items = payload.items;
 
     if (items && items.length > 0) {
@@ -66,7 +74,7 @@ export default class IaSelect extends IaBase {
           height: 0
         }
       };
-      temporaryItemList.addItem(this.selectionBox);
+      temporaryItemList.add(this.selectionBox);
     }
 
     this.selectionBox.svg.x = Math.min(payload.pt1.x, payload.pt2.x);

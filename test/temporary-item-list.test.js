@@ -20,14 +20,14 @@ describe('temporaryItemList', () => {
   it('should addItem', () => {
     const pt = new Point(40, 30)
     const circle = new ItemCircle(pt, 20);
-    temporaryItemList.addItem(circle);
+    temporaryItemList.add(circle);
     temporaryItemList.getItems().should.be.deep.equal([circle]);
   })
 
   it('should removeItem', () => {
     const pt = new Point(40, 30)
     const circle = new ItemCircle(pt, 20);
-    temporaryItemList.addItem(circle);
+    temporaryItemList.add(circle);
     temporaryItemList.removeItem(circle).should.be.equal(true);
     temporaryItemList.getItems().should.be.deep.equal([]);
   })
@@ -35,8 +35,8 @@ describe('temporaryItemList', () => {
   it('should removeItem and let the others', () => {
     const c1 = new ItemCircle(new Point(40, 30), 20);
     const c2 = new ItemCircle(new Point(10, 20), 30);
-    temporaryItemList.addItem(c1);
-    temporaryItemList.addItem(c2);
+    temporaryItemList.add(c1);
+    temporaryItemList.add(c2);
     temporaryItemList.removeItem(c1);
     temporaryItemList.getItems().should.be.deep.equal([c2]);
   })
@@ -44,7 +44,7 @@ describe('temporaryItemList', () => {
   it('should not remove Item that is not in the list', () => {
     const c1 = new ItemCircle(new Point(40, 30), 20);
     const c2 = new ItemCircle(new Point(10, 20), 30);
-    temporaryItemList.addItem(c1);
+    temporaryItemList.add(c1);
     temporaryItemList.removeItem(c2).should.be.equal(false);
     temporaryItemList.getItems().should.be.deep.equal([c1]);
   })

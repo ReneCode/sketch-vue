@@ -101,13 +101,20 @@ export default {
       return this.loadedGraphics.map(item => {
         // do not show items, that are in temporaryData
         let selectedItem = this.selectedItems.find(selItem => selItem.id === item.id);
-        if (!selectedItem) {
-          return item;
+        if (selectedItem) {
+          // item is selected
+          return selectedItem
         } else {
-          // item is in selectedItems
-          return selectedItem;
+          let tempItem = this.tmpItems.find(tmpItem => tmpItem.id === item.id);
+          if (tempItem) {
+            // item is temporary - will be removed (.filter())
+            return null;
+          }
+          // quite normal item
+          return item;
         }
       })
+      .filter(item => item !== null);
     },
 
     loading() {
@@ -164,7 +171,6 @@ svg {
 .item-normal {
   stroke: #630;
   stroke-width: 2px;
-  cursor: pointer;
   opacity: 0.8;
 }
 
@@ -172,7 +178,7 @@ svg {
   stroke: #222;
   stroke-width: 2px;
   stroke-dasharray: 5;
-  cursor: pointer;
+  /* cursor: pointer; */
   opacity: 0.8;
   animation: dash-rotate 0.5s linear infinite;
 }

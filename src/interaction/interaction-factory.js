@@ -5,6 +5,8 @@ import IaPolygon from './ia/ia-polygon';
 import IaFreehand from './ia/ia-freehand';
 import IaSelect from './ia/ia-select';
 import IaDelete from './ia/ia-delete';
+import IaCircleCursor from './ia/ia-circle-cursor';
+import IaKeyCommand from './ia/ia-key-command';
 import IaMove from './ia/ia-move';
 import IaOnePoint from './ia/ia-one-point';
 import IaTwoPoints from './ia/ia-two-points';
@@ -20,6 +22,12 @@ class InteractionFactory {
   create(name) {
     let interAction;
     switch (name) {
+      case "iaCircleCursor":
+        interAction = new IaCircleCursor(this.transform);
+        break;
+      case "iaKeyCommand":
+        interAction = new IaKeyCommand(this.transform);
+        break;
       case "iaPanning":
         interAction = new IaPanning(this.transform);
         break;

@@ -5,14 +5,12 @@ const iaMatrix = {
   'select': [
     'iaZoom',
     'iaMove',
-    'iaDelete',
+    'iaKeyCommand',
     'iaSelect'
   ],
 
   'delete': [
-    // 'iaCursor',
-    'iaZoom'
-    // 'iaDelete'
+    'iaDelete'
   ],
 
   'panning': [

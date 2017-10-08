@@ -4,8 +4,10 @@ class TemporaryItemList {
     this.items = [];
   }
 
-  addItem(item) {
-    this.items.push(item);
+  add(item) {
+    if (!this.contains(item)) {
+      this.items.push(item);
+    }
   }
 
   removeItem(item) {
@@ -25,6 +27,14 @@ class TemporaryItemList {
   clear() {
     this.items.splice(0);
   }
+
+  contains(item) {
+    if (this.items.find(i => i === item)) {
+      return true;
+    }
+    return false;
+  }
+
 }
 
 export default new TemporaryItemList();
