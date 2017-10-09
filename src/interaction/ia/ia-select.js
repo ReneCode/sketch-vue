@@ -33,8 +33,8 @@ export default class IaSelect extends IaBase {
           selectionList.addItem(item);
         }
       }
-      this.restart();
     } else {
+      interaction.stop(this.iaPickItems);
       selectionList.clear();
       const options = {
         callbackName: "iaSelectionCallback"

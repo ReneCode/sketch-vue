@@ -14,7 +14,7 @@ export default class IaCircleCursor extends IaBase {
   }
 
   start(options) {
-    if (options.circleFill) {
+    if (options && options.circleFill) {
       this.circleFill = options.circleFill;
     }
     this.createCursor();
