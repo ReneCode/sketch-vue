@@ -18,8 +18,10 @@ export default class ItemPolyline extends ItemBase {
 
   static createFromSvg(svg) {
     let polyline = new ItemPolyline();
-    Object.assign(polyline.svg, svg);
-    polyline.points = [];
+    let tmpSvg = {};
+    Object.assign(tmpSvg, svg);
+    delete tmpSvg.points;
+    Object.assign(polyline.svg, tmpSvg);
     for (let pt of svg.points) {
       polyline.points.push(new Point(pt.x, pt.y));
     }

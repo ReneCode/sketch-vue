@@ -20,6 +20,7 @@ export default class IaFreehand extends IaBase {
   onMouseDown(event) {
     const pt = this.getSVGPoint(event);
     this.polyline = new ItemPolyline();
+    this.polyline.svg.stroke = store.getters.color;
     temporaryItemList.add(this.polyline);
     // fix first point
     this.polyline.addPoint(pt);

@@ -1,20 +1,20 @@
 <template>
   <v-container fluid>
-    <v-layout>
+    <!-- <v-layout>
       <div>
         {{iaList.map(i => i.name)}}
       </div>
-    </v-layout>
+    </v-layout> -->
     <v-layout>
       <!-- <div>
-        {{tmpItems}}
-      </div> -->
+                        {{tmpItems}}
+                      </div> -->
       <!-- <v-flex xs4>
-                            <code>
-                              Interactions: {{iaName()}} {{iaList}}
-                              UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
-                            </code>
-                          </v-flex> -->
+                                            <code>
+                                              Interactions: {{iaName()}} {{iaList}}
+                                              UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
+                                            </code>
+                                          </v-flex> -->
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
@@ -25,9 +25,11 @@
             <v-btn :dark="iaMode === 'polygon'" @click="onSetInteractionMode('polygon')">Polygon</v-btn>
             <v-btn :dark="iaMode === 'freehand'" @click="onSetInteractionMode('freehand')">Freehand</v-btn>
             <v-btn :dark="iaMode === 'delete'" @click="onSetInteractionMode('delete')">Delete</v-btn>
-            <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5">Undo</v-btn>
+            <v-btn class="green" @click="onColor('green')">green</v-btn>
+            <v-btn class="red" @click="onColor('red')">red</v-btn>
+            <v-btn :dark="true" @click="onColor('black')">black</v-btn>
+            <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5 ">Undo</v-btn>
             <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
-
           </v-flex>
         </v-layout>
       </v-flex>
@@ -114,7 +116,7 @@ export default {
           return item;
         }
       })
-      .filter(item => item !== null);
+        .filter(item => item !== null);
     },
 
     loading() {
@@ -158,6 +160,9 @@ export default {
     onRedo() {
       selectionList.clear();
       undoRedoList.redo();
+    },
+    onColor(color) {
+      this.$store.commit('setColor', color);
     }
   }
 }

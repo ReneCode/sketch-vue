@@ -51,6 +51,7 @@ export default class IaPolygon extends IaBase {
   addPointToPolygon(pt) {
     if (!this.polygon) {
       this.polygon = new ItemPolygon();
+      this.polygon.svg.stroke = store.getters.color;
       temporaryItemList.add(this.polygon);
       // fix first point
       this.polygon.addPoint(pt);

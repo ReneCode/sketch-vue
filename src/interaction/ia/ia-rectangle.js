@@ -35,6 +35,7 @@ export default class IaRectangle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.rectangle = new ItemRectangle(pt, pt);
+      this.rectangle.svg.stroke = store.getters.color;
       temporaryItemList.add(this.rectangle);
     } else {
       if (this.firstPoint.equal(pt)) {

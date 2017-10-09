@@ -16,6 +16,10 @@ export default class ItemPolygon extends ItemBase {
 
   static createFromSvg(svg) {
     let polygon = new ItemPolygon();
+    let tmpSvg = {};
+    Object.assign(tmpSvg, svg);
+    delete tmpSvg.points;
+    Object.assign(polygon.svg, tmpSvg);
     for (let pt of svg.points) {
       polygon.addPoint(new Point(pt.x, pt.y));
     }

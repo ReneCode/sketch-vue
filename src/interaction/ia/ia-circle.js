@@ -45,6 +45,7 @@ export default class IaCircle extends IaBase {
     if (!this.firstPoint) {
       this.firstPoint = pt;
       this.circle = new ItemCircle(pt);
+      this.circle.svg.stroke = store.getters.color;
       temporaryItemList.add(this.circle);
     } else {
       if (this.firstPoint.equal(pt)) {

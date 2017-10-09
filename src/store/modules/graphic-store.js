@@ -4,7 +4,8 @@ import undoRedoList from './undo-redo-list';
 
 export default {
   state: {
-    loadedGraphics: []
+    loadedGraphics: [],
+    color: "#222"
   },
 
   getters: {
@@ -16,12 +17,19 @@ export default {
       return (id) => {
         return state.loadedGraphics.find(g => g.id === id);
       }
+    },
+
+    color(state) {
+      return state.color;
     }
   },
 
   mutations: {
     setLoadedGraphics(state, payload) {
       state.loadedGraphics = payload;
+    },
+    setColor(state, payload) {
+      state.color = payload;
     }
   },
 
