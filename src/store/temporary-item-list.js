@@ -42,11 +42,20 @@ class TemporaryItemList {
     }
   }
 
-  contains(item) {
-    if (this.items.find(i => i === item)) {
+  contains(itemOrItems) {
+    if (Array.isArray(itemOrItems)) {
+      for (var item of itemOrItems) {
+        if (!this.items.find(i => i === item)) {
+          return false;
+        }
+      }
       return true;
+    } else {
+      if (this.items.find(i => i === itemOrItems)) {
+        return true;
+      }
+      return false;
     }
-    return false;
   }
 
 }

@@ -1,7 +1,7 @@
 
 import store from '@/store';
 import interaction from '@/interaction';
-// import selectionList from '@/store/selectionList';
+// import selectionList from '@/store/selection-list';
 import IaBase from './ia-base'
 import temporaryItemList from '@/store/temporary-item-list';
 

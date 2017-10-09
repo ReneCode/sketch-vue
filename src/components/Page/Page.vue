@@ -46,7 +46,7 @@
 <script>
 import Svg from '@/svg'
 import undoRedoList from '@/store/modules/undo-redo-list';
-import selectionList from '@/store/selectionList';
+import selectionList from '@/store/selection-list';
 import temporaryItemList from '@/store/temporary-item-list';
 import interaction from '@/interaction';
 import SvgItem from './SvgItem'

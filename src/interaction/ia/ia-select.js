@@ -1,6 +1,6 @@
 
 import store from '@/store';
-import selectionList from '@/store/selectionList';
+import selectionList from '@/store/selection-list';
 import interaction from '@/interaction'
 import IaBase from './ia-base'
 import BoundingBox from '@/models/bounding-box';

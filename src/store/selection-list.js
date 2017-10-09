@@ -5,7 +5,6 @@ class SelectionList {
   }
 
   addItem(item) {
-    // const newItem = JSON.parse(JSON.stringify(item));
     const newItem = item.clone();
     newItem.selected = true;
     this.items.push(newItem);
