@@ -21,7 +21,7 @@ new Vue({
   render: h => h(App),
 
   created() {
-    const useLocalFirebase = true;
+    const useLocalFirebase = false;
 
     if (useLocalFirebase) {
       const config = {

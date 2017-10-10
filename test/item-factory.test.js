@@ -5,7 +5,7 @@ import ItemPolyline from '../src/models/item-polyline'
 import ItemPolygon from '../src/models/item-polygon'
 import itemFactory from '../src/models/item-factory'
 
-describe.only('ItemFactory', () => {
+describe('ItemFactory', () => {
   it('should ItemPolyline', () => {
     const svg = {
       type: "polyline",
