@@ -9,6 +9,7 @@ import IaMove from './ia-move';
 import IaKeyCommand from './ia-key-command';
 import IaOnePoint from './ia-one-point';
 import IaTwoPoints from './ia-two-points';
+import IaZoom from './ia-zoom';
 
 class Interaction {
   constructor() {
@@ -60,7 +61,7 @@ class Interaction {
     this.start('iaSelect');
     this.start('iaDelete');
     this.start('iaMove');
-    this.start('iaKeyCommand');
+    this.start('iaZoom');
   }
 
   stop(name) {
@@ -108,6 +109,9 @@ class Interaction {
   createInteraction(name) {
     let interAction;
     switch (name) {
+      case "iaZoom":
+        interAction = new IaZoom(this.transform);
+        break;
       case "iaFreehand":
         interAction = new IaFreehand(this.transform, this.tmpItems);
         break;
@@ -155,9 +159,11 @@ class Interaction {
     this.mouseUpHandler = (ev) => { self.onMouseUp(ev); }
     this.keyDownHandler = (ev) => { self.onKeyDown(ev); }
     this.keyUpHandler = (ev) => { self.onKeyUp(ev); }
+    this.mouseWheelHandler = (ev) => { self.onMouseWheel(ev); }
     this.domElement.addEventListener('mousemove', this.mouseMoveHandler);
     this.domElement.addEventListener('mousedown', this.mouseDownHandler);
     this.domElement.addEventListener('mouseup', this.mouseUpHandler);
+    this.domElement.addEventListener('wheel', this.mouseWheelHandler);
 
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
@@ -167,6 +173,7 @@ class Interaction {
     this.domElement.removeEventListener('mousemove', this.mouseMoveHandler);
     this.domElement.removeEventListener('mousedown', this.mouseDownHandler);
     this.domElement.removeEventListener('mouseup', this.mouseUpHandler);
+    this.domElement.removeEventListener('wheel', this.mouseWheelHandler);
 
     document.removeEventListener('keydown', this.keyDownHandler);
     document.removeEventListener('keyup', this.keyUpHandler);
@@ -182,6 +189,9 @@ class Interaction {
 
   onMouseUp(ev) {
     this.route("onMouseUp", ev);
+  }
+  onMouseWheel(ev) {
+    this.route("onMouseWheel", ev);
   }
   onKeyDown(ev) {
     this.route("onKeyDown", ev);

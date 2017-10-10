@@ -2,11 +2,11 @@
   <v-container fluid>
     <v-layout>
       <!-- <v-flex xs4>
-                      <code>
-                        Interactions: {{iaName()}} {{iaList}}
-                        UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
-                      </code>
-                    </v-flex> -->
+                        <code>
+                          Interactions: {{iaName()}} {{iaList}}
+                          UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
+                        </code>
+                      </v-flex> -->
       <v-flex xs12>
         <v-layout row class="mb-2">
           <v-flex xs12 class="text-xs-left">
@@ -24,8 +24,10 @@
     </v-layout>
     <div style='height:500px;'>
       <svg ref="svg" width="100%" height="100%">
-        <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
-        <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
+        <g :transform="svgTransform">
+          <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
+          <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
+        </g>
       </svg>
     </div>
   </v-container>
@@ -49,11 +51,20 @@ export default {
       tmpItems: [],
       selectedItems: selectionList.getItems(),
       iaList: interaction.getIaList(),
-      undoRedoList: undoRedoList
+      undoRedoList: undoRedoList,
+      svg: {}
     }
   },
 
   computed: {
+    svgTransform() {
+      console.log("get transform")
+      if (this.svg) {
+        return this.svg.getSvgTransformString();
+      } else {
+        return "";
+      }
+    },
 
     urList() {
       return this.undoRedoList.getList().map(ur => {
