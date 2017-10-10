@@ -23,7 +23,7 @@ export default class ItemPolyline extends ItemBase {
     delete tmpSvg.points;
     Object.assign(polyline.svg, tmpSvg);
     for (let pt of svg.points) {
-      polyline.points.push(new Point(pt.x, pt.y));
+      polyline.svg.points.push(new Point(pt.x, pt.y));
     }
     return polyline;
   }
