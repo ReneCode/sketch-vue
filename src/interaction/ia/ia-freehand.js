@@ -1,16 +1,12 @@
 
 import IaBase from './ia-base'
 import ItemPolyline from '@/models/item-polyline';
-
+import store from '@/store'
 import temporaryItemList from '@/store/temporary-item-list';
-
-const MODE_NONE = 1;
-const MODE_MOUSE_DOWN = 2;
 
 export default class IaFreehand extends IaBase {
   start(options) {
     this.options = options;
-    this.mode = MODE_NONE;
   }
 
   stop() {
