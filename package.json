@@ -12,10 +12,11 @@
     "firebase": "firebase",
     "mocha": "mocha",
     "test": "mocha-webpack --webpack-config build/webpack.test.config.js test --recursive",
-    "start-firebase": "node_modules/.bin/firebase-server -p 5000 -f ./sketch-vue-export.json"   
+    "start-firebase": "node_modules/.bin/firebase-server -p 5000 -f ./sketch-vue-export.json"
   },
   "dependencies": {
     "firebase": "^4.3.0",
+    "simplify-js": "^1.2.1",
     "vue": "^2.4.2",
     "vue-router": "^2.6.0",
     "vuetify": "^0.15.2",

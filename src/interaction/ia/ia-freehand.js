@@ -43,7 +43,7 @@ export default class IaFreehand extends IaBase {
 
   savePolyline() {
     // let cnt = this.polyline.countPoints();
-    this.polyline.shrink(0.8);
+    this.polyline.simplify(1.7);
     // console.log(cnt, this.polyline.countPoints());
     let item = this.polyline;
     item.projectId = this.options.projectId;

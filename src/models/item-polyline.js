@@ -3,7 +3,7 @@ import ItemBase from './item-base';
 import BoundingBox from './bounding-box';
 import Point from './point';
 import Line from './line';
-import shrinkPoints from './shrink-points'
+import simplify from 'simplify-js'
 
 export default class ItemPolyline extends ItemBase {
   constructor() {
@@ -96,8 +96,9 @@ export default class ItemPolyline extends ItemBase {
     }
   }
 
-  shrink(maxDelta) {
-    shrinkPoints(this.svg.points, maxDelta);
+  simplify(tolerance) {
+    // https://github.com/mourner/simplify-js
+    this.svg.points = simplify(this.svg.points, tolerance);
   }
 
   nearPoint(point, radius) {
