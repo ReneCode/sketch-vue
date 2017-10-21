@@ -6,12 +6,14 @@ import router from './router'
 import store from './store'
 
 import AlertComponent from './components/Shared/Alert.vue'
+import UploadPictureComponent from './components/Shared/UploadPicture.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 // make that component globaly availiable
 Vue.component('app-alert', AlertComponent);
+Vue.component('app-upload-picture', UploadPictureComponent);
 
 /* eslint-disable no-new */
 new Vue({

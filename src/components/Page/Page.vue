@@ -37,6 +37,11 @@
         <v-icon dark>delete</v-icon>
       </v-btn>
 
+      <v-btn fab color="primary" @click="onShowDialogUploadPicture()">
+        <v-icon dark>add_a_photo</v-icon>
+      </v-btn>
+
+
       <v-btn fab color="primary" :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-4">
         <v-icon dark>replay</v-icon>
       </v-btn>
@@ -52,6 +57,8 @@
         </g>
       </svg>
     </div>
+
+    <app-upload-picture :show="showDialogUploadPicture" @upload="onUploadPicture"  @close="onCloseUploadPicture"></app-upload-picture>
   </v-container>
 </template>
 
@@ -70,6 +77,7 @@ export default {
   },
   data() {
     return {
+      showDialogUploadPicture: false,
       tmpItems: temporaryItemList.getItems(),
       selectedItems: selectionList.getItems(),
       iaList: interaction.getIaList(),
@@ -176,13 +184,22 @@ export default {
     },
     onColor(color) {
       this.$store.commit("setColor", color);
+    },
+    onShowDialogUploadPicture() {
+      this.showDialogUploadPicture = true;
+    },
+    onUploadPicture(file) {
+      console.log("F:", file)
+      this.showDialogUploadPicture = false;
+    },
+    onCloseUploadPicture() {
+      this.showDialogUploadPicture = false;
     }
   }
 };
 </script>
 
 <style>
-
 .flipy {
   -moz-transform: scaleX(-1);
   -o-transform: scaleX(-1);
