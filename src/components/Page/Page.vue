@@ -5,36 +5,46 @@
         {{iaList.map(i => i.name)}}
       </div>
     </v-layout> -->
-    <v-layout>
-      <!-- <div>
-                        {{tmpItems}}
-                      </div> -->
-      <!-- <v-flex xs4>
-                                            <code>
-                                              Interactions: {{iaName()}} {{iaList}}
-                                              UndoRedoList: {{undoRedoList.currentIdx}} {{urList}}
-                                            </code>
-                                          </v-flex> -->
-      <v-flex xs12>
-        <v-layout row class="mb-2">
-          <v-flex xs12 class="text-xs-left">
-            <v-btn :dark="iaMode === 'select'" @click="onSetInteractionMode('select')">Select</v-btn>
-            <v-btn :dark="iaMode === 'panning'" @click="onSetInteractionMode('panning')">Panning</v-btn>
-            <v-btn :dark="iaMode === 'rectangle'" @click="onSetInteractionMode('rectangle')">Rectangle</v-btn>
-            <v-btn :dark="iaMode === 'circle'" @click="onSetInteractionMode('circle')">Circle</v-btn>
-            <v-btn :dark="iaMode === 'polygon'" @click="onSetInteractionMode('polygon')">Polygon</v-btn>
-            <v-btn :dark="iaMode === 'freehand'" @click="onSetInteractionMode('freehand')">Freehand</v-btn>
-            <v-btn :dark="iaMode === 'delete'" @click="onSetInteractionMode('delete')">Delete</v-btn>
-            <v-btn class="green" @click="onColor('green')">green</v-btn>
-            <v-btn class="red" @click="onColor('red')">red</v-btn>
-            <v-btn :dark="true" @click="onColor('black')">black</v-btn>
-            <v-btn :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-5 ">Undo</v-btn>
-            <v-btn :disabled="!undoRedoList.canRedo" @click="onRedo">Redo</v-btn>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-    <div style='height:500px;'>
+
+    <div class="toolbox">
+      <!-- <v-btn fab :color="iaMode === 'select'?'primary':'accent'" @click="onSetInteractionMode('select')">
+        <div class="icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAtMC4xIDI0IDI0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNGRkYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIj48cGF0aCBzdHJva2Utd2lkdGg9IjIiIGQ9Ik04IDIwLjlsLTcgMiAyLTcgMTQtMTRjMS0xIDMgMCA0IDFzMiAzIDEgNGwtMTQgMTR6Ii8+PHBhdGggZD0iTTYgMTcuOWwxNS0xNU0zIDE1LjlsNSA1Ii8+PC9nPjwvc3ZnPg==');"></div>
+      </v-btn> -->
+
+      <v-btn fab small class="green" @click="onColor('green')"></v-btn>
+      <v-btn fab small class="red " @click="onColor('red')"></v-btn>
+      <v-btn fab small class="black mr-3" @click="onColor('black')"></v-btn>
+
+      <v-btn fab :color="iaMode === 'select'?'primary':'accent'" @click="onSetInteractionMode('select')">
+        <v-icon class="flipy" dark>call_made</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'panning'?'primary':'accent'" @click="onSetInteractionMode('panning')">
+        <v-icon dark>pan_tool</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'rectangle'?'primary':'accent'" @click="onSetInteractionMode('rectangle')">
+        <v-icon dark>check_box_outline_blank</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'circle'?'primary':'accent'" @click="onSetInteractionMode('circle')">
+        <v-icon dark>radio_button_unchecked</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'polygon'?'primary':'accent'" @click="onSetInteractionMode('polygon')">
+        <v-icon dark>details</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'freehand'?'primary':'accent'" @click="onSetInteractionMode('freehand')">
+        <v-icon dark>edit</v-icon>
+      </v-btn>
+      <v-btn fab :color="iaMode === 'delete'?'primary':'accent'" @click="onSetInteractionMode('delete')">
+        <v-icon dark>delete</v-icon>
+      </v-btn>
+
+      <v-btn fab color="primary" :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-4">
+        <v-icon dark>replay</v-icon>
+      </v-btn>
+      <v-btn fab color="primary" :disabled="!undoRedoList.canRedo" @click="onRedo">
+        <v-icon class="flipy" dark>replay</v-icon>
+      </v-btn>
+    </div>
+    <div class="graphic">
       <svg ref="svg" width="100%" height="100%">
         <g :transform="svgTransform">
           <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
@@ -46,27 +56,26 @@
 </template>
 
 <script>
-import Svg from '@/svg'
-import undoRedoList from '@/store/modules/undo-redo-list';
-import selectionList from '@/store/selection-list';
-import temporaryItemList from '@/store/temporary-item-list';
-import interaction from '@/interaction';
-import SvgItem from './SvgItem'
+import Svg from "@/svg";
+import undoRedoList from "@/store/modules/undo-redo-list";
+import selectionList from "@/store/selection-list";
+import temporaryItemList from "@/store/temporary-item-list";
+import interaction from "@/interaction";
+import SvgItem from "./SvgItem";
 
 export default {
-  props: ['projectId', 'pageId'],
+  props: ["projectId", "pageId"],
   components: {
     SvgItem
   },
   data() {
     return {
-      buttonMode: "",
       tmpItems: temporaryItemList.getItems(),
       selectedItems: selectionList.getItems(),
       iaList: interaction.getIaList(),
       undoRedoList: undoRedoList,
       svg: {}
-    }
+    };
   },
 
   computed: {
@@ -86,7 +95,7 @@ export default {
           return {
             old: ur.oldData,
             new: ur.newData
-          }
+          };
         }
       });
     },
@@ -100,29 +109,33 @@ export default {
     },
 
     allItems: function() {
-      return this.loadedGraphics.map(item => {
-        // do not show items, that are in temporaryData
-        let selectedItem = this.selectedItems.find(selItem => selItem.id === item.id);
-        if (selectedItem) {
-          // item is selected
-          return selectedItem
-        } else {
-          let tempItem = this.tmpItems.find(tmpItem => tmpItem.id === item.id);
-          if (tempItem) {
-            // item is temporary - will be removed (.filter())
-            return null;
+      return this.loadedGraphics
+        .map(item => {
+          // do not show items, that are in temporaryData
+          let selectedItem = this.selectedItems.find(
+            selItem => selItem.id === item.id
+          );
+          if (selectedItem) {
+            // item is selected
+            return selectedItem;
+          } else {
+            let tempItem = this.tmpItems.find(
+              tmpItem => tmpItem.id === item.id
+            );
+            if (tempItem) {
+              // item is temporary - will be removed (.filter())
+              return null;
+            }
+            // quite normal item
+            return item;
           }
-          // quite normal item
-          return item;
-        }
-      })
+        })
         .filter(item => item !== null);
     },
 
     loading() {
       return this.$store.getters.loading;
     }
-
   },
 
   created() {
@@ -135,9 +148,9 @@ export default {
     const options = {
       projectId: this.projectId,
       pageId: this.pageId
-    }
-    this.$store.dispatch('loadGraphics', options);
-    this.onSetInteractionMode('select');
+    };
+    this.$store.dispatch("loadGraphics", options);
+    this.onSetInteractionMode("select");
   },
 
   beforeDestroy() {
@@ -150,8 +163,8 @@ export default {
         mode: mode,
         projectId: this.projectId,
         pageId: this.pageId
-      }
-      this.$store.commit('setInteractionMode', payload);
+      };
+      this.$store.commit("setInteractionMode", payload);
     },
     onUndo() {
       selectionList.clear();
@@ -162,17 +175,40 @@ export default {
       undoRedoList.redo();
     },
     onColor(color) {
-      this.$store.commit('setColor', color);
+      this.$store.commit("setColor", color);
     }
   }
-}
+};
 </script>
 
 <style>
+
+.flipy {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+
+.graphic {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
 svg {
   background-color: #f0f0f0;
 }
 
+.toolbox {
+  top: 0px;
+  right: 0px;
+  position: absolute;
+}
 .item-normal {
   stroke: #630;
   stroke-width: 2px;
