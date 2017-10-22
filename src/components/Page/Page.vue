@@ -63,6 +63,7 @@
 
     <app-upload-picture :show="showDialogUploadPicture" @upload="onUploadPicture"  @close="onCloseUploadPicture"></app-upload-picture>
 
+  <!-- That fileInput is used for selecting an local image on "iaImage" -->
     <input ref="fileInput" type="file" style="display:none" accept="image/*">
 
   </v-container>
@@ -196,7 +197,7 @@ export default {
       this.showDialogUploadPicture = true;
     },
     onUploadPicture(file) {
-      console.log("F:", file)
+      console.log("F:", file);
       this.showDialogUploadPicture = false;
     },
     onCloseUploadPicture() {
