@@ -36,11 +36,13 @@
       <v-btn fab :color="iaMode === 'delete'?'primary':'accent'" @click="onSetInteractionMode('delete')">
         <v-icon dark>delete</v-icon>
       </v-btn>
-
-      <v-btn fab color="primary" @click="onShowDialogUploadPicture()">
+      <v-btn fab :color="iaMode === 'image'?'primary':'accent'" @click="onSetInteractionMode('image')">
         <v-icon dark>add_a_photo</v-icon>
       </v-btn>
-
+<!-- 
+      <v-btn fab color="primary" @click="onShowDialogUploadPicture()">
+        <v-icon dark>add_a_photo</v-icon>
+      </v-btn> -->
 
       <v-btn fab color="primary" :disabled="!undoRedoList.canUndo" @click="onUndo" class="ml-4">
         <v-icon dark>replay</v-icon>
@@ -52,6 +54,7 @@
     <div class="graphic">
       <svg ref="svg" width="100%" height="100%">
         <g :transform="svgTransform">
+          <!-- <image xlink:href="http://lorempixel.com/400/200/technics" x="100" y="80"/> -->
           <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
           <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
         </g>
@@ -59,6 +62,9 @@
     </div>
 
     <app-upload-picture :show="showDialogUploadPicture" @upload="onUploadPicture"  @close="onCloseUploadPicture"></app-upload-picture>
+
+    <input ref="fileInput" type="file" style="display:none" accept="image/*">
+
   </v-container>
 </template>
 
@@ -170,7 +176,8 @@ export default {
       const payload = {
         mode: mode,
         projectId: this.projectId,
-        pageId: this.pageId
+        pageId: this.pageId,
+        fileInput: this.$refs.fileInput
       };
       this.$store.commit("setInteractionMode", payload);
     },
@@ -229,7 +236,7 @@ svg {
 .item-normal {
   stroke: #630;
   stroke-width: 2px;
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .item-selected {

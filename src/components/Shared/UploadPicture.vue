@@ -4,7 +4,7 @@
       <v-card-title>Upload Picture</v-card-title>
       <v-card-text>
         <div>
-          <v-btn raised class="primary" @click.stop="onPickFile">Upload Image</v-btn>
+          <v-btn raised class="primary" @click.stop="onPickFile">Pick Image</v-btn>
           <input ref="fileInput" type="file" style="display:none" accept="image/*" @change="onFilePicked">
         </div>
         <div>
@@ -25,7 +25,8 @@ export default {
 
   data() {
     return {
-      imageUrl: null
+      imageUrl: null,
+      image: null
     };
   },
 
@@ -33,7 +34,7 @@ export default {
 
   methods: {
     onUpload() {
-      this.$emit('upload')
+      this.$emit('upload', this.image)
     },
     onClose() {
       this.$emit("close");
@@ -43,12 +44,13 @@ export default {
     },
     onFilePicked(event) {
       const file = event.target.files[0];
+      // read file for the preview
       const fileReader = new FileReader();
       fileReader.addEventListener('load', () => {
         this.imageUrl = fileReader.result;
       });
       fileReader.readAsDataURL(file);
-      // this.$emit("close", fileName);
+      this.image = file;
     }
   }
 };

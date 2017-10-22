@@ -13,6 +13,7 @@ import IaTwoPoints from './ia/ia-two-points';
 import IaZoom from './ia/ia-zoom';
 import IaPickItems from './ia/ia-pick-items';
 import IaPanning from './ia/ia-panning';
+import IaImage from './ia/ia-image';
 
 class InteractionFactory {
   constructor(transform) {
@@ -63,6 +64,9 @@ class InteractionFactory {
         break;
       case "iaOnePoint":
         interAction = new IaOnePoint(this.transform);
+        break;
+      case "iaImage":
+        interAction = new IaImage(this.transform);
         break;
     }
     if (!interAction) {

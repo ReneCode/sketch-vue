@@ -63,11 +63,32 @@ export default {
         const projectId = payload.projectId;
         const pageId = payload.pageId;
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics';
+        let itemKey = null;
+        const createImage = graphic.svg.type === 'image';
         firebase.database().ref(ref).push(graphic)
           .then(data => {
             undoRedoList.start();
             undoRedoList.add(ref + '/' + data.key, null, graphic);
-            resolve(data.key);
+            itemKey = data.key;
+            if (createImage) {
+              return itemKey;
+            }
+          })
+          .then(key => {
+            if (createImage) {
+              // 1. upload the image to the storage
+              // 2. take that image URL and update the imageUrl of the item
+              return firebase.storage().ref('images/' + key).put(payload.image);
+            }
+          })
+          .then(fileData => {
+            if (createImage) {
+              const imageUrl = fileData.metadata.downloadURLs[0];
+              return firebase.database().ref(ref).child(itemKey).child("svg").update({ imageUrl: imageUrl });
+            }
+          })
+          .then(() => {
+            resolve(itemKey);
           })
           .catch(err => {
             commit('setError', err);

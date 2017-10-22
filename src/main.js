@@ -37,7 +37,7 @@ new Vue({
         authDomain: "sketch-vue.firebaseapp.com",
         databaseURL: "https://sketch-vue.firebaseio.com",
         projectId: "sketch-vue",
-        storageBucket: ""
+        storageBucket: "gs://sketch-vue.appspot.com"
       });
     }
     this.$store.dispatch('loadProjects');

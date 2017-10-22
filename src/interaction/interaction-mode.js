@@ -32,21 +32,25 @@ const iaMatrix = {
 
   'freehand': [
     'iaFreehand'
+  ],
+
+  'image': [
+    'iaImage'
   ]
 
 }
 
 class InteractionMode {
 
-  set({ projectId, pageId, mode }) {
+  set(payload) {
+    const mode = payload.mode;
     let ias = iaMatrix[mode];
     if (!ias) {
-      console.log("no valid interaction mode:", mode);
-      return;
+      throw new Error(`Invalid interaction mode: ${mode}`);
     }
     interaction.clear();
     for (const ia of ias) {
-      interaction.start(ia, { projectId, pageId });
+      interaction.start(ia, payload);
     }
   }
 }
