@@ -19,7 +19,7 @@ export default class IaOnePoint extends IaBase {
 
   onMouseUp(event) {
     let currentPoint = this.getSVGPoint(event);
-    if (!this.firstPoint.equal(currentPoint)) {
+    if (this.firstPoint && !this.firstPoint.equal(currentPoint)) {
       this.firstPoint = null;
       this.dispatch(this.createPayload("onPoint", currentPoint));
     }
