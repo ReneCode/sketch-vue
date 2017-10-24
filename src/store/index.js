@@ -8,7 +8,7 @@ import user from './modules/user-store';
 import interaction from './modules/interaction-store';
 import undoRedo from './modules/undo-redo-store';
 
-import interactionStorePlugin from '@/interaction/interaction-store-plugin'
+import interactionStorePlugin from '../interaction/interaction-store-plugin'
 
 Vue.use(Vuex);
 

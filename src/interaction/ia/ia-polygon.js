@@ -1,8 +1,8 @@
 import IaBase from './ia-base'
-import interaction from '@/interaction';
-import ItemPolygon from '@/models/item-polygon';
-import store from '@/store';
-import temporaryItemList from '@/store/temporary-item-list';
+import interaction from '../../interaction';
+import ItemPolygon from '../../models/item-polygon';
+import store from '../../store';
+import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaPolygon extends IaBase {
   start(options) {

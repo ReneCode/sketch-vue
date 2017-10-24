@@ -1,5 +1,5 @@
 import IaBase from './ia-base'
-import interaction from '@/interaction'
+import interaction from '../../interaction'
 
 const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;

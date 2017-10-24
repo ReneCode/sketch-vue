@@ -1,7 +1,7 @@
 import IaBase from './ia-base'
-import ItemCircle from '@/models/item-circle';
-import Point from '@/models/point';
-import temporaryItemList from '@/store/temporary-item-list';
+import ItemCircle from '../../models/item-circle';
+import Point from '../../models/point';
+import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaCircleCursor extends IaBase {
   circleScreenRadius = 15;

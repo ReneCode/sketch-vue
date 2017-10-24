@@ -1,9 +1,9 @@
 import IaBase from './ia-base'
-import interaction from '@/interaction';
-import ItemCircle from '@/models/item-circle';
+import interaction from '../../interaction';
+import ItemCircle from '../../models/item-circle';
 
-import temporaryItemList from '@/store/temporary-item-list';
-import store from '@/store';
+import temporaryItemList from '../../store/temporary-item-list';
+import store from '../../store';
 
 export default class IaCircle extends IaBase {
   start(options) {

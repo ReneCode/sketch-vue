@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SvgCircleItem renders the markup 1`] = `<circle cx="50" cy="70" r="40" style="stroke: red; stroke-width: 3px; fill: blue;"></circle>`;
+
+exports[`SvgPolygonItem renders the markup 1`] = `<polygon points="10,20,30,5,60,50" style="stroke: red; stroke-width: 3px; fill: blue;"></polygon>`;
+
+exports[`SvgPolylineItem renders the markup 1`] = `<polyline points="10,20,30,5,60,50" style="fill: blue; stroke: red; stroke-width: 3px;"></polyline>`;
+
+exports[`SvgRectItem renders the markup 1`] = `<rect x="33" y="44" width="22" height="33" style="stroke: red; stroke-width: 3px; fill: blue;"></rect>`;

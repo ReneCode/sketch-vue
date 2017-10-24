@@ -1,8 +1,8 @@
 
 import IaBase from './ia-base'
-import ItemPolyline from '@/models/item-polyline';
-import store from '@/store'
-import temporaryItemList from '@/store/temporary-item-list';
+import ItemPolyline from '../../models/item-polyline';
+import store from '../../store'
+import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaFreehand extends IaBase {
   start(options) {

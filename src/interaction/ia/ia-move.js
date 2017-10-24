@@ -1,6 +1,6 @@
-import store from '@/store';
+import store from '../../store';
 import IaBase from './ia-base'
-import selectionList from '@/store/selection-list';
+import selectionList from '../../store/selection-list';
 
 export default class IaMove extends IaBase {
   start() {

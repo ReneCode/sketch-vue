@@ -1,6 +1,6 @@
 
 import SvgTransform from './svg-transform';
-import interaction from '@/interaction';
+import interaction from '../interaction';
 
 class Svg {
   constructor() {

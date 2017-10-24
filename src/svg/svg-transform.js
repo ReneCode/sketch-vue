@@ -1,4 +1,4 @@
-import Point from '@/models/point'
+import Point from '../models/point'
 
 const ZOOM_FACTOR = 0.05;
 

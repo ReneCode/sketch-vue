@@ -1,16 +1,6 @@
 <template>
   <v-container fluid>
-    <!-- <v-layout>
-      <div>
-        {{iaList.map(i => i.name)}}
-      </div>
-    </v-layout> -->
-
     <div class="toolbox">
-      <!-- <v-btn fab :color="iaMode === 'select'?'primary':'accent'" @click="onSetInteractionMode('select')">
-        <div class="icon" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAtMC4xIDI0IDI0Ij48ZyBmaWxsPSJub25lIiBzdHJva2U9IiNGRkYiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIj48cGF0aCBzdHJva2Utd2lkdGg9IjIiIGQ9Ik04IDIwLjlsLTcgMiAyLTcgMTQtMTRjMS0xIDMgMCA0IDFzMiAzIDEgNGwtMTQgMTR6Ii8+PHBhdGggZD0iTTYgMTcuOWwxNS0xNU0zIDE1LjlsNSA1Ii8+PC9nPjwvc3ZnPg==');"></div>
-      </v-btn> -->
-
       <v-btn fab small class="green" @click="onColor('green')"></v-btn>
       <v-btn fab small class="red " @click="onColor('red')"></v-btn>
       <v-btn fab small class="black mr-3" @click="onColor('black')"></v-btn>
@@ -52,13 +42,7 @@
       </v-btn>
     </div>
     <div class="graphic">
-      <svg ref="svg" width="100%" height="100%">
-        <g :transform="svgTransform">
-          <!-- <image xlink:href="http://lorempixel.com/400/200/technics" x="100" y="80"/> -->
-          <svg-item v-for="(item,index) in allItems" :key="index" :item="item" :iid="item.id" :class="item.selected? 'item-selected': 'item-normal'"></svg-item>
-          <svg-item v-for="(item,index) in tmpItems" :key="index" :item="item" class="tmp" :iid="item.id"></svg-item>
-        </g>
-      </svg>
+      <svg-canvas :tmpItems="tmpItems" :allItems="allItems"></svg-canvas>
     </div>
 
     <app-upload-picture :show="showDialogUploadPicture" @upload="onUploadPicture"  @close="onCloseUploadPicture"></app-upload-picture>
@@ -70,59 +54,28 @@
 </template>
 
 <script>
-import Svg from "@/svg";
 import undoRedoList from "@/store/modules/undo-redo-list";
 import selectionList from "@/store/selection-list";
-import temporaryItemList from "@/store/temporary-item-list";
+import temporaryItemList from "../../store/temporary-item-list";
 import interaction from "@/interaction";
-import SvgItem from "./SvgItem";
+import SvgCanvas from "./SvgCanvas";
 
 export default {
   props: ["projectId", "pageId"],
   components: {
-    SvgItem
+    SvgCanvas
   },
   data() {
     return {
-      showDialogUploadPicture: false,
       tmpItems: temporaryItemList.getItems(),
       selectedItems: selectionList.getItems(),
+      showDialogUploadPicture: false,
       iaList: interaction.getIaList(),
-      undoRedoList: undoRedoList,
-      svg: {}
+      undoRedoList: undoRedoList
     };
   },
 
   computed: {
-    svgTransform() {
-      if (this.svg) {
-        return this.svg.getSvgTransformString();
-      } else {
-        return "";
-      }
-    },
-
-    urList() {
-      return this.undoRedoList.getList().map(ur => {
-        if (!ur.ref) {
-          return ur;
-        } else {
-          return {
-            old: ur.oldData,
-            new: ur.newData
-          };
-        }
-      });
-    },
-
-    iaMode() {
-      return this.$store.getters.interactionMode;
-    },
-
-    loadedGraphics() {
-      return this.$store.getters.loadedGraphics;
-    },
-
     allItems: function() {
       return this.loadedGraphics
         .map(item => {
@@ -148,28 +101,39 @@ export default {
         .filter(item => item !== null);
     },
 
+    loadedGraphics() {
+      return this.$store.getters.loadedGraphics;
+    },
+
+    urList() {
+      return this.undoRedoList.getList().map(ur => {
+        if (!ur.ref) {
+          return ur;
+        } else {
+          return {
+            old: ur.oldData,
+            new: ur.newData
+          };
+        }
+      });
+    },
+
+    iaMode() {
+      return this.$store.getters.interactionMode;
+    },
+
     loading() {
       return this.$store.getters.loading;
     }
   },
 
-  created() {
-    this.svg = new Svg();
-  },
-
   mounted() {
-    this.svg.init(this.$refs.svg);
-
     const options = {
       projectId: this.projectId,
       pageId: this.pageId
     };
     this.$store.dispatch("loadGraphics", options);
     this.onSetInteractionMode("select");
-  },
-
-  beforeDestroy() {
-    this.svg.exit();
   },
 
   methods: {
@@ -225,44 +189,10 @@ export default {
   position: absolute;
 }
 
-svg {
-  background-color: #f0f0f0;
-}
-
 .toolbox {
   top: 0px;
   right: 0px;
   position: absolute;
-}
-.item-normal {
-  stroke: #630;
-  stroke-width: 2px;
-  opacity: 0.9;
-}
-
-.item-selected {
-  stroke: #222;
-  stroke-width: 2px;
-  stroke-dasharray: 5;
-  /* cursor: pointer; */
-  opacity: 0.8;
-  animation: dash-rotate 0.5s linear infinite;
-}
-
-@keyframes dash-rotate {
-  from {
-    stroke-dashoffset: 10;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-.tmp {
-  /* fill: #bbf; */
-  stroke: #33c;
-  cursor: pointer;
-  opacity: 0.3;
 }
 
 code {

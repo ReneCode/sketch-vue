@@ -1,5 +1,5 @@
 import IaBase from './ia-base'
-import interaction from '@/interaction';
+import interaction from '../../interaction';
 
 export default class IaPanning extends IaBase {
 

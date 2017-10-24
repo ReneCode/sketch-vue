@@ -1,9 +1,9 @@
 import IaBase from './ia-base'
-import interaction from '@/interaction';
-import store from '@/store';
-import ItemImage from '@/models/item-image';
-import Point from '@/models/point';
-import temporaryItemList from '@/store/temporary-item-list';
+import interaction from '../../interaction';
+import store from '../../store';
+import ItemImage from '../../models/item-image';
+import Point from '../../models/point';
+import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaImage extends IaBase {
   image = null;

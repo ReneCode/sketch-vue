@@ -1,9 +1,8 @@
 
-import store from '@/store';
-import interaction from '@/interaction';
-// import selectionList from '@/store/selection-list';
+import store from '../../store';
+import interaction from '../../interaction';
 import IaBase from './ia-base'
-import temporaryItemList from '@/store/temporary-item-list';
+import temporaryItemList from '../../store/temporary-item-list';
 
 const MODE_NONE = 1;
 const MODE_MOUSE_DOWN = 2;

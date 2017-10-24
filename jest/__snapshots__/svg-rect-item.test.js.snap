@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`SvgRectItem renders the markup 1`] = `<rect x="33" y="44" width="22" height="33" style="stroke: red; stroke-width: 3px; fill: blue;"></rect>`;

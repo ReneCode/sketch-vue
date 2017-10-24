@@ -1,10 +1,10 @@
 
-import store from '@/store';
-import selectionList from '@/store/selection-list';
-import interaction from '@/interaction'
+import store from '../../store';
+import selectionList from '../../store/selection-list';
+import interaction from '../../interaction'
 import IaBase from './ia-base'
-import BoundingBox from '@/models/bounding-box';
-import temporaryItemList from '@/store/temporary-item-list';
+import BoundingBox from '../../models/bounding-box';
+import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaSelect extends IaBase {
   start() {

@@ -1,6 +1,6 @@
 
 import InteractionFactory from './interaction-factory';
-import store from '@/store';
+import store from '../store';
 
 class Interaction {
   constructor() {

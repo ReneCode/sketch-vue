@@ -1,5 +1,5 @@
 import * as firebase from 'firebase';
-import itemFactory from '@/models/item-factory'
+import itemFactory from '../../models/item-factory'
 import undoRedoList from './undo-redo-list';
 
 export default {
