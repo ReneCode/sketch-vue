@@ -34,7 +34,9 @@ export default class IaDelete extends IaBase {
   onMouseUp(event) {
     if (this.mode === MODE_MOUSE_DOWN) {
       this.mode = MODE_NONE;
-      this.deleteItems();
+      if (!this.deleteItems()) {
+        return this.cleanup();
+      }
     }
   }
 
@@ -55,10 +57,14 @@ export default class IaDelete extends IaBase {
 
   onKeyDown(event) {
     if (event.keyCode === 27) {
-      temporaryItemList.clear();
-      interaction.stop(this.iaCircleCursor);
-      return "stop"
+      return this.cleanup();
     }
+  }
+
+  cleanup() {
+    temporaryItemList.clear();
+    interaction.stop(this.iaCircleCursor);
+    return "stop"
   }
 
   deleteItems() {
@@ -67,9 +73,13 @@ export default class IaDelete extends IaBase {
     // do not delete that circle-cursor-item
     const items = temporaryItemList.getItems()
       .filter(item => item.id !== 0);
+    if (items.length === 0) {
+      return false;
+    }
     if (items.length > 0) {
       store.dispatch('deleteGraphics', items);
     }
     temporaryItemList.clear(item => !!item.id);
+    return true;
   }
 }

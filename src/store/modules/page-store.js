@@ -29,7 +29,7 @@ export default {
       commit('setLoading', true);
       const projectId = payload;
       const ref = 'project-data/' + projectId + '/pages'
-      firebase.database().ref(ref).on('value', data => {
+      firebase.database().ref(ref).once('value', data => {
         // data.val() is an object - not an array
         let pages = [];
         const obj = data.val();

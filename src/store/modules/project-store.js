@@ -36,7 +36,7 @@ export default {
 
   actions: {
     loadProjects({ commit }) {
-      firebase.database().ref('projects').on('value', data => {
+      firebase.database().ref('projects').once('value', data => {
         // data.val() is an object - not an array
         let projects = [];
         const obj = data.val();

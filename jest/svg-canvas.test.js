@@ -30,4 +30,14 @@ describe('SvgCanvas', () => {
     cmp.setProps({ allItems: allItems })
     expect(cmp.html()).toMatchSnapshot()
   })
+
+  it('update renders when allItems changes', () => {
+    const allItems = [];
+    let item = new ItemCircle(new Point(50, 20), 40);
+    allItems.push(item);
+    cmp.setProps({ allItems: allItems })
+    item.setRadius(30);
+    cmp.update();
+    expect(cmp.html()).toMatchSnapshot()
+  })
 })
