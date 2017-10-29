@@ -6,27 +6,23 @@
       </v-flex>
     </v-layout>
     <v-layout row wrap v-if="!loading">
-      <v-flex sm4 xs6 v-for="page in pages" :key="page.name">
-        <v-card class="card">
-          <v-card-title primary-title>
-            <h4>{{page.name}}</h4>
-          </v-card-title>
-          <v-card-text>{{page.description}}</v-card-text>
-          </v-card-actions>
-          <v-btn class="hover-show" @click="openPage(page.id)">
-            <v-icon left>arrow_forward</v-icon>
-            Show Page
-          </v-btn>
-          </v-card-actions>
-        </v-card>
+      <v-flex v-for="page in pages" :key="page.name">
+        <app-page-card :page="page"></app-page-card>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+
+import PageCard from './PageCard'
+
 export default {
   props: ['projectId'],
+
+  components: {
+    'app-page-card': PageCard
+  },
 
   computed: {
     pages() {
@@ -55,7 +51,4 @@ export default {
 </script>
 
 <style>
-.card {
-  height: 70px;
-}
 </style>

@@ -7,30 +7,19 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex sm4 xs6 v-for="project in projects" :key="project.name" class="mb-3">
-        <v-card class="card">
-          <v-card-title primary-title>
-            <h4>{{project.name}}</h4>
-          </v-card-title>
-          <v-card-text>{{project.description}}</v-card-text>
-          </v-card-actions>
-          <v-btn class="hover-show" @click="editProject(project.id)">
-            <v-icon left>arrow_forward</v-icon>
-            Edit Project
-          </v-btn>
-          <v-btn class="hover-show" @click="showPages(project.id)">
-            <v-icon left>view_module</v-icon>
-            Show Pages
-          </v-btn>
-          </v-card-actions>
-
-        </v-card>
+        <app-project-card :project="project">
+        </app-project-card>
       </v-flex>
     </v-layout>
   </v-container>
 </template>
 
 <script>
+import ProjectCard from "./ProjectCard";
 export default {
+  components: {
+    "app-project-card": ProjectCard
+  },
   computed: {
     projects() {
       return this.$store.getters.lastProjects;
@@ -39,23 +28,12 @@ export default {
 
   methods: {
     newProject() {
-      this.$router.push('/projects/new');
-    },
-
-    editProject(id) {
-      this.$router.push('/projects/' + id);
-    },
-
-    showPages(id) {
-      this.$router.push('/projects/' + id + '/pages');
+      this.$router.push("/projects/new");
     }
-
   }
-}
+};
 </script>
 
 <style>
-.card {
-  height: 70px;
-}
+
 </style>
