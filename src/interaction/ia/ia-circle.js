@@ -6,8 +6,7 @@ import temporaryItemList from '../../store/temporary-item-list';
 import store from '../../store';
 
 export default class IaCircle extends IaBase {
-  start(options) {
-    this.options = options;
+  start() {
     const opt = {
       callbackName: "iaCircleCallback"
     }
@@ -67,8 +66,6 @@ export default class IaCircle extends IaBase {
   }
 
   saveCircle() {
-    this.circle.projectId = this.options.projectId;
-    this.circle.pageId = this.options.pageId;
     store.dispatch('createGraphic', this.circle)
       .then(() => {
         this.cleanUp();

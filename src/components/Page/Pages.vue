@@ -7,7 +7,7 @@
     </v-layout>
     <v-layout row wrap v-if="!loading">
       <v-flex v-for="page in pages" :key="page.name">
-        <app-page-card :page="page"></app-page-card>
+        <app-page-card :projectId="projectId" :page="page"></app-page-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -41,10 +41,6 @@ export default {
   methods: {
     newPage() {
       this.$router.push('/projects/' + this.projectId + '/pages/new');
-    },
-
-    openPage(id) {
-      this.$router.push('/projects/' + this.projectId + '/pages/' + id);
     }
   }
 }

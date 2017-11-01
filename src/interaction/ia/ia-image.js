@@ -79,8 +79,6 @@ export default class IaImage extends IaBase {
 
   saveImage() {
     const payload = {
-      projectId: this.options.projectId,
-      pageId: this.options.pageId,
       image: this.image,
       svg: this.itemImage.svg
     };

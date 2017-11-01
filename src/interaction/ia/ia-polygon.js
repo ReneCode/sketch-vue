@@ -5,8 +5,7 @@ import store from '../../store';
 import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaPolygon extends IaBase {
-  start(options) {
-    this.options = options;
+  start() {
     this.startFirstPoint();
   }
 
@@ -65,8 +64,6 @@ export default class IaPolygon extends IaBase {
 
   finishPolygon() {
     let item = this.polygon;
-    item.projectId = this.options.projectId;
-    item.pageId = this.options.pageId;
     store.dispatch('createGraphic', item)
       .then(() => {
         this.cleanUp();

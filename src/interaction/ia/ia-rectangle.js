@@ -5,8 +5,7 @@ import store from '../../store';
 import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaRectangle extends IaBase {
-  start(options) {
-    this.options = options;
+  start() {
     this.firstPoint = null;
     const opt = {
       callbackName: "iaRectangleCallback"
@@ -55,8 +54,6 @@ export default class IaRectangle extends IaBase {
   }
 
   saveRectangle() {
-    this.rectangle.projectId = this.options.projectId;
-    this.rectangle.pageId = this.options.pageId;
     store.dispatch('createGraphic', this.rectangle)
       .then(() => {
         this.cleanUp();

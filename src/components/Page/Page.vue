@@ -54,16 +54,16 @@
 </template>
 
 <script>
-import undoRedoList from "@/store/modules/undo-redo-list";
-import selectionList from "@/store/selection-list";
+import undoRedoList from "../../store/modules/undo-redo-list";
+import selectionList from "../../store/selection-list";
 import temporaryItemList from "../../store/temporary-item-list";
-import interaction from "@/interaction";
+import interaction from "../../interaction";
 import SvgCanvas from "./SvgCanvas";
 
 export default {
   props: ["projectId", "pageId"],
   components: {
-    SvgCanvas
+    "svg-canvas": SvgCanvas
   },
   data() {
     return {
@@ -128,11 +128,11 @@ export default {
   },
 
   mounted() {
-    const options = {
-      projectId: this.projectId,
-      pageId: this.pageId
-    };
-    this.$store.dispatch("loadGraphics", options);
+    // projectId and pageId are mounted via routing
+    this.$store.dispatch("setCurrentProjectId", this.projectId);
+    this.$store.dispatch("setCurrentPageId", this.pageId);
+
+    this.$store.dispatch("loadGraphics");
     this.onSetInteractionMode("select");
   },
 
@@ -140,8 +140,6 @@ export default {
     onSetInteractionMode(mode) {
       const payload = {
         mode: mode,
-        projectId: this.projectId,
-        pageId: this.pageId,
         fileInput: this.$refs.fileInput
       };
       this.$store.commit("setInteractionMode", payload);

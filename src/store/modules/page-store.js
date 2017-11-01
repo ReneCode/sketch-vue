@@ -2,10 +2,14 @@ import * as firebase from 'firebase';
 
 export default {
   state: {
-    loadedPages: []
+    loadedPages: [],
+    currentPageId: undefined
   },
 
   getters: {
+    currentPageId(state) {
+      return state.currentPageId;
+    },
     loadedPages(state) {
       return state.loadedPages;
     },
@@ -21,10 +25,17 @@ export default {
   mutations: {
     setLoadedPages(state, payload) {
       state.loadedPages = payload;
+    },
+    setCurrentPageId(state, payload) {
+      state.currentPageId = payload;
     }
   },
 
   actions: {
+    setCurrentPageId({commit}, payload) {
+      commit('setCurrentPageId', payload);
+    },
+
     loadPages({ commit }, payload) {
       commit('setLoading', true);
       const projectId = payload;

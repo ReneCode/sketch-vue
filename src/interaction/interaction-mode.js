@@ -10,7 +10,6 @@ const iaMatrix = {
   ],
 
   'delete': [
-    'iaZoom',
     'iaDelete'
   ],
 

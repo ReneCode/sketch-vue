@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  props: ["page"]
+  props: ["page", 'projectId'],
+  methods: {
+    openPage(id) {
+      this.$router.push('/projects/' + this.projectId + '/pages/' + id);
+    }
+  }
 };
 </script>
 

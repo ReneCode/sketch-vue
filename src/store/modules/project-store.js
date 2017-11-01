@@ -2,10 +2,14 @@ import * as firebase from 'firebase';
 
 export default {
   state: {
+    currentProjectId: undefined,
     loadedProjects: []
   },
 
   getters: {
+    currentProjectId(state) {
+      return state.currentProjectId;
+    },
     lastProjects(state) {
       return state.loadedProjects
         .sort((p1, p2) => {
@@ -29,12 +33,18 @@ export default {
   },
 
   mutations: {
+    setCurrentProjectId(state, payload) {
+      state.currentProjectId = payload;
+    },
     setLoadedProjects(state, payload) {
       state.loadedProjects = payload;
     }
   },
 
   actions: {
+    setCurrentProjectId({commit}, payload) {
+      commit('setCurrentProjectId', payload);
+    },
     loadProjects({ commit }) {
       firebase.database().ref('projects').once('value', data => {
         // data.val() is an object - not an array

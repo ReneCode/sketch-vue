@@ -5,8 +5,7 @@ import store from '../../store'
 import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaFreehand extends IaBase {
-  start(options) {
-    this.options = options;
+  start() {
   }
 
   stop() {
@@ -46,8 +45,6 @@ export default class IaFreehand extends IaBase {
     this.polyline.simplify(1.7);
     // console.log(cnt, this.polyline.countPoints());
     let item = this.polyline;
-    item.projectId = this.options.projectId;
-    item.pageId = this.options.pageId;
     store.dispatch('createGraphic', item)
       .then(() => {
         this.cleanUp();

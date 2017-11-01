@@ -16,6 +16,7 @@ export default class IaDelete extends IaBase {
 
   stop() {
     interaction.stop(this.iaCircleCursor);
+    interaction.stop(this.iaZoom);
   }
 
   restart() {
@@ -24,6 +25,7 @@ export default class IaDelete extends IaBase {
       circleFill: '#e22'
     };
     this.iaCircleCursor = interaction.start('iaCircleCursor', options);
+    this.iaZoom = interaction.start('iaZoom');
   }
 
   onMouseDown(event) {

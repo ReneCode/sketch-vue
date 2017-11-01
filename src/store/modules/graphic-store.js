@@ -34,10 +34,10 @@ export default {
   },
 
   actions: {
-    loadGraphics({ commit }, payload) {
+    loadGraphics({ commit, getters }, payload) {
       commit('setLoading', true);
-      const projectId = payload.projectId;
-      const pageId = payload.pageId;
+      const projectId = getters.currentProjectId;
+      const pageId = getters.currentPageId;
       const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics'
       firebase.database().ref(ref).on('value', data => {
         // data.val() is an object - not an array
@@ -55,13 +55,13 @@ export default {
       })
     },
 
-    createGraphic({ commit }, payload) {
+    createGraphic({ commit, getters }, payload) {
       return new Promise((resolve, reject) => {
         const graphic = {
           svg: payload.svg
         };
-        const projectId = payload.projectId;
-        const pageId = payload.pageId;
+        const projectId = getters.currentProjectId;
+        const pageId = getters.currentPageId;
         const ref = 'project-data/' + projectId + '/pages-data/' + pageId + '/graphics';
         let itemKey = null;
         const createImage = graphic.svg.type === 'image';
