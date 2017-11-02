@@ -45,8 +45,6 @@
 <script>
 import undoRedoList from "../../store/modules/undo-redo-list";
 import selectionList from "../../store/selection-list";
-import temporaryItemList from "../../store/temporary-item-list";
-import interaction from "../../interaction";
 
 export default {
   data() {
