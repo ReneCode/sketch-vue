@@ -5,8 +5,7 @@ import store from '../../store'
 import temporaryItemList from '../../store/temporary-item-list';
 
 export default class IaFreehand extends IaBase {
-  start() {
-  }
+  start() {}
 
   stop() {
     this.cleanUp();
@@ -42,7 +41,7 @@ export default class IaFreehand extends IaBase {
 
   savePolyline() {
     // let cnt = this.polyline.countPoints();
-    this.polyline.simplify(1.7);
+    this.polyline.simplify(1.1);
     // console.log(cnt, this.polyline.countPoints());
     let item = this.polyline;
     store.dispatch('createGraphic', item)
