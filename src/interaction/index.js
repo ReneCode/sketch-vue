@@ -87,10 +87,17 @@ class Interaction {
     this.keyDownHandler = (ev) => { self.onKeyDown(ev); }
     this.keyUpHandler = (ev) => { self.onKeyUp(ev); }
     this.mouseWheelHandler = (ev) => { self.onMouseWheel(ev); }
+    this.touchMoveHandler = (ev) => { self.onTouchMove(ev); }
+    this.touchStartHandler = (ev) => { self.onTouchStart(ev); }
+    this.touchEndHandler = (ev) => { self.onTouchEnd(ev); }
     this.domElement.addEventListener('mousemove', this.mouseMoveHandler);
     this.domElement.addEventListener('mousedown', this.mouseDownHandler);
     this.domElement.addEventListener('mouseup', this.mouseUpHandler);
     this.domElement.addEventListener('wheel', this.mouseWheelHandler);
+
+    this.domElement.addEventListener('touchmove', this.touchMoveHandler);
+    this.domElement.addEventListener('touchstart', this.touchStartHandler);
+    this.domElement.addEventListener('touchend touchcancel', this.touchEndHandler);
 
     document.addEventListener('keydown', this.keyDownHandler);
     document.addEventListener('keyup', this.keyUpHandler);
@@ -101,6 +108,10 @@ class Interaction {
     this.domElement.removeEventListener('mousedown', this.mouseDownHandler);
     this.domElement.removeEventListener('mouseup', this.mouseUpHandler);
     this.domElement.removeEventListener('wheel', this.mouseWheelHandler);
+
+    this.domElement.removeEventListener('touchmove', this.touchMoveHandler);
+    this.domElement.removeEventListener('touchstart', this.touchStartHandler);
+    this.domElement.removeEventListener('touchend touchcancel', this.touchEndHandler);
 
     document.removeEventListener('keydown', this.keyDownHandler);
     document.removeEventListener('keyup', this.keyUpHandler);
@@ -120,6 +131,23 @@ class Interaction {
   onMouseWheel(ev) {
     this.route("onMouseWheel", ev);
   }
+
+  onTouchMove(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.onMouseMove(ev);
+  }
+  onTouchStart(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.onMouseDown(ev);
+  }
+  onTouchEnd(ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    this.onMouseUp(ev);
+  }
+
   onKeyDown(ev) {
     this.route("onKeyDown", ev);
   }
