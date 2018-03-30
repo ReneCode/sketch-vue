@@ -17,9 +17,10 @@ class SvgTransform {
     if (!event) {
       throw new Error("getScreenPoint: event missing");
     }
+    const isTouchEvent = event.type && event.type.indexOf('touch') !== -1;
     return new Point(
-      event.clientX,
-      event.clientY
+      isTouchEvent ? event.changedTouches[0].clientX : event.clientX,
+      isTouchEvent ? event.changedTouches[0].clientY : event.clientY
     );
   }
 
@@ -28,8 +29,9 @@ class SvgTransform {
       throw new Error("getSVGPoint: event missing");
     }
     let pt = this.svgElement.createSVGPoint();
-    pt.x = event.clientX;
-    pt.y = event.clientY;
+    const isTouchEvent = event.type && event.type.indexOf('touch') !== -1;
+    pt.x = isTouchEvent ? event.changedTouches[0].clientX : event.clientX;
+    pt.y = isTouchEvent ? event.changedTouches[0].clientY : event.clientY;
     const transformMatrix = this.svgElement.getScreenCTM().inverse();
     pt = pt.matrixTransform(transformMatrix);
     return new Point(
