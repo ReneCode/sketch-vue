@@ -30,10 +30,10 @@ exports[`Page renders empty page 1`] = `
         <v-btn fab="" color="accent">
             <v-icon dark="">add_a_photo</v-icon>
         </v-btn>
-        <v-btn fab="" color="primary" disabled="disabled" class="ml-4">
+        <v-btn fab="" color="primary" disabled="true" class="ml-4">
             <v-icon dark="">replay</v-icon>
         </v-btn>
-        <v-btn fab="" color="primary" disabled="disabled">
+        <v-btn fab="" color="primary" disabled="true">
             <v-icon dark="" class="flipy">replay</v-icon>
         </v-btn>
     </div>
@@ -71,10 +71,10 @@ exports[`Page renders svg with allItems = circle 1`] = `
         <v-btn fab="" color="accent">
             <v-icon dark="">add_a_photo</v-icon>
         </v-btn>
-        <v-btn fab="" color="primary" disabled="disabled" class="ml-4">
+        <v-btn fab="" color="primary" disabled="true" class="ml-4">
             <v-icon dark="">replay</v-icon>
         </v-btn>
-        <v-btn fab="" color="primary" disabled="disabled">
+        <v-btn fab="" color="primary" disabled="true">
             <v-icon dark="" class="flipy">replay</v-icon>
         </v-btn>
     </div>
